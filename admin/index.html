@@ -1256,34 +1256,34 @@ html.dark-mode .moon-icon {
                     <svg class="collapse-icon" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
                 </div>
                     <div class="form-group">
-                        <label>节点链接格式</label>
+                        <label for="LinkURL">节点链接格式</label>
                         <div class="input-wrapper">
-                            <input type="text" id="LinkURL" readonly>
+                            <input type="text" id="LinkURL" title="节点链接格式" readonly>
                             <button class="btn btn-primary" onclick="copySubscription('LinkURL')">复制订阅</button>
                             <button class="btn btn-primary" onclick="showQRCode('LinkURL')">二维码</button>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>自适应订阅</label>
+                        <label for="subLink">自适应订阅</label>
                         <div class="input-wrapper">
-                            <input type="text" id="subLink" readonly>
+                            <input type="text" id="subLink" title="自适应订阅" readonly>
                             <button class="btn btn-primary" onclick="copySubscription('subLink')">复制订阅</button>
                             <button class="btn btn-primary" onclick="showQRCode('subLink')">二维码</button>
                         </div>
                     </div>
                 <div class="module-content">
                         <div class="form-group">
-                            <label>Clash订阅</label>
+                            <label for="clashLink">Clash订阅</label>
                             <div class="input-wrapper">
-                                <input type="text" id="clashLink" readonly>
+                                <input type="text" id="clashLink" title="Clash订阅" readonly>
                                 <button class="btn btn-primary" onclick="copySubscription('clashLink')">复制订阅</button>
                                 <button class="btn btn-primary" onclick="showQRCode('clashLink')">二维码</button>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>SingBox订阅</label>
+                            <label for="singboxLink">SingBox订阅</label>
                             <div class="input-wrapper">
-                                <input type="text" id="singboxLink" readonly>
+                                <input type="text" id="singboxLink" title="SingBox订阅" readonly>
                                 <button class="btn btn-primary" onclick="copySubscription('singboxLink')">复制订阅</button>
                                 <button class="btn btn-primary" onclick="showQRCode('singboxLink')">二维码</button>
                             </div>
@@ -1300,8 +1300,8 @@ html.dark-mode .moon-icon {
                 <div class="module-content">
                 
                 <div class="form-group">
-                    <label>优选订阅模式</label>
-                    <select id="ipMode" onchange="updateIPMode()">
+                    <label for="ipMode">优选订阅模式</label>
+                    <select id="ipMode" title="优选订阅模式" onchange="updateIPMode()">
                         <option value="random">随机优选</option>
                         <option value="custom">自定义优选</option>
                         <option value="generator">优选订阅生成器</option>
@@ -1309,18 +1309,18 @@ html.dark-mode .moon-icon {
                 </div>
 
                 <div id="randomIPSection" class="form-group">
-                    <label>随机优选数量</label>
-                    <input type="number" id="randomCount" min="1" max="999" value="16" onchange="markModified('sub')">
+                    <label for="randomCount">随机优选数量</label>
+                    <input type="number" id="randomCount" title="随机优选数量" min="1" max="999" value="16" onchange="markModified('sub')">
                 </div>
 
                 <div id="customIPSection" style="display:none" class="form-group">
-                    <label>自定义优选地址</label>
-                    <textarea id="customIPs" placeholder="每行一个地址，格式: IP[:端口]#备注" onchange="markModified('sub')"></textarea>
+                    <label for="customIPs">自定义优选地址</label>
+                    <textarea id="customIPs" title="自定义优选地址" placeholder="每行一个地址，格式: IP[:端口]#备注" onchange="markModified('sub')"></textarea>
                 </div>
 
                 <div id="generatorSection" style="display:none" class="form-group">
-                    <label>优选订阅生成器</label>
-                    <input type="text" id="generatorURL" placeholder="示例: sub.cmliussss.net" onchange="markModified('sub')">
+                    <label for="generatorURL">优选订阅生成器</label>
+                    <input type="text" id="generatorURL" title="优选订阅生成器" placeholder="示例: sub.cmliussss.net" onchange="markModified('sub')">
                 </div>
 
                 <div class="module-footer">
@@ -1341,23 +1341,23 @@ html.dark-mode .moon-icon {
                 <div class="module-content">
                 
                 <div class="form-group">
-                    <label>订阅名称</label>
-                    <input type="text" id="subName" onchange="markModified('config')">
+                    <label for="subName">订阅名称</label>
+                    <input type="text" id="subName" title="订阅名称" onchange="markModified('config')">
                 </div>
 
                 <div class="form-group">
-                    <label>节点域名</label>
-                    <input type="text" id="nodeHost" readonly>
+                    <label for="nodeHost">节点域名</label>
+                    <input type="text" id="nodeHost" title="节点域名" readonly>
                 </div>
 
                 <div class="form-group">
-                    <label>UUID</label>
-                    <input type="text" id="nodeUUID" readonly>
+                    <label for="nodeUUID">UUID</label>
+                    <input type="text" id="nodeUUID" title="UUID" readonly>
                 </div>
 
                 <div class="form-group">
-                    <label>节点协议</label>
-                    <select id="protocol" onchange="updateProtocol(); markModified('config')">
+                    <label for="protocol">节点协议</label>
+                    <select id="protocol" title="节点协议" onchange="updateProtocol(); markModified('config')">
                         <option value="vless">VLESS</option>
                         <option value="trojan">Trojan</option>
                     </select>
@@ -1372,10 +1372,10 @@ html.dark-mode .moon-icon {
                 </div>
                 --->
                 <div class="form-group">
-                    <label>跳过证书验证</label>
+                    <label for="skipVerify">跳过证书验证</label>
                     <div class="input-wrapper">
                         <div class="checkbox-group">
-                            <input type="checkbox" id="skipVerify" onchange="markModified('config')">
+                            <input type="checkbox" id="skipVerify" title="跳过证书验证" onchange="markModified('config')">
                             <label for="skipVerify" class="checkbox-label">启用</label>
                         </div>
                     </div>
@@ -1399,8 +1399,8 @@ html.dark-mode .moon-icon {
                 <div class="module-content">
                 
                 <div class="form-group">
-                    <label>反代模式</label>
-                    <select id="proxyMode" onchange="updateProxyMode()">
+                    <label for="proxyMode">反代模式</label>
+                    <select id="proxyMode" title="反代模式" onchange="updateProxyMode()">
                         <option value="auto">PROXYIP</option>
                         <option value="socks5">SOCKS5</option>
                         <option value="http">HTTP</option>
@@ -1409,11 +1409,11 @@ html.dark-mode .moon-icon {
 
                 <div id="proxyIPSection" class="form-group">
                     <div class="form-group">
-                        <label>PROXYIP</label>
+                        <label for="proxyIP">PROXYIP</label>
                         <div class="input-wrapper">
-                            <input type="text" id="proxyIP" placeholder="示例: proxyip.cmliussss.net" onchange="markModified('proxy')">
+                            <input type="text" id="proxyIP" title="PROXYIP" placeholder="示例: proxyip.cmliussss.net" onchange="markModified('proxy')">
                             <div class="checkbox-group">
-                                <input type="checkbox" id="autoProxy" onchange="toggleAutoProxy(); markModified('proxy')">
+                                <input type="checkbox" id="autoProxy" title="启用自动获取" onchange="toggleAutoProxy(); markModified('proxy')">
                                 <label for="autoProxy" class="checkbox-label">启用自动获取</label>
                             </div>
                         </div>
@@ -1423,11 +1423,11 @@ html.dark-mode .moon-icon {
 
                 <div id="socks5Section" style="display:none">
                     <div class="form-group">
-                        <label>SOCKS5</label>
+                        <label for="socks5Addr">SOCKS5</label>
                         <div class="input-wrapper">
-                        <input type="text" id="socks5Addr" placeholder="示例: user:password@127.0.0.1:1080" onchange="markModified('proxy')">
+                        <input type="text" id="socks5Addr" title="SOCKS5" placeholder="示例: user:password@127.0.0.1:1080" onchange="markModified('proxy')">
                             <div class="checkbox-group">
-                                <input type="checkbox" id="globalSocks5" onchange="markModified('proxy')">
+                                <input type="checkbox" id="globalSocks5" title="启用全局代理" onchange="markModified('proxy')">
                                 <label for="globalSocks5" class="checkbox-label">启用全局代理</label>
                             </div>
                         </div>
@@ -1436,11 +1436,11 @@ html.dark-mode .moon-icon {
 
                 <div id="httpSection" style="display:none">
                     <div class="form-group">
-                        <label>HTTP</label>
+                        <label for="httpAddr">HTTP</label>
                         <div class="input-wrapper">
-                        <input type="text" id="httpAddr" placeholder="示例: user:password@127.0.0.1:1080" onchange="markModified('proxy')">
+                        <input type="text" id="httpAddr" title="HTTP" placeholder="示例: user:password@127.0.0.1:1080" onchange="markModified('proxy')">
                             <div class="checkbox-group">
-                                <input type="checkbox" id="globalHTTP" onchange="markModified('proxy')">
+                                <input type="checkbox" id="globalHTTP" title="启用全局代理" onchange="markModified('proxy')">
                                 <label for="globalHTTP" class="checkbox-label">启用全局代理</label>
                             </div>
                         </div>
@@ -1465,22 +1465,22 @@ html.dark-mode .moon-icon {
                 <div class="module-content">
                 
                 <div class="form-group">
-                    <label>订阅转换后端</label>
+                    <label for="subAPI">订阅转换后端</label>
                     <div class="readonly-wrapper" onclick="openSubAPIModal()">
-                        <input type="text" id="subAPI" readonly placeholder="https://SUBAPI.cmliussss.net" style="cursor: pointer; background-color: #f9fafb;">
+                        <input type="text" id="subAPI" title="订阅转换后端" readonly placeholder="https://SUBAPI.cmliussss.net" style="cursor: pointer; background-color: #f9fafb;">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>订阅转换配置文件</label>
-                    <input type="text" id="subConfig" placeholder="https://raw.githubusercontent.com/..." onchange="markModified('convert')">
+                    <label for="subConfig">订阅转换配置文件</label>
+                    <input type="text" id="subConfig" title="订阅转换配置文件" placeholder="https://raw.githubusercontent.com/..." onchange="markModified('convert')">
                 </div>
 
                 <div class="form-group">
-                    <label>Emoji</label>
+                    <label for="emoji">Emoji</label>
                     <div class="input-wrapper">
                         <div class="checkbox-group">
-                            <input type="checkbox" id="emoji" onchange="markModified('convert')">
+                            <input type="checkbox" id="emoji" title="启用Emoji" onchange="markModified('convert')">
                             <label for="emoji" class="checkbox-label">启用</label>
                         </div>
                     </div>
