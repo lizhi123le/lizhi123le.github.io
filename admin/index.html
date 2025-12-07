@@ -3349,13 +3349,33 @@
 
         .latency-card-region {
             font-size: 10px;
-            color: var(--text-secondary);
-            background: linear-gradient(135deg, rgba(250, 171, 65, 0.1), rgba(246, 130, 31, 0.05));
-            padding: 1px 6px;
+            padding: 2px 8px;
             border-radius: 10px;
-            font-weight: 500;
+            font-weight: 600;
             white-space: nowrap;
             flex-shrink: 0;
+            border: 1.5px solid;
+        }
+
+        .latency-card-region-domestic {
+            color: #10b981;
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .latency-card-region-international {
+            color: #3b82f6;
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        /* 深色模式保持相同的淡色底色 */
+        html.dark-mode .latency-card-region-domestic {
+            background: #ecfdf5;
+        }
+
+        html.dark-mode .latency-card-region-international {
+            background: #eff6ff;
         }
 
         .latency-value {
@@ -4728,7 +4748,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                         <div class="latency-card-title">
                             <div class="latency-card-icon">${site.icon}</div>
                             <div class="latency-card-name">${site.name}</div>
-                            <span class="latency-card-region">${site.region}</span>
+                            <span class="latency-card-region latency-card-region-${site.region === '国内' ? 'domestic' : 'international'}">${site.region}</span>
                         </div>
                     </div>
                     <div class="latency-card-content">
