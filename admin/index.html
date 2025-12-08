@@ -497,6 +497,10 @@
             position: relative
         }
 
+        #qrcodeModal .modal {
+            background: #808080;
+        }
+
         .modal-close {
             position: absolute;
             top: 15px;
@@ -923,6 +927,10 @@
             background: var(--bg-secondary);
             color: var(--text-primary);
             border-color: var(--border-color)
+        }
+
+        html.dark-mode #qrcodeModal .modal {
+            background: #808080;
         }
 
         html.dark-mode .modal input,
@@ -1913,7 +1921,7 @@
             justify-content: center;
             align-items: center;
             min-height: 350px;
-            background: #FFFFFF;
+            background: #808080;
         }
 
         /* 重置配置弹窗 */
@@ -2611,7 +2619,7 @@
         }
 
         html.dark-mode .qrcode-container {
-            background: #FFFFFF;
+            background: #808080;
         }
 
         /* 网络信息卡片样式 */
