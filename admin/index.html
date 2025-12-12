@@ -4997,7 +4997,19 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
 
             // 详细配置
             document.getElementById('subName').value = currentConfig.优选订阅生成?.SUBNAME || '';
-            document.getElementById('nodeHost').value = currentConfig.HOST || '';
+            
+            // 检查 HOSTS 数组是否存在
+            const hasMultipleHosts = Array.isArray(currentConfig.HOSTS) && currentConfig.HOSTS.length > 0;
+            currentConfig._hasMultipleHosts = hasMultipleHosts; // 存储标记方便后续调用
+            
+            if (hasMultipleHosts) {
+                // 如果存在 HOSTS 数组，用逗号连接显示所有 host
+                document.getElementById('nodeHost').value = currentConfig.HOSTS.join(',');
+            } else {
+                // 否则显示单个 HOST
+                document.getElementById('nodeHost').value = currentConfig.HOST || '';
+            }
+            
             document.getElementById('nodeUUID').value = currentConfig.UUID || '';
             document.getElementById('nodePATH').value = currentConfig.PATH || '';
             document.getElementById('protocol').value = currentConfig.协议类型 || 'vless';
