@@ -3584,6 +3584,138 @@
         .latency-bar.loading {
             animation: latencyPulse 1.5s ease-in-out infinite;
         }
+
+        /* HOSTS 编辑模态框样式 */
+        .hosts-edit-modal {
+            overflow-y: auto;
+            width: 90vw;
+            max-width: 500px;
+            margin: 0 auto;
+            max-height: 90vh;
+        }
+
+        .hosts-edit-modal-title {
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .hosts-edit-container {
+            margin: 20px 0;
+        }
+
+        .hosts-edit-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        .hosts-edit-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            height: 200px;
+            background-color: #f9fafb;
+            color: #1f2937;
+            resize: vertical;
+            overflow-y: auto;
+            box-sizing: border-box;
+            line-height: 1.6;
+        }
+
+        .hosts-edit-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .hosts-edit-hint {
+            font-size: 12px;
+            color: #9ca3af;
+            text-align: left;
+        }
+
+        .hosts-edit-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .hosts-edit-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-hosts-confirm {
+            background: linear-gradient(135deg, #3b82f6 0, #1d4ed8 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-hosts-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-hosts-cancel {
+            background: linear-gradient(135deg, #e5e7eb 0, #d1d5db 100%);
+            color: #374151;
+        }
+
+        .btn-hosts-cancel:hover {
+            background: linear-gradient(135deg, #d1d5db 0, #b3b8be 100%);
+        }
+
+        .form-group input[readonly].nodeHost-clickable {
+            cursor: pointer;
+            background-color: #ffffff !important;
+            color: #1f2937 !important;
+        }
+
+        html.dark-mode .hosts-edit-modal {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        html.dark-mode .hosts-edit-modal-title {
+            color: var(--text-primary);
+        }
+
+        html.dark-mode .hosts-edit-label {
+            color: var(--text-primary);
+        }
+
+        html.dark-mode .hosts-edit-textarea {
+            background: var(--input-bg);
+            color: var(--text-primary);
+            border-color: var(--input-border);
+        }
+
+        html.dark-mode .hosts-edit-hint {
+            color: #6b7280;
+        }
+
+        html.dark-mode .btn-hosts-cancel {
+            background: var(--input-bg);
+            color: var(--text-primary);
+        }
+
+        html.dark-mode .btn-hosts-cancel:hover {
+            background: var(--border-color);
+        }
+
+        html.dark-mode .form-group input[readonly].nodeHost-clickable {
+            background-color: var(--input-bg) !important;
+            color: var(--text-primary) !important;
+        }
     </style>
 </head>
 
@@ -4690,6 +4822,27 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
         </div>
     </div>
 
+    <!-- HOSTS 编辑模态框 -->
+    <div class="modal-overlay" id="hostsEditModal">
+        <div class="modal hosts-edit-modal" onclick="event.stopPropagation()">
+            <button type="button" class="modal-close" onclick="closeHostsEditModal()">×</button>
+            <h2 class="hosts-edit-modal-title">✏️ 编辑域名列表</h2>
+
+            <div class="hosts-edit-container">
+                <label class="hosts-edit-label">域名列表:</label>
+                <textarea id="hostsEditTextarea" class="hosts-edit-textarea" placeholder="每行输入一个域名"></textarea>
+            </div>
+
+            <div class="hosts-edit-footer">
+                <div class="hosts-edit-hint">💡 一行一个节点域名，无需添加逗号</div>
+                <div class="hosts-edit-buttons">
+                    <button type="button" class="btn btn-hosts-cancel" onclick="closeHostsEditModal()">取消</button>
+                    <button type="button" class="btn btn-hosts-confirm" onclick="confirmHostsEdit()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script data-cfasync="false">
         let currentConfig = {};
         let originalConfig = {};
@@ -5002,12 +5155,21 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             const hasMultipleHosts = Array.isArray(currentConfig.HOSTS) && currentConfig.HOSTS.length > 0;
             currentConfig._hasMultipleHosts = hasMultipleHosts; // 存储标记方便后续调用
             
+            const nodeHostInput = document.getElementById('nodeHost');
             if (hasMultipleHosts) {
                 // 如果存在 HOSTS 数组，用逗号连接显示所有 host
-                document.getElementById('nodeHost').value = currentConfig.HOSTS.join(',');
+                nodeHostInput.value = currentConfig.HOSTS.join(',');
+                // 添加可点击样式和事件
+                nodeHostInput.classList.add('nodeHost-clickable');
+                nodeHostInput.title = '点击 可编辑多个节点域名';
+                nodeHostInput.onclick = openHostsEditModal;
             } else {
                 // 否则显示单个 HOST
-                document.getElementById('nodeHost').value = currentConfig.HOST || '';
+                nodeHostInput.value = currentConfig.HOST || '';
+                // 移除可点击样式和事件
+                nodeHostInput.classList.remove('nodeHost-clickable');
+                nodeHostInput.title = '节点域名';
+                nodeHostInput.onclick = null;
             }
             
             document.getElementById('nodeUUID').value = currentConfig.UUID || '';
@@ -5690,6 +5852,58 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             if (!event || event.target.id === 'qrcodeModal') {
                 document.getElementById('qrcodeModal').classList.remove('show');
             }
+        }
+
+        // HOSTS 编辑模态框相关函数
+        function openHostsEditModal(event) {
+            if (event) event.stopPropagation();
+            const modal = document.getElementById('hostsEditModal');
+            const textarea = document.getElementById('hostsEditTextarea');
+            
+            // 将 HOSTS 数组内容填入文本框，每行一个
+            if (currentConfig.HOSTS && Array.isArray(currentConfig.HOSTS)) {
+                textarea.value = currentConfig.HOSTS.join('\n');
+            } else {
+                textarea.value = '';
+            }
+            
+            modal.classList.add('show');
+            textarea.focus();
+        }
+
+        function closeHostsEditModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            const modal = document.getElementById('hostsEditModal');
+            modal.classList.remove('show');
+        }
+
+        function confirmHostsEdit() {
+            const textarea = document.getElementById('hostsEditTextarea');
+            const nodeHostInput = document.getElementById('nodeHost');
+            
+            // 将文本框内容按行分割成数组，过滤空行
+            const lines = textarea.value.split('\n')
+                .map(line => line.trim())
+                .filter(line => line.length > 0);
+            
+            if (lines.length === 0) {
+                showToast('请至少输入一个域名', 'error');
+                return;
+            }
+            
+            // 更新 currentConfig.HOSTS 数组
+            currentConfig.HOSTS = lines;
+            
+            // 更新输入框显示（用逗号连接）
+            nodeHostInput.value = lines.join(',');
+            
+            // 关闭模态框
+            closeHostsEditModal();
+            
+            // 标记配置已修改
+            markModified('config');
+            
+            showToast('域名列表已更新，请保存配置', 'success');
         }
 
         async function saveSub() {
