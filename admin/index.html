@@ -4809,7 +4809,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             <div class="form-group subapi-form-group">
                 <label>请求方案</label>
                 <select id="cloudflareAuthMethod" title="请求方案" onchange="updateCloudflareAuthMethod()">
-                    <option value="usageapi">UsageAPI</option>
+                    <option id="usageapiOption" value="usageapi">UsageAPI</option>
                     <option value="accountid">Account ID + API Token</option>
                     <option value="email">Email + Global API Key</option>
                 </select>
@@ -5493,6 +5493,17 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 cfUsageModule.style.display = 'none';
                 cfUsageModule.classList.add('cf-usage-module');
                 updateCloudflareButtonStates(false);
+            }
+
+            // 检查 CF.UsageAPI 字段是否存在，向下兼容旧版本
+            const usageapiOption = document.getElementById('usageapiOption');
+            if (usageapiOption) {
+                // 如果 CF.UsageAPI 字段不存在（旧版本），隐藏 UsageAPI 选项
+                if (currentConfig.CF?.UsageAPI === undefined) {
+                    usageapiOption.style.display = 'none';
+                } else {
+                    usageapiOption.style.display = '';
+                }
             }
 
             // 订阅链接
