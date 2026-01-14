@@ -5601,6 +5601,8 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             const fingerprintSelect = document.getElementById('fingerprint');
             if (currentConfig['Fingerprint'] == undefined) {
                 fingerprintGroup.style.setProperty('display', 'none', 'important');
+            } else {
+                fingerprintSelect.value = currentConfig['Fingerprint'] || 'chrome';
             }
 
             // 检查随机路径字段是否存在
