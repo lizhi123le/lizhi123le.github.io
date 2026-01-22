@@ -4452,18 +4452,6 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group" id="enableECHGroup" style="display: none;">
-                            <div class="input-wrapper">
-                                <div class="checkbox-group">
-                                    <input type="checkbox" id="enableECH"
-                                        title="启用ECH可以避免域名阻断-1现象！&#10;&#10;支持版本&#10;v2rayN v7.17.0+&#10;v2rayNG v2.0.0+&#10;Clash.Meta(Mihomo)&#10;Singbox"
-                                        onchange="markModified('config')">
-                                    <label for="enableECH" class="checkbox-label"
-                                        title="启用ECH可以避免域名阻断-1现象！&#10;&#10;支持版本&#10;v2rayN v7.17.0+&#10;v2rayNG v2.0.0+&#10;Clash.Meta(Mihomo)&#10;Singbox">启用ECH(实验性质)</label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="module-footer">
@@ -4472,6 +4460,69 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                                 id="cancelConfigBtn">取消</button>
                             <button type="button" class="btn btn-primary" onclick="saveConfig()" disabled
                                 id="saveConfigBtn">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块3.5: ECH 设置(实验性质) -->
+            <div class="module collapsed advanced-module" id="echModule" style="display: none;">
+                <div class="module-title" onclick="toggleModule(this)">
+                    🔐 Encrypted Client Hello（实验性质）
+                    <svg class="collapse-icon" viewBox="0 0 24 24">
+                        <path d="M7 10l5 5 5-5z" />
+                    </svg>
+                </div>
+                <div class="module-content">
+                    <div class="form-group">
+                        <label>ECH 设置</label>
+                        <div class="input-wrapper">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="enableECH"
+                                    title="启用ECH可以避免域名阻断-1现象！&#10;&#10;支持版本&#10;v2rayN v7.17.0+&#10;v2rayNG v2.0.0+&#10;Clash.Meta(Mihomo)&#10;Singbox"
+                                    onchange="markModified('ech')">
+                                <label for="enableECH" class="checkbox-label"
+                                    title="启用ECH可以避免域名阻断-1现象！&#10;&#10;支持版本&#10;v2rayN v7.17.0+&#10;v2rayNG v2.0.0+&#10;Clash.Meta(Mihomo)&#10;Singbox">启用</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="echDNSGroup" style="display: none; align-items: start;">
+                        <label for="echDNSSelect" style="padding-top: 10px;">ECH DNS服务</label>
+                        <div class="input-wrapper" style="flex-direction: column; align-items: stretch;">
+                            <select id="echDNSSelect" title="ECH DNS服务" style="display: none;" onchange="onEchDNSSelectChange()">
+                                <option value="custom">自定义</option>
+                                <option value="tls://dns.alidns.com">阿里 DoT</option>
+                                <option value="tls://dot.pub">腾讯 DoT</option>
+                                <option value="https://sm2.doh.pub/dns-query">腾讯(国密) DoH</option>
+                                <option value="https://dns.google/dns-query">Google DoH</option>
+                                <option value="https://doh.cmliussss.com/CMLiussss">Google DoH(CMLiussss DoH 镜像服务)</option>
+                                <option value="https://doh.cmliussss.net/CMLiussss">Cloudflare DoH(CMLiussss DoH 镜像服务)</option>
+                            </select>
+                            <input type="text" id="echDNSCustomInput" title="自定义ECH DNS服务" placeholder="tls://... 或 https://..." onchange="onEchDNSCustomInput()" style="display: none; margin-top: 8px;">
+                            <input type="hidden" id="echDNSValue">
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="echSNIGroup" style="display: none; align-items: start;">
+                        <label for="echSNISelect" style="padding-top: 10px;">ECH 解析域名</label>
+                        <div class="input-wrapper" style="flex-direction: column; align-items: stretch;">
+                            <select id="echSNISelect" title="ECH 解析域名" style="display: none;" onchange="onEchSNISelectChange()">
+                                <option value="custom">自定义</option>
+                                <option value="cloudflare-ech.com">cloudflare-ech.com</option>
+                                <option value="__AUTO__">自动获取</option>
+                            </select>
+                            <input type="text" id="echSNICustomInput" title="自定义ECH 解析域名" placeholder="cloudflare-ech.com" onchange="onEchSNICustomInput()" style="display: none; margin-top: 8px;">
+                            <input type="hidden" id="echSNIValue">
+                        </div>
+                    </div>
+
+                    <div class="module-footer">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-secondary" onclick="cancelEdit('ech')" disabled
+                                id="cancelEchBtn">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="saveEch()" disabled
+                                id="saveEchBtn">保存</button>
                         </div>
                     </div>
                 </div>
@@ -5762,15 +5813,21 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             }
 
             // 检查ECH字段是否存在
-            const enableECHGroup = document.getElementById('enableECHGroup');
+            const echModule = document.getElementById('echModule');
             const enableECHCheckbox = document.getElementById('enableECH');
             if (currentConfig['ECH'] !== undefined) {
-                enableECHGroup.style.display = 'flex';
+                echModule.style.display = 'block';
                 enableECHCheckbox.checked = currentConfig['ECH'] || false;
                 // 根据Fingerprint值初始化ECH选项的禁用状态
                 updateECHOptionState();
+
+                // 填充ECH DNS下拉框
+                populateEchDNSSelect();
+                
+                // 填充ECH SNI下拉框
+                populateEchSNISelect();
             } else {
-                enableECHGroup.style.display = 'none';
+                echModule.style.display = 'none';
             }
 
             // 反代落地设置
@@ -6070,6 +6127,156 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                     }
                 }
             }
+        }
+
+        // 填充ECH DNS下拉框
+        function populateEchDNSSelect() {
+            const formGroup = document.getElementById('echDNSGroup');
+            const select = document.getElementById('echDNSSelect');
+            const customInput = document.getElementById('echDNSCustomInput');
+            const hiddenValue = document.getElementById('echDNSValue');
+            
+            if (!select || !formGroup) return;
+
+            // 检查ECHConfig.DNS字段是否存在
+            if (currentConfig.ECHConfig?.DNS === undefined) {
+                formGroup.style.display = 'none';
+                return;
+            }
+
+            // 显示form-group和下拉框
+            formGroup.style.display = 'grid';
+            select.style.display = 'block';
+
+            // 如果已有保存的DNS值，设置选中状态
+            const savedDNS = currentConfig.ECHConfig?.DNS || '';
+            if (savedDNS) {
+                // 尝试在下拉框中找到匹配的选项
+                select.value = savedDNS;
+
+                // 如果没有匹配到（值不在列表中），选择"自定义"并显示输入框
+                if (select.value !== savedDNS) {
+                    select.value = 'custom';
+                    customInput.value = savedDNS;
+                    customInput.style.display = 'block';
+                    hiddenValue.value = savedDNS;
+                } else {
+                    // 匹配成功，隐藏自定义输入框
+                    customInput.style.display = 'none';
+                    customInput.value = '';
+                    hiddenValue.value = savedDNS;
+                }
+            } else {
+                // 没有保存值，默认选择"自定义"
+                select.value = 'custom';
+                customInput.style.display = 'block';
+            }
+        }
+
+        // 填充ECH SNI下拉框
+        function populateEchSNISelect() {
+            const formGroup = document.getElementById('echSNIGroup');
+            const select = document.getElementById('echSNISelect');
+            const customInput = document.getElementById('echSNICustomInput');
+            const hiddenValue = document.getElementById('echSNIValue');
+            
+            if (!select || !formGroup) return;
+
+            // 检查ECHConfig.SNI字段是否存在
+            if (currentConfig.ECHConfig?.SNI === undefined) {
+                formGroup.style.display = 'none';
+                return;
+            }
+
+            // 显示form-group和下拉框
+            formGroup.style.display = 'grid';
+            select.style.display = 'block';
+
+            // 如果已有保存的SNI值，设置选中状态
+            const savedSNI = currentConfig.ECHConfig?.SNI;
+            if (savedSNI !== undefined) {
+                if (savedSNI === null) {
+                    // 自动获取
+                    select.value = '__AUTO__';
+                    customInput.style.display = 'none';
+                    customInput.value = '';
+                    hiddenValue.value = null;
+                } else {
+                    // 尝试在下拉框中找到匹配的选项
+                    select.value = savedSNI;
+
+                    // 如果没有匹配到（值不在列表中），选择"自定义"并显示输入框
+                    if (select.value !== savedSNI) {
+                        select.value = 'custom';
+                        customInput.value = savedSNI;
+                        customInput.style.display = 'block';
+                        hiddenValue.value = savedSNI;
+                    } else {
+                        // 匹配成功，隐藏自定义输入框
+                        customInput.style.display = 'none';
+                        customInput.value = '';
+                        hiddenValue.value = savedSNI;
+                    }
+                }
+            } else {
+                // 没有保存值，默认选择"自定义"
+                select.value = 'custom';
+                customInput.style.display = 'block';
+            }
+        }
+
+        // ECH DNS select 变化处理
+        function onEchDNSSelectChange() {
+            const select = document.getElementById('echDNSSelect');
+            const customInput = document.getElementById('echDNSCustomInput');
+            const hiddenValue = document.getElementById('echDNSValue');
+            
+            if (select.value === 'custom') {
+                customInput.style.display = 'block';
+                hiddenValue.value = customInput.value;
+            } else {
+                customInput.style.display = 'none';
+                customInput.value = '';
+                hiddenValue.value = select.value;
+            }
+            markModified('ech');
+        }
+
+        // ECH DNS 自定义输入框变化处理
+        function onEchDNSCustomInput() {
+            const customInput = document.getElementById('echDNSCustomInput');
+            const hiddenValue = document.getElementById('echDNSValue');
+            hiddenValue.value = customInput.value;
+            markModified('ech');
+        }
+
+        // ECH SNI select 变化处理
+        function onEchSNISelectChange() {
+            const select = document.getElementById('echSNISelect');
+            const customInput = document.getElementById('echSNICustomInput');
+            const hiddenValue = document.getElementById('echSNIValue');
+            
+            if (select.value === '__AUTO__') {
+                customInput.style.display = 'none';
+                customInput.value = '';
+                hiddenValue.value = null;
+            } else if (select.value === 'custom') {
+                customInput.style.display = 'block';
+                hiddenValue.value = customInput.value;
+            } else {
+                customInput.style.display = 'none';
+                customInput.value = '';
+                hiddenValue.value = select.value;
+            }
+            markModified('ech');
+        }
+
+        // ECH SNI 自定义输入框变化处理
+        function onEchSNICustomInput() {
+            const customInput = document.getElementById('echSNICustomInput');
+            const hiddenValue = document.getElementById('echSNIValue');
+            hiddenValue.value = customInput.value;
+            markModified('ech');
         }
 
         // 处理PROXYIP地址
@@ -6393,6 +6600,11 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             document.getElementById('saveConfigBtn').disabled = !configModified;
             document.getElementById('cancelConfigBtn').disabled = !configModified;
 
+            // ECH设置模块
+            const echModified = modifiedSections.has('ech');
+            document.getElementById('saveEchBtn').disabled = !echModified;
+            document.getElementById('cancelEchBtn').disabled = !echModified;
+
             // 反代设置模块
             const proxyModified = modifiedSections.has('proxy');
             document.getElementById('saveProxyBtn').disabled = !proxyModified;
@@ -6639,14 +6851,32 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 }
             }
 
-            // 保存ECH（如果字段存在）
-            if (currentConfig['ECH'] !== undefined) {
-                currentConfig['ECH'] = document.getElementById('enableECH').checked;
-            }
-
             await saveConfigToServer('config');
             // 更新网页标题
             document.title = `${currentConfig.优选订阅生成?.SUBNAME || 'edgetunnel'}设置页面 - 管理后台`;
+        }
+
+        async function saveEch() {
+            // 保存ECH（如果字段存在）
+            if (currentConfig['ECH'] !== undefined) {
+                currentConfig['ECH'] = document.getElementById('enableECH').checked;
+
+                // 保存ECHConfig.DNS（如果存在）
+                if (currentConfig.ECHConfig?.DNS !== undefined) {
+                    const dnsValue = document.getElementById('echDNSValue').value;
+                    if (dnsValue) {
+                        currentConfig.ECHConfig.DNS = dnsValue;
+                    }
+                }
+
+                // 保存ECHConfig.SNI（如果存在）
+                if (currentConfig.ECHConfig?.SNI !== undefined) {
+                    const sniValue = document.getElementById('echSNIValue').value;
+                    currentConfig.ECHConfig.SNI = sniValue === '' ? null : sniValue;
+                }
+            }
+
+            await saveConfigToServer('config');
         }
 
         async function saveProxy() {
@@ -6875,9 +7105,22 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 // 重置ECH（如果字段存在）
                 if (currentConfig['ECH'] !== undefined) {
                     document.getElementById('enableECH').checked = currentConfig['ECH'] || false;
+
+                    // 重置ECHConfig的下拉框
+                    populateEchDNSSelect();
+                    populateEchSNISelect();
                 }
 
                 updateProtocol();
+            } else if (section === 'ech') {
+                // 重置ECH设置
+                if (currentConfig['ECH'] !== undefined) {
+                    document.getElementById('enableECH').checked = currentConfig['ECH'] || false;
+
+                    // 重置ECHConfig的下拉框
+                    populateEchDNSSelect();
+                    populateEchSNISelect();
+                }
             } else if (section === 'proxy') {
                 const socksEnabled = currentConfig.反代?.SOCKS5?.启用;
                 if (!socksEnabled) {
