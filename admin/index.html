@@ -7,6 +7,11 @@
     <meta name="robots" content="noindex, nofollow">
     <title>管理后台</title>
     <script data-cfasync="false" src="https://cdn.jsdelivr.net/npm/@keeex/qrcodejs-kx@1.0.2/qrcode.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&family=Orbitron:wght@700;800;900&display=swap"
+        rel="stylesheet">
     <style>
         /* 基础重置 */
         * {
@@ -16,7 +21,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             overflow: hidden
         }
 
@@ -324,6 +329,7 @@
             border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             cursor: pointer;
             transition: all .3s ease;
             box-sizing: border-box;
@@ -374,6 +380,25 @@
             background: #d1d5db
         }
 
+        .btn-search-proxy {
+            background: linear-gradient(135deg, #8b5cf6 0, #6d28d9 100%);
+            color: #fff !important;
+            padding: 10px 16px;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-search-proxy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5);
+        }
+
+        .btn-search-proxy:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.4);
+        }
+
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -403,6 +428,67 @@
 
         .footer-hint a:hover {
             color: #f6821f
+        }
+
+        /* HOSTS badge 样式 */
+        .hosts-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: #fff;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .hosts-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+        }
+
+        html.dark-mode .hosts-badge {
+            background: linear-gradient(135deg, #1E88E5 0%, #1565C0 100%);
+            box-shadow: 0 2px 8px rgba(30, 136, 229, 0.4);
+        }
+
+        html.dark-mode .hosts-badge:hover {
+            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.5);
+        }
+
+        /* HOSTS 警告按钮样式 */
+        .btn-hosts-warning {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%) !important;
+            color: #fff !important;
+            border: 2px solid #b71c1c !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-hosts-warning:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 16px rgba(244, 67, 54, 0.5) !important;
+            background: linear-gradient(135deg, #e53935 0%, #c62828 100%) !important;
+        }
+
+        .btn-hosts-warning:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3) !important;
+        }
+
+        html.dark-mode .btn-hosts-warning {
+            background: linear-gradient(135deg, #ef5350 0%, #e53935 100%) !important;
+            border-color: #c62828 !important;
+            box-shadow: 0 4px 12px rgba(239, 83, 80, 0.4) !important;
+        }
+
+        html.dark-mode .btn-hosts-warning:hover {
+            box-shadow: 0 6px 16px rgba(239, 83, 80, 0.5) !important;
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%) !important;
         }
 
         /* Toast 通知 */
@@ -494,7 +580,10 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             text-align: center;
             z-index: 2000000001;
-            position: relative
+            position: relative;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
 
         #qrcodeModal .modal {
@@ -514,6 +603,32 @@
 
         .modal-close:hover {
             color: #1f2937
+        }
+
+        /* SOCKS5 模态框样式 */
+        #exploreSocks5Modal .modal {
+            max-width: 550px;
+        }
+
+        .socks5-list-container {
+            width: 100%;
+        }
+
+        .socks5-loading-info {
+            display: none;
+            padding: 12px;
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 3px solid #ffc107;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #666;
+            margin: 12px 0;
+        }
+
+        html.dark-mode .socks5-loading-info {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ccc;
+            border-left-color: #ffb300;
         }
 
         /* 社交链接 - 重构为统一风格 */
@@ -906,11 +1021,11 @@
             --input-border: #e5e7eb;
             --overlay-bg: rgba(255, 255, 255, 0.7);
             --blur-overlay: rgba(0, 0, 0, 0.3);
-            --latency-49: #008236;
-            --latency-149: #7ccf00;
-            --latency-299: #fdc700;
-            --latency-999: #fb2c36;
-            --latency-1000: #82181a;
+            --latency-49: #4CAF50;
+            --latency-149: #83DA00;
+            --latency-299: #f58722;
+            --latency-999: #ff404a;
+            --latency-1000: #c40003;
         }
 
         html.dark-mode {
@@ -1373,7 +1488,7 @@
 
         .module-content {
             display: block;
-            overflow: hidden;
+            /* overflow: hidden; */
             max-height: 2000px;
             opacity: 1;
             transition: max-height 320ms cubic-bezier(.2, .8, .2, 1), opacity 220ms ease
@@ -1565,9 +1680,57 @@
             }
         }
 
+        @media(max-width:768px) {
+            .module-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .module-footer .btn-group {
+                margin-left: auto;
+                width: auto;
+                align-self: flex-end;
+            }
+
+            .module-footer .btn-ech-help,
+            .module-footer .btn-proxyip-help,
+            .module-footer .btn-search-proxy {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .ech-tabs::-webkit-scrollbar {
+                height: 3px;
+            }
+
+            .ech-tab {
+                padding: 7px 12px;
+                font-size: 12px;
+            }
+
+            .ech-tab-content {
+                min-height: 80px;
+                max-height: calc(100vh - 220px);
+            }
+        }
+
         @media(max-width:480px) {
             .card-container {
                 padding: 15px
+            }
+
+            .ech-tabs::-webkit-scrollbar {
+                height: 2px;
+            }
+
+            .ech-tab {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+
+            .ech-tab-content {
+                min-height: 60px;
+                max-height: calc(100vh - 240px);
             }
         }
 
@@ -1832,7 +1995,71 @@
             box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4);
         }
 
+        .btn-fofa {
+            background: linear-gradient(135deg, #439aff 0, #05f2f2 100%);
+            color: #fff !important;
+            padding: 10px 16px;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgb(67, 154, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-fofa:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(5, 244, 244, 0.5);
+        }
+
+        .btn-fofa:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(5, 244, 244, 0.4);
+        }
+
+        .btn-360quake {
+            background: linear-gradient(135deg, #00AB7A 0, #00AB7A 100%);
+            color: #fff !important;
+            padding: 10px 16px;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0, 171, 122, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-360quake:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 171, 122, 0.5);
+        }
+
+        .btn-360quake:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(0, 171, 122, 0.4);
+        }
+
+        .btn-ech-help {
+            background: linear-gradient(135deg, #3b82f6 0, #1d4ed8 100%);
+            color: #fff !important;
+            padding: 10px 16px;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-ech-help:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-ech-help:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.4);
+        }
+
         .proxyip-help-modal {
+            max-width: 1200px;
+            width: 90vw;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .ech-help-modal {
             max-width: 1200px;
             width: 90vw;
             max-height: 100vh;
@@ -1944,7 +2171,22 @@
             box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5);
         }
 
+        html.dark-mode .btn-ech-help {
+            background: linear-gradient(135deg, #3b82f6 0, #1d4ed8 100%);
+            color: #fff !important;
+        }
+
+        html.dark-mode .btn-ech-help:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+        }
+
         html.dark-mode .api-optimize-modal {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        html.dark-mode .ech-help-modal {
             background: var(--bg-secondary);
             color: var(--text-primary);
         }
@@ -2276,6 +2518,83 @@
             text-align: left;
         }
 
+        .ech-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 15px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .ech-tabs.dragging {
+            cursor: grabbing;
+        }
+
+        .ech-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .ech-tabs::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .ech-tabs::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 2px;
+        }
+
+        .ech-tabs::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+
+        .ech-tab {
+            padding: 8px 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+            pointer-events: auto;
+        }
+
+        .ech-tab:hover {
+            border-color: #3b82f6;
+        }
+
+        .ech-tab.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .ech-tab-content {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 100px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .ech-tab-pane {
+            display: none;
+        }
+
+        .ech-tab-pane.active {
+            display: block;
+        }
+
         .optimize-result-item {
             padding: 1px 0;
             color: #1f2937;
@@ -2356,6 +2675,29 @@
 
         html.dark-mode .optimize-result-item {
             color: var(--text-primary);
+        }
+
+        html.dark-mode .ech-tab {
+            background: var(--input-bg);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        html.dark-mode .ech-tab.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+        }
+
+        html.dark-mode .ech-tab-content {
+            background: var(--input-bg);
+        }
+
+        html.dark-mode .ech-tabs::-webkit-scrollbar-thumb {
+            background: #4b5563;
+        }
+
+        html.dark-mode .ech-tabs::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
         }
 
         /* 消息通知设置样式 */
@@ -2766,50 +3108,6 @@
             margin-top: 2px;
         }
 
-        .network-card {
-            background: rgba(255, 255, 255, 0.6);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            position: relative;
-            border-left: 4px solid transparent;
-        }
-
-        .network-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(250, 171, 65, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .network-card:hover {
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.12), 0 0 12px rgba(250, 171, 65, 0.08);
-            transform: translateY(-4px);
-            border-left-color: #faab41;
-        }
-
-        .network-card:hover::before {
-            left: 100%;
-        }
-
-        html.dark-mode .network-card {
-            background: rgba(39, 39, 39, 0.7);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-            border-left-color: transparent;
-        }
-
-        html.dark-mode .network-card:hover {
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4), 0 0 12px rgba(250, 171, 65, 0.15);
-            border-left-color: #faab41;
-        }
 
         .network-card-title {
             display: flex;
@@ -3411,15 +3709,146 @@
             }
         }
 
-        /* 延迟测试卡片样式 */
+        /* 网络信息和延迟测试样式 */
+        .network-cards-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        @media (max-width: 1200px) {
+            .network-cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .network-cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .network-card,
+        .latency-card {
+            background: var(--bg-secondary);
+            border: 1.5px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        html.dark-mode .network-card,
+        html.dark-mode .latency-card {
+            background: rgba(39, 39, 39, 0.7);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+        }
+
+        .latency-card {
+            padding: 12px 16px;
+            min-height: 80px;
+            flex-direction: row;
+            /* 延迟卡片内部通常是横向排列 header 和 graph */
+            align-items: center;
+        }
+
+        .network-card:hover,
+        .latency-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: #f6821f;
+            box-shadow: 0 12px 20px rgba(246, 130, 31, 0.15);
+        }
+
+        .network-card-title {
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .status-loading {
+            background: #fbbf24;
+            animation: pulse-loading 1.5s ease-in-out infinite;
+        }
+
+        .status-success {
+            background: #10b981;
+        }
+
+        .status-error {
+            background: #ef4444;
+        }
+
+        @keyframes pulse-loading {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .network-info-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ip-text {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-family: 'Fira Code', monospace;
+            font-size: 15px;
+            word-break: break-all;
+        }
+
+        .location-text {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .network-tip {
+            margin-top: 4px;
+            font-size: 11px;
+            color: #9ca3af;
+            line-height: 1.4;
+        }
+
         .latency-cards {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 20px;
+            gap: 16px;
+            row-gap: 8px;
+            margin-top: 16px;
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .latency-cards {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -3431,273 +3860,177 @@
             }
         }
 
-        .latency-card {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(255, 255, 255, 0.8) 100%);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 10px;
+        .latency-card-header {
             display: flex;
-            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .latency-card-info {
+            display: flex;
+            align-items: center;
             gap: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
-        .latency-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-color: var(--text-primary);
-        }
-
-        .latency-card-icon {
-            width: 28px;
-            height: 28px;
+        .latency-card-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            background: var(--border-color);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 8px;
-            background: transparent;
-            flex-shrink: 0;
+            border: 1.5px solid var(--border-color);
+            transition: all 0.3s ease;
         }
 
-        .latency-card-icon svg {
-            width: 16px;
-            height: 16px;
+        .latency-card:hover .latency-card-icon-wrapper {
+            background: white;
+            border-color: #f6821f;
+            transform: rotate(5deg);
         }
 
-        .latency-card-header {
+        html.dark-mode .latency-card:hover .latency-card-icon-wrapper {
+            background: #333;
+        }
+
+        .latency-card-icon-wrapper svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .latency-card-text {
             display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            width: 100%;
-        }
-
-        .latency-card-title {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            width: 100%;
-            justify-content: flex-start;
+            flex-direction: row;
+            align-items: flex-end;
+            gap: 4px;
         }
 
         .latency-card-name {
-            font-weight: 700;
-            color: var(--text-primary);
             font-size: 14px;
-            white-space: nowrap;
+            font-weight: 800;
+            color: var(--text-primary);
+            /*letter-spacing: 0.5px;*/
         }
 
         .latency-card-region {
             font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: 600;
-            white-space: nowrap;
-            flex-shrink: 0;
-            border: 1.5px solid;
-        }
-
-        .latency-card-region-domestic {
-            color: #10b981;
-            border-color: #10b981;
-            background: #ecfdf5;
-        }
-
-        .latency-card-region-international {
-            color: #3b82f6;
-            border-color: #3b82f6;
-            background: #eff6ff;
-        }
-
-        /* 深色模式使用深色底色 */
-        html.dark-mode .latency-card-region-domestic {
-            background: #1e312d;
-        }
-
-        html.dark-mode .latency-card-region-international {
-            background: #1e2633;
-        }
-
-        .latency-value {
-            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             font-weight: 700;
             white-space: nowrap;
-            min-width: 55px;
-            text-align: left;
-            order: 2;
         }
 
-        .latency-bars {
-            display: flex;
-            gap: 3px;
-            flex-shrink: 0;
-            order: 1;
+        .latency-card-region[data-region="国内"] {
+            color: #16a34a;
         }
 
-        .latency-card-content {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 8px;
+        .latency-card-region[data-region="国际"] {
+            color: #3b82f6;
+        }
+
+        html.dark-mode .latency-card-region[data-region="国内"] {
+            color: #4ade80;
+        }
+
+        html.dark-mode .latency-card-region[data-region="国际"] {
+            color: #60a5fa;
+        }
+
+        .latency-status {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            font-style: italic;
+            color: #f6821f;
+            text-shadow: var(--bg-secondary);
+            z-index: 3;
+        }
+
+        html.dark-mode .latency-status {
+            text-shadow: rgba(39, 39, 39, 0.7),
+        }
+
+        .latency-status .unit {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-style: normal;
+            margin-left: 1px;
+            opacity: 0.7;
+            vertical-align: baseline;
+            text-transform: lowercase;
+        }
+
+        .latency-graph-container {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-        }
-
-        .latency-bar {
-            flex: none;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--latency-90);
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-
-        .latency-bar:hover {
-            transform: scale(1.5);
-        }
-
-        /* 响应式设计 - 与IP卡片保持一致 */
-        @media (max-width: 1024px) {
-            .latency-card {
-                padding: 8px;
-                gap: 6px;
-            }
-
-            /* 宽度足够时，延迟卡片改为单行布局 */
-            #latency-cards .latency-card {
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                gap: 10px;
-            }
-
-            #latency-cards .latency-card-header {
-                flex: 1;
-            }
-
-            #latency-cards .latency-card-content {
-                flex: 0 0 auto;
-                width: auto;
-                justify-content: flex-end;
-            }
-
-            .latency-card-icon {
-                width: 24px;
-                height: 24px;
-            }
-
-            .latency-card-icon svg {
-                width: 14px;
-                height: 14px;
-            }
-
-            .latency-card-name {
-                font-size: 13px;
-            }
-
-            .latency-card-region {
-                font-size: 11px;
-                padding: 1px 4px;
-            }
-
-            .latency-value {
-                font-size: 14px;
-                min-width: 45px;
-            }
-
-            .latency-bars {
-                gap: 2px;
-            }
-
-            .latency-bar {
-                width: 8px;
-                height: 8px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .latency-card {
-                padding: 8px;
-                gap: 6px;
-            }
-
-            /* 单列布局时，延迟卡片也使用单行布局 */
-            #latency-cards .latency-card {
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                gap: 10px;
-            }
-
-            #latency-cards .latency-card-header {
-                flex: 1;
-            }
-
-            #latency-cards .latency-card-content {
-                flex: 0 0 auto;
-                width: auto;
-                justify-content: flex-end;
-            }
-
-            .latency-card-title {
-                gap: 4px;
-            }
-
-            .latency-card-icon {
-                width: 22px;
-                height: 22px;
-            }
-
-            .latency-card-icon svg {
-                width: 12px;
-                height: 12px;
-            }
-
-            .latency-card-name {
-                font-size: 12px;
-            }
-
-            .latency-card-region {
-                font-size: 10px;
-                padding: 1px 3px;
-            }
-
-            .latency-value {
-                font-size: 13px;
-                min-width: 40px;
-            }
-
-            .latency-bars {
-                gap: 2px;
-            }
-
-            .latency-bar {
-                width: 7px;
-                height: 7px;
-            }
-        }
-
-        html.dark-mode .latency-card {
-            background: linear-gradient(135deg, rgba(39, 39, 39, 0.95) 0%, rgba(50, 50, 50, 0.9) 100%);
-            border-color: #333333;
-        }
-
-        html.dark-mode .latency-card:hover {
-            border-color: #555555;
-        }
-
-        html.dark-mode .latency-card-icon {
+            height: 100%;
+            z-index: 1;
             background: transparent;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        .ecg-path {
+            fill: none;
+            stroke: #f6821f;
+            stroke-width: 3.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: d 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .ecg-path-bg {
+            fill: none;
+            stroke: var(--border-color);
+            stroke-width: 1;
+            opacity: 0.3;
+        }
+
+        .graph-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(var(--border-color) 0.5px, transparent 0.5px),
+                linear-gradient(90deg, var(--border-color) 0.5px, transparent 0.5px);
+            background-size: 15px 15px;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        .ecg-cursor {
+            fill: #f6821f;
+            filter: drop-shadow(0 0 5px #f6821f);
         }
 
         /* GitHub logo 在浅色模式下显示为黑色 */
-        .latency-card:has(svg path[fill="#181717"]) svg path {
-            fill: #181717;
+        .latency-card-icon-wrapper[data-site="github"] {
+            color: #181717 !important;
         }
 
-        /* 深色模式下 GitHub logo 保持白色 */
-        html.dark-mode .latency-card:has(svg path[fill="#181717"]) svg path {
-            fill: #ffffff;
+        .latency-card-icon-wrapper[data-site="github"] svg path {
+            fill: #181717 !important;
+        }
+
+        html.dark-mode .latency-card-icon-wrapper[data-site="github"] {
+            color: #ffffff !important;
+        }
+
+        html.dark-mode .latency-card-icon-wrapper[data-site="github"] svg path {
+            fill: #ffffff !important;
         }
 
         /* 加载动画 */
@@ -4118,7 +4451,7 @@
                 </div>
                 <div class="module-content">
                     <div class="network-cards-container">
-                        <div class="latency-card">
+                        <div class="network-card">
                             <div class="network-card-title">
                                 <span class="status-indicator" id="status-ipip"></span>
                                 国内测试
@@ -4132,7 +4465,7 @@
                             </div>
                         </div>
 
-                        <div class="latency-card">
+                        <div class="network-card">
                             <div class="network-card-title">
                                 <span class="status-indicator" id="status-edgeone"></span>
                                 国外测试
@@ -4146,7 +4479,7 @@
                             </div>
                         </div>
 
-                        <div class="latency-card">
+                        <div class="network-card">
                             <div class="network-card-title">
                                 <span class="status-indicator" id="status-cf"></span>
                                 CloudFlare(ProxyIP)
@@ -4160,7 +4493,7 @@
                             </div>
                         </div>
 
-                        <div class="latency-card">
+                        <div class="network-card">
                             <div class="network-card-title">
                                 <span class="status-indicator" id="status-twitter"></span>
                                 X.com(推特)
@@ -4365,7 +4698,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
 
                     <div class="form-group">
                         <label for="nodePATH">PATH</label>
-                        <input type="text" id="nodePATH" title="节点的伪装路径 仅可通过 'PATH'环境变量 进行修改" readonly>
+                        <input type="text" id="nodePATH" title="节点的伪装路径 仅可通过 'PATH'环境变量 进行修改">
                     </div>
 
                     <div class="form-group">
@@ -4456,18 +4789,6 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group" id="enableECHGroup" style="display: none;">
-                            <div class="input-wrapper">
-                                <div class="checkbox-group">
-                                    <input type="checkbox" id="enableECH"
-                                        title="启用ECH可以避免域名阻断-1现象！&#10;&#10;支持版本&#10;v2rayN v7.17.0+&#10;v2rayNG v2.0.0+&#10;Clash.Meta(Mihomo)&#10;Singbox"
-                                        onchange="markModified('config')">
-                                    <label for="enableECH" class="checkbox-label"
-                                        title="启用ECH可以避免域名阻断-1现象！&#10;&#10;支持版本&#10;v2rayN v7.17.0+&#10;v2rayNG v2.0.0+&#10;Clash.Meta(Mihomo)&#10;Singbox">启用ECH(实验性质)</label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="module-footer">
@@ -4476,6 +4797,97 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                                 id="cancelConfigBtn">取消</button>
                             <button type="button" class="btn btn-primary" onclick="saveConfig()" disabled
                                 id="saveConfigBtn">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块3.5: ECH 设置(实验性质) -->
+            <div class="module collapsed advanced-module" id="echModule" style="display: none;">
+                <div class="module-title" onclick="toggleModule(this)">
+                    🔐 Encrypted Client Hello（实验性质）
+                    <svg class="collapse-icon" viewBox="0 0 24 24">
+                        <path d="M7 10l5 5 5-5z" />
+                    </svg>
+                </div>
+                <div class="module-content">
+                    <div class="form-group">
+                        <label>ECH 设置</label>
+                        <div class="input-wrapper">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="enableECH"
+                                    title="启用ECH可以避免域名阻断-1现象！&#10;&#10;支持版本&#10;v2rayN v7.17.0+&#10;v2rayNG v2.0.0+&#10;Clash.Meta(Mihomo)&#10;Singbox"
+                                    onchange="handleECHEnableChange()">
+                                <label for="enableECH" class="checkbox-label"
+                                    title="启用ECH可以避免域名阻断-1现象！&#10;&#10;支持版本&#10;v2rayN v7.17.0+&#10;v2rayNG v2.0.0+&#10;Clash.Meta(Mihomo)&#10;Singbox">启用</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="echDNSGroup" style="display: none; align-items: start;">
+                        <label for="echDNSSelect" style="padding-top: 10px;">ECH DNS服务</label>
+                        <div class="input-wrapper" style="flex-direction: column; align-items: stretch;">
+                            <select id="echDNSSelect" title="ECH DNS服务" style="display: none;"
+                                onchange="onEchDNSSelectChange()">
+                                <option value="udp://45.90.28.0:5353" data-region="international">
+                                    udp://45.90.28.0:5353（NextDNS）小白推荐选这个！！！</option>
+                                <option value="udp://208.67.220.220:443" data-region="international">
+                                    udp://208.67.220.220:443（OpenDNS）</option>
+                                <option value="udp://149.112.112.112:9953" data-region="international">
+                                    udp://149.112.112.112:9953（Quad9）</option>
+                                <option value="udp://188.166.206.224:5003" data-region="international">
+                                    udp://188.166.206.224:5003（Tiarap）</option>
+                                <option value="https://doh.applied-privacy.net/query" data-region="international">
+                                    https://doh.applied-privacy.net/query（Applied Privacy DoH）</option>
+                                <option value="https://odvr.nic.cz/doh" data-region="international">
+                                    https://odvr.nic.cz/doh（CZ.NIC DoH）</option>
+                                <option value="https://doh.cmliussss.net/CMLiussss" data-region="international">
+                                    https://doh.cmliussss.net/CMLiussss（Cloudflare DoH：CM镜像）</option>
+                                <option value="https://doh.cmliussss.com/CMLiussss" data-region="international">
+                                    https://doh.cmliussss.com/CMLiussss（Google DoH：CM镜像）</option>
+                                <option value="https://dns.alidns.com/dns-query" data-region="domestic">
+                                    https://dns.alidns.com/dns-query（阿里 DoH：国内DNS需搭配设置ECH解析域名，是否可用需自行验证）</option>
+                                <option value="https://sm2.doh.pub/dns-query" data-region="domestic">
+                                    https://sm2.doh.pub/dns-query（腾讯国密 DoH：国内DNS需搭配设置ECH解析域名，是否可用需自行验证）</option>
+                                <option value="https://doh.360.cn/dns-query" data-region="domestic">
+                                    https://doh.360.cn/dns-query（360 DoH：国内DNS需搭配设置ECH解析域名，是否可用需自行验证）</option>
+                                <option value="https://doh.onedns.net/dns-query" data-region="domestic">
+                                    https://doh.onedns.net/dns-query（OneDNS DoH：国内DNS需搭配设置ECH解析域名，是否可用需自行验证）</option>
+                                <option value="custom">自定义</option>
+                            </select>
+                            <input type="text" id="echDNSCustomInput" title="自定义ECH DNS服务"
+                                placeholder="udp://... 或 https://..." onchange="onEchDNSCustomInput()"
+                                style="display: none; margin-top: 8px;">
+                            <input type="hidden" id="echDNSValue">
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="echSNIGroup" style="display: none; align-items: start;">
+                        <label for="echSNISelect" style="padding-top: 10px;">ECH 解析域名</label>
+                        <div class="input-wrapper" style="flex-direction: column; align-items: stretch;">
+                            <select id="echSNISelect" title="ECH 解析域名" style="display: none;"
+                                onchange="onEchSNISelectChange()">
+                                <option value="__AUTO__">默认使用节点HOST伪装域名</option>
+                                <option value="cloudflare-ech.com">cloudflare-ech.com 小白推荐选这个！！！</option>
+                                <option value="custom">自定义</option>
+                            </select>
+                            <input type="text" id="echSNICustomInput" title="自定义ECH 解析域名"
+                                placeholder="cloudflare-ech.com" onchange="onEchSNICustomInput()"
+                                style="display: none; margin-top: 8px;">
+                            <input type="hidden" id="echSNIValue">
+                        </div>
+                    </div>
+
+                    <div class="module-footer">
+                        <button type="button" class="btn btn-ech-help" onclick="showECHHelpModal()"
+                            title="了解 ECH 的相关信息">
+                            💡 为什么需要ECH？ECH又是什么？
+                        </button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-secondary" onclick="cancelEdit('ech')" disabled
+                                id="cancelEchBtn">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="saveEch()" disabled
+                                id="saveEchBtn">保存</button>
                         </div>
                     </div>
                 </div>
@@ -4559,6 +4971,21 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                         <button type="button" class="btn btn-proxyip-help" onclick="showProxyIPHelpModal()"
                             title="了解 ProxyIP 的相关信息">
                             💡 为什么需要反代模式？PROXYIP又是什么？
+                        </button>
+                        <button type="button" class="btn btn-search-proxy" id="getMoreProxyIPBtn"
+                            onclick="showGetMoreProxyIPModal()" style="display: none;"
+                            title="使用网络测绘引擎寻找可用的PROXYIP">
+                            🗺️ 探索更多 PROXYIP
+                        </button>
+                        <button type="button" class="btn btn-search-proxy" id="exploreSocks5Btn"
+                            onclick="showExploreSocks5Modal()" style="display: none;"
+                            title="从SOCKS5列表中选择可用的代理">
+                            🧩 探索更多 SOCKS5
+                        </button>
+                        <button type="button" class="btn btn-search-proxy" id="exploreHTTPBtn"
+                            onclick="showExploreHTTPModal()" style="display: none;"
+                            title="从HTTP列表中选择可用的代理">
+                            🧩 探索更多 HTTP
                         </button>
                         <div class="btn-group">
                             <button type="button" class="btn btn-secondary" onclick="cancelEdit('proxy')" disabled
@@ -4892,7 +5319,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 <div class="form-group subapi-form-group">
                     <label>UsageAPI地址</label>
                     <input type="text" id="cloudflareUsageAPI"
-                        placeholder="https://usage-panel.xxx.workers.dev/usage.json?token=xxx">
+                        placeholder="https://usagepanel.pages.dev/usage.json?token=4941477918857b30d8234ac19441ebb2">
                     <small style="font-size: 12px; color: #9ca3af; margin-top: 6px; display: block;">💡 支持多账号汇总，可通过部署 <a
                             href="https://github.com/cmliu/CF-Workers-UsagePanel" target="_blank" rel="noopener"
                             style="color: #3b82f6; text-decoration: none;">UsagePanel</a> 项目获取 UsageAPI 地址</small>
@@ -5189,6 +5616,257 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
         </div>
     </div>
 
+    <!-- ECH 帮助模态框 -->
+    <div class="modal-overlay" id="echHelpModal" onclick="closeECHHelpModal(event)">
+        <div class="modal ech-help-modal" onclick="event.stopPropagation()">
+            <button type="button" class="modal-close" onclick="closeECHHelpModal()">×</button>
+
+            <!-- 选项卡 -->
+            <div class="ech-tabs">
+                <button class="ech-tab active" onclick="switchECHTab(0)">什么是ECH？</button>
+                <button class="ech-tab" onclick="switchECHTab(1)">如何使用？</button>
+                <button class="ech-tab" onclick="switchECHTab(2)">如何确认 ECH 是否已经生效？</button>
+            </div>
+
+            <!-- 选项卡内容 -->
+            <div class="ech-tab-content">
+                <div class="ech-tab-pane active" id="echTab0">
+                    <div class="api-docs">
+                        <h2 class="section-title">🔐 什么是 ECH？</h2>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            <strong>ECH（Encrypted Client Hello，加密客户端问候）</strong> 是 TLS 的一项新特性，用来
+                            <strong>将原本会明文暴露的域名信息一起加密</strong>。
+                        </p>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            如果你希望了解更完整、偏技术细节的说明，可以参考 Cloudflare 官方博客：<br>
+                            👉 <a href="https://blog.cloudflare.com/zh-cn/announcing-encrypted-client-hello/"
+                                target="_blank" rel="noopener"
+                                style="color: var(--primary-color); text-decoration: none;">https://blog.cloudflare.com/zh-cn/announcing-encrypted-client-hello/</a>
+                        </p>
+
+                        <h3 style="color: var(--text-primary); margin: 24px 0 16px;">📖 背景说明</h3>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            当我们使用 <strong>WS + TLS</strong> 的节点进行代理时：
+                        </p>
+
+                        <ul style="margin: 12px 0 16px; padding-left: 20px; line-height: 1.8;">
+                            <li style="margin-bottom: 8px; color: var(--text-secondary);">✅ 实际通信内容已经被 TLS 加密，GFW
+                                <strong>无法看到你访问的具体内容</strong>
+                            </li>
+                            <li style="color: var(--text-secondary);">❌ 但在 TLS 握手阶段，仍然会暴露一个关键信息：<strong>SNI</strong>
+                            </li>
+                        </ul>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            <strong>SNI 就是节点的伪装域名（HOST）</strong>
+                        </p>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            也就是说：
+                        </p>
+
+                        <div class="code-block"
+                            style="background: #fff3cd; color: #856404; border-left-color: #ffc107;">
+                            GFW 虽然不知道你在访问什么，但知道你在"扶墙"，并且知道你连接的是哪个域名。
+                        </div>
+
+                        <h3 style="color: var(--text-primary); margin: 24px 0 16px;">⚠️ 会带来什么问题？</h3>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            这就是为什么在以下场景中经常出现异常情况：
+                        </p>
+
+                        <ul style="margin: 12px 0 16px; padding-left: 20px; line-height: 1.8;">
+                            <li style="margin-bottom: 8px; color: var(--text-secondary);">❌ v2rayN 批量测试真链接延迟</li>
+                            <li style="color: var(--text-secondary);">❌ Clash 策略组自动选择节点</li>
+                        </ul>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            表现通常为：
+                        </p>
+
+                        <div class="code-block"
+                            style="background: #f8d7da; color: #721c24; border-left-color: #dc3545;">
+                            所有节点瞬间 -1，全部无法使用
+                        </div>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            其原因并不是节点真的失效，而是 <strong>运营商 / GFW 通过阻断节点域名的访问来干扰代理连接</strong>。<br>
+                            由于这种阻断大多是自动化策略，容易误判，因此 <strong>过一段时间节点又可能恢复正常</strong>，反复循环。
+                        </p>
+
+                        <h3 style="color: var(--text-primary); margin: 24px 0 16px;">💡 ECH 的作用</h3>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            ECH 的核心作用是：
+                        </p>
+
+                        <div class="code-block"
+                            style="background: #d1ecf1; color: #0c5460; border-left-color: #17a2b8;">
+                            将 SNI（也就是节点域名）加密
+                        </div>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            启用 ECH 后：
+                        </p>
+
+                        <ul style="margin: 12px 0 16px; padding-left: 20px; line-height: 1.8;">
+                            <li style="margin-bottom: 8px; color: var(--text-secondary);">✅ GFW
+                                <strong>无法获取真实的节点域名</strong>
+                            </li>
+                            <li style="color: var(--text-secondary);">✅ 外部观察到的域名将统一显示为：<code
+                                    style="background: #e9ecef; padding: 2px 4px; border-radius: 3px;">cloudflare-ech.com</code>
+                            </li>
+                        </ul>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            这从源头上 <strong>阻断了通过域名精准封锁节点的手段</strong>。
+                        </p>
+
+                        <h3 style="color: var(--text-primary); margin: 24px 0 16px;">🤔 ECH 会不会被封？</h3>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            理论上，GFW 只需 <strong>直接阻断 <code>cloudflare-ech.com</code></strong> 即可。
+                        </p>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            但这样会：
+                        </p>
+
+                        <ul style="margin: 12px 0 16px; padding-left: 20px; line-height: 1.8;">
+                            <li style="margin-bottom: 8px; color: var(--text-secondary);">❌ 误伤大量正常使用 ECH 的网站和服务</li>
+                            <li style="color: var(--text-secondary);">❌ 带来较高的封锁成本和副作用</li>
+                        </ul>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            因此，<strong>ECH 能持续多久，取决于 GFW 的取舍与策略</strong>，至少在目前阶段仍然非常有效。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="ech-tab-pane" id="echTab1">
+                    <div class="api-docs">
+                        <h2 class="section-title">🚀 如何使用 ECH？</h2>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            使用 ECH 非常简单，只需要 <strong>ECH 设置</strong> 为 <strong>开启</strong> 后更新订阅即可。
+                        </p>
+
+                        <h3 style="color: var(--text-primary); margin: 24px 0 16px;">📱 支持 ECH 的客户端</h3>
+
+                        <h4 style="color: var(--text-primary); margin: 20px 0 12px;">Windows：</h4>
+                        <ul style="margin: 12px 0 16px; padding-left: 20px; line-height: 1.8;">
+                            <li style="margin-bottom: 8px; color: var(--text-secondary);">
+                                <strong>v2rayN ≥ v7.17.0</strong><br>
+                                <a href="https://github.com/2dust/v2rayN/releases" target="_blank" rel="noopener"
+                                    style="color: var(--primary-color); text-decoration: none;">https://github.com/2dust/v2rayN/releases</a>
+                            </li>
+                        </ul>
+
+                        <h4 style="color: var(--text-primary); margin: 20px 0 12px;">Android：</h4>
+                        <ul style="margin: 12px 0 16px; padding-left: 20px; line-height: 1.8;">
+                            <li style="margin-bottom: 8px; color: var(--text-secondary);">
+                                <strong>v2rayNG ≥ v2.0.0</strong><br>
+                                <a href="https://github.com/2dust/v2rayNG/releases" target="_blank" rel="noopener"
+                                    style="color: var(--primary-color); text-decoration: none;">https://github.com/2dust/v2rayNG/releases</a>
+                            </li>
+                        </ul>
+
+                        <h4 style="color: var(--text-primary); margin: 20px 0 12px;">Clash.Meta（mihomo 内核）：</h4>
+                        <ul style="margin: 12px 0 16px; padding-left: 20px; line-height: 1.8;">
+                            <li style="margin-bottom: 8px; color: var(--text-secondary);">
+                                所有使用 <strong>clash.meta / mihomo 内核</strong> 的客户端均支持 ECH
+                            </li>
+                            <li style="color: var(--text-secondary);">
+                                ⚠️ <strong>需要 DNS 配合使用</strong>
+                            </li>
+                        </ul>
+
+                        <h3 style="color: var(--text-primary); margin: 24px 0 16px;">⚠️ Clash 用户注意事项</h3>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            当前订阅配置中已 <strong>内置 ECH 所需的 DNS 设置</strong>。
+                        </p>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            如果出现以下情况：
+                        </p>
+
+                        <ul style="margin: 12px 0 16px; padding-left: 20px; line-height: 1.8;">
+                            <li style="margin-bottom: 8px; color: var(--text-secondary);">✅ 已开启 ECH</li>
+                            <li style="margin-bottom: 8px; color: var(--text-secondary);">✅ 已更新订阅</li>
+                            <li style="color: var(--text-secondary);">❌ ECH 节点仍然无法使用</li>
+                        </ul>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            请检查：
+                        </p>
+
+                        <div class="code-block"
+                            style="background: #fff3cd; color: #856404; border-left-color: #ffc107;">
+                            是否在更新订阅时覆盖了原有的 DNS 配置
+                        </div>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            建议：<strong>不要覆盖订阅中自带的 DNS 设置</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="ech-tab-pane" id="echTab2">
+                    <div class="api-docs">
+                        <h2 class="section-title">🔍 如何确认 ECH 是否已经生效？</h2>
+
+                        <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
+                            可以通过一个 <strong>简单且直观的方法</strong> 来验证 ECH 是否正常工作。
+                        </p>
+
+                        <h3 style="color: var(--text-primary); margin: 24px 0 16px;">📋 验证步骤</h3>
+
+                        <ol style="margin: 12px 0 16px; padding-left: 20px; line-height: 1.8;">
+                            <li style="margin-bottom: 12px; color: var(--text-secondary);">打开节点的 <strong>「⚙️
+                                    详细配置信息」</strong></li>
+                            <li style="margin-bottom: 12px; color: var(--text-secondary);">在 <strong>HOST</strong>
+                                中手动填写一个 <strong>已被墙的域名</strong>，例如： <code
+                                    style="background: #e9ecef; padding: 2px 4px; border-radius: 3px;">*.workers.dev</code>
+                            </li>
+                            <li style="margin-bottom: 12px; color: var(--text-secondary);">保存配置后 <strong>重新更新订阅</strong>
+                            </li>
+                            <li style="color: var(--text-secondary);">在节点列表中查找：
+                                <ul style="margin: 8px 0 0 20px; padding-left: 0;">
+                                    <li style="margin-bottom: 4px;">- HOST 为 <code
+                                            style="background: #e9ecef; padding: 2px 4px; border-radius: 3px;">*.workers.dev</code>
+                                        的节点</li>
+                                    <li>- 并尝试连接该节点</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <h3 style="color: var(--text-primary); margin: 24px 0 16px;">✅ 如何判断结果？</h3>
+
+                        <ul style="margin: 12px 0 16px; padding-left: 20px; line-height: 1.8;">
+                            <li style="margin-bottom: 12px; color: var(--text-secondary);">
+                                <strong style="color: #28a745;">✅ 如果节点可以正常连接使用</strong><br>
+                                说明 <strong>ECH 已成功生效</strong>，真实被墙的域名已被隐藏，对外仅显示为 <code
+                                    style="background: #e9ecef; padding: 2px 4px; border-radius: 3px;">cloudflare-ech.com</code>
+                            </li>
+                            <li style="color: var(--text-secondary);">
+                                <strong style="color: #dc3545;">❌ 如果节点无法连接</strong><br>
+                                说明 ECH 未生效，或客户端版本、DNS 配置存在问题
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-close-modal" onclick="closeECHHelpModal()"
+                style="margin-top: 20px;">关闭</button>
+        </div>
+    </div>
+
     <!-- HOSTS 编辑模态框 -->
     <div class="modal-overlay" id="hostsEditModal">
         <div class="modal hosts-edit-modal" onclick="event.stopPropagation()">
@@ -5210,6 +5888,188 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
         </div>
     </div>
 
+    <!-- 获取更多 PROXYIP 弹窗 -->
+    <div class="modal-overlay" id="getMoreProxyIPModal">
+        <div class="modal" onclick="event.stopPropagation()" style="max-width: 420px; text-align: left;">
+            <button type="button" class="modal-close" onclick="closeGetMoreProxyIPModal()">×</button>
+            <h2 class="section-title" style="margin-bottom: 15px; text-align: center;">🗺️ 探索更多 PROXYIP</h2>
+            <p style="text-align: center; color: #666; font-size: 14px; margin-bottom: 25px;">
+                通过网络测绘搜索引擎，查找指定地区的 反代IP 资源。<br>
+                <span style="font-size: 12px; color: #999;">(搜索结果仅供参考，请自行验证连通性)</span>
+            </p>
+
+            <div class="form-group">
+                <label for="proxyRegionSelect">🏳️‍🌈 选择目标地区</label>
+                <div class="input-wrapper">
+                    <select id="proxyRegionSelect" onchange="onProxyRegionChange()" style="padding-left: 16px;">
+                        <option value="custom">✍️ 自定义地区</option>
+                        <optgroup label="🌏 亚洲 / AS">
+                            <option value="HK">🇭🇰 香港</option>
+                            <option value="TW">🇨🇳 台湾</option>
+                            <option value="KR">🇰🇷 韩国</option>
+                            <option value="JP">🇯🇵 日本</option>
+                            <option value="SG">🇸🇬 新加坡</option>
+                            <option value="IN">🇮🇳 印度</option>
+                        </optgroup>
+                        <optgroup label="🌎 北美 / NA">
+                            <option value="US">🇺🇸 美国</option>
+                            <option value="CA">🇨🇦 加拿大</option>
+                        </optgroup>
+                        <optgroup label="🌍 欧洲 / EU">
+                            <option value="GB">🇬🇧 英国</option>
+                            <option value="DE">🇩🇪 德国</option>
+                            <option value="FR">🇫🇷 法国</option>
+                        </optgroup>
+                        <optgroup label="🌏 大洋洲 / OC">
+                            <option value="AU">🇦🇺 澳大利亚</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" id="customRegionInputGroup">
+                <label for="customRegionInput">⌨️ 输入地区代码</label>
+                <div class="input-wrapper">
+                    <input type="text" id="customRegionInput" placeholder="请输入两位字母代码，例如: US" maxlength="2"
+                        style="text-transform: uppercase;" disabled oninput="this.value = this.value.toUpperCase();">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="proxyPortSelect">🔌 选择目标端口</label>
+                <div class="input-wrapper">
+                    <select id="proxyPortSelect" style="padding-left: 16px;">
+                        <option value="443">443</option>
+                        <option value="nonstandard">非标</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="btn-group" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-top: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <button type="button" class="btn btn-fofa" onclick="openFOFA()" style="padding: 12px 16px; font-size: 14px; font-weight: 500; white-space: nowrap;">
+                    FOFA 测绘
+                </button>
+                <button type="button" class="btn btn-360quake" onclick="open360Quake()" style="padding: 12px 16px; font-size: 14px; font-weight: 500; white-space: nowrap;">
+                    360 测绘
+                </button>
+                <button type="button" class="btn btn-ech-help" onclick="window.open('https://check.proxyip.cmliussss.net/', '_blank')" style="padding: 12px 16px; font-size: 14px; font-weight: 500; white-space: nowrap;">
+                    可用性验证
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="closeGetMoreProxyIPModal()" style="padding: 12px 16px; font-size: 14px; font-weight: 500; white-space: nowrap;">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 探索SOCKS5弹窗 -->
+    <div class="modal-overlay" id="exploreSocks5Modal">
+        <div class="modal" style="max-width: 550px; text-align: left;">
+            <button type="button" class="modal-close" onclick="closeExploreSocks5Modal(event)" style="cursor: pointer;">×</button>
+            <h2 class="section-title" style="margin-bottom: 15px; text-align: center;">🗺️ 探索更多 SOCKS5</h2>
+            
+            <div class="socks5-list-container">
+                <div class="form-group">
+                    <label for="socks5RegionSelect">🏳️‍🌈 选择目标地区</label>
+                    <div class="input-wrapper">
+                        <select id="socks5RegionSelect" onchange="onSocks5RegionChange()" style="padding-left: 16px;">
+                            <option value="">加载中...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" id="socks5ProxySelectGroup" style="display: none;">
+                    <label for="socks5ProxySelect">🌐 选择目标代理</label>
+                    <div class="input-wrapper">
+                        <select id="socks5ProxySelect" onchange="updateSocks5ConfirmButton()" style="padding-left: 16px; font-family: 'Fira Code', monospace; font-size: 12px;">
+                            <option value="">加载中...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="socks5-loading-info" id="socks5LoadingInfo" style="display: none; padding: 12px; background: rgba(255,193,7,0.1); border-radius: 4px; font-size: 12px; color: #666; margin: 12px 0;">
+                    正在验证SOCKS5可用性，请稍候...
+                </div>
+            </div>
+
+            <div class="btn-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px;">
+                <button type="button" class="btn btn-primary" id="socks5ConfirmBtn" onclick="confirmSelectSocks5()" disabled style="padding: 12px 16px; font-size: 14px; font-weight: 500; white-space: nowrap;">
+                    确定
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="closeExploreSocks5Modal(event)" style="padding: 12px 16px; font-size: 14px; font-weight: 500; white-space: nowrap;">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 探索HTTP弹窗 -->
+    <div class="modal-overlay" id="exploreHTTPModal">
+        <div class="modal" style="max-width: 550px; text-align: left;">
+            <button type="button" class="modal-close" onclick="closeExploreHTTPModal(event)" style="cursor: pointer;">×</button>
+            <h2 class="section-title" style="margin-bottom: 15px; text-align: center;">🗺️ 探索更多 HTTP</h2>
+            
+            <div class="http-list-container">
+                <div class="form-group">
+                    <label for="httpRegionSelect">🏳️‍🌈 选择目标地区</label>
+                    <div class="input-wrapper">
+                        <select id="httpRegionSelect" onchange="onHTTPRegionChange()" style="padding-left: 16px;">
+                            <option value="">加载中...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" id="httpProxySelectGroup" style="display: none;">
+                    <label for="httpProxySelect">🌐 选择目标代理</label>
+                    <div class="input-wrapper">
+                        <select id="httpProxySelect" onchange="updateHTTPConfirmButton()" style="padding-left: 16px; font-family: 'Fira Code', monospace; font-size: 12px;">
+                            <option value="">加载中...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="http-loading-info" id="httpLoadingInfo" style="display: none; padding: 12px; background: rgba(255,193,7,0.1); border-radius: 4px; font-size: 12px; color: #666; margin: 12px 0;">
+                    正在验证HTTP可用性，请稍候...
+                </div>
+            </div>
+
+            <div class="btn-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px;">
+                <button type="button" class="btn btn-primary" id="httpConfirmBtn" onclick="confirmSelectHTTP()" disabled style="padding: 12px 16px; font-size: 14px; font-weight: 500; white-space: nowrap;">
+                    确定
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="closeExploreHTTPModal(event)" style="padding: 12px 16px; font-size: 14px; font-weight: 500; white-space: nowrap;">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOSTS 检查提示弹窗 -->
+    <div class="modal-overlay" id="hostsMismatchModal" onclick="closeHostsMismatchModal(event)">
+        <div class="modal" onclick="event.stopPropagation()" style="max-width: 500px;">
+            <button type="button" class="modal-close" onclick="closeHostsMismatchModal()">×</button>
+            <div style="text-align: center; padding: 20px 0;">
+                <h2 style="color: #f44336; margin: 0 0 16px 0; font-size: 22px; font-weight: 700;">⚠️ 域名配置提示</h2>
+                <p style="margin: 0 0 12px 0; font-size: 14px; line-height: 1.6; text-align: left;">
+                    您当前访问管理面板使用的域名是：<strong id="currentHostname" style="color: #2196F3;"></strong>
+                </p>
+                <p style="margin: 0 0 12px 0; font-size: 14px; line-height: 1.6; text-align: left; color: #f44336;">
+                    <strong>⚠️ 注意：</strong>该域名 <strong>未配置为节点伪装域名</strong>。这意味着生成的订阅配置将 <strong>不会使用当前域名</strong> 作为 <strong>节点域名</strong>。
+                </p>
+                <p style="margin: 0 0 12px 0; font-size: 14px; line-height: 1.6; text-align: left;">
+                    <strong>当前配置的节点伪装域名：</strong>
+                </p>
+                <div id="currentHosts" style="margin: 0 0 16px 0; padding: 12px; background-color: transparent; border-radius: 0; text-align: left; font-size: 13px; max-height: 120px; overflow-y: auto; word-break: break-all; display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start;"></div>
+                <p style="margin: 0 0 16px 0; font-size: 13px; line-height: 1.6; text-align: left;">
+                    <strong>如何修改？</strong>请在高手模式下的"⚙️ 详细配置信息"，在"HOST"里添加您的域名"<strong id="hostToAdd" style="color: #2196F3;"></strong>"，保存配置后即可生效。
+                </p>
+            </div>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <button type="button" class="btn btn-hosts-warning" onclick="dismissHostsMismatchNotification()" style="flex: 1; background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%); color: #fff; border: none; padding: 12px 16px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3); transition: all 0.3s ease;">我知道了！24小时内不再提示！</button>
+            </div>
+        </div>
+    </div>
+
     <script data-cfasync="false">
         let currentConfig = {};
         let originalConfig = {};
@@ -5217,10 +6077,21 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
         let subConfigData = null;
         let hasMultipleHosts = false; // 标记是否存在多个 HOSTS
 
+        // 延迟测试配置
+        const latencyTestConfig = {
+            count: 16  // 采样和显示数量
+        };
+
+        // 追踪延迟显示的动画状态
+        const latencyUIState = {};
+
+        // 标记延迟测试是否已经开始，防止重复执行
+        let latencyTestStarted = false;
+
         // 延迟测试数据
         const latencySites = [
             {
-                name: '字节跳动',
+                name: '字节抖音',
                 region: '国内',
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#1677FF" d="m19.9 1.5 4.1 1v19l-4.1 1zM6.5 10.9l4.1 1v9l-4 1.1zM0 2.6l4.1 1v16.8l-4.1 1zm17.5 5.6v11.1l-4.2-1v-9z"></path></svg>',
                 url: 'https://lf3-zlink-tos.ugurl.cn/obj/zebra-public/resource_lmmizj_1632398893.png'
@@ -5232,13 +6103,13 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 url: 'https://i0.hdslb.com/bfs/face/member/noface.jpg@24w_24h_1c'
             },
             {
-                name: '微信',
+                name: '腾讯微信',
                 region: '国内',
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#09B83E" d="M8.7 2.19C3.9 2.19 0 5.48 0 9.53c0 2.21 1.17 4.2 3 5.55a.6.6 0 0 1 .21.66l-.39 1.48q-.03.11-.04.22c0 .16.13.3.29.3a.3.3 0 0 0 .16-.06l1.9-1.11a.9.9 0 0 1 .72-.1 10 10 0 0 0 2.84.4q.41-.01.81-.05a5.85 5.85 0 0 1 1.93-6.45 8.3 8.3 0 0 1 5.86-1.83c-.58-3.59-4.2-6.35-8.6-6.35m-2.9 3.8c.64 0 1.16.53 1.16 1.18a1.17 1.17 0 0 1-1.16 1.18 1.17 1.17 0 0 1-1.17-1.18c0-.65.52-1.18 1.17-1.18m5.8 0c.65 0 1.17.53 1.17 1.18a1.17 1.17 0 0 1-1.16 1.18 1.17 1.17 0 0 1-1.16-1.18c0-.65.52-1.18 1.16-1.18m5.34 2.87a8 8 0 0 0-5.28 1.78 5.5 5.5 0 0 0-1.78 6.22c.94 2.46 3.66 4.23 6.88 4.23q1.25 0 2.36-.33a.7.7 0 0 1 .6.08l1.59.93.14.04c.13 0 .24-.1.24-.24q-.01-.09-.04-.18l-.33-1.23-.02-.16a.5.5 0 0 1 .2-.4 5.8 5.8 0 0 0 2.5-4.62c0-3.21-2.93-5.84-6.66-6.09zm-2.53 3.27c.53 0 .97.44.97.98a1 1 0 0 1-.97.99 1 1 0 0 1-.97-.99c0-.54.43-.98.97-.98zm4.84 0c.54 0 .97.44.97.98a1 1 0 0 1-.97.99 1 1 0 0 1-.97-.99c0-.54.44-.98.97-.98"></path></svg>',
                 url: 'https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico'
             },
             {
-                name: '淘宝',
+                name: '阿里淘宝',
                 region: '国内',
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#E16322" d="M21.31 9.9a3 3 0 1 1 0 1.92.96.96 0 0 1 0-1.92m2.39 3.05H13.3v-.96h4.14V9.76h-2.89v-.77h2.9v-.92h-2.52v.2H13.3v-2.9h1.64v.35l2.52-.3V4.6h1.85v.64c.93-.08 1.76-.13 2.21-.1 1.5.06 2.45.27 2.49 1.26.03 1-1.43 1.9-1.43 1.9l-.45-.43v.2h-2.8v.92h3.22v.77h-3.23v2.23h4.39zM21.53 7.3l-.02-.01s1.38-.76.35-1.27c-.87-.43-5.54.3-6.93.62v.66zM1.88 6.42a1 1 0 0 0 0-2 1 1 0 0 0-1 1 1 1 0 0 0 1 1m3.41-.86a7 7 0 0 0 .37-.72L4.2 4.42s-.6 1.93-1.65 2.83c0 0 1.02.6 1.01.58a10 10 0 0 0 .78-.88l.68-.3a9 9 0 0 1-1.14 1.69l.61.54s.42-.4.88-.9h.53v.9H3.86v.73H5.9v1.72h-.08c-.23-.01-.58-.05-.71-.27-.17-.26-.05-.75-.04-1.04h-1.4l-.06.02s-.52 2.32 1.5 2.27a5.3 5.3 0 0 0 3.46-.92l.2.76 1.17-.48-.79-1.92-.94.3.18.65a3 3 0 0 1-.82.42V9.6h2v-.72h-2v-.9h2v-.72H6.01c.26-.31.46-.6.51-.78l-.62-.17c2.67-.95 4.15-.79 4.13.77v4.12s.16 1.4-1.46 1.3l-.87-.18-.21.83s3.78 1.08 4.1-1.82-.09-4.76-.09-4.76-.34-2.68-6.2-1.02zm-5.23 6.6 1.58.98c1.1-2.38 1.03-2.06 1.3-2.92.29-.87.35-1.54-.13-2.02a10 10 0 0 0-1.6-1.36L.55 7.86l1.21.75s.82.42.43 1.2c-.36.73-2.13 2.34-2.13 2.34M20 19s-.02.53-.67.53c-.6 0-.64-.42-.64-.42q-.39.45-1.07.46c-.76 0-1.3-.51-1.3-1.3 0-.78.56-1.27 1.4-1.27.39 0 .73.15.93.4l.01-.2c0-.56-.3-.8-1-.8q-.51 0-1.02.13.16-.33.3-.45.18-.14.94-.14c1.27 0 1.74.42 1.74 1.42v1.2c0 .32.03.44.38.44m-1.33-.74c0-.48-.25-.75-.64-.75-.4 0-.66.28-.66.76 0 .47.27.76.65.76.39 0 .65-.27.65-.77m5.27-.5c0 1.15-.7 1.82-1.78 1.82-1.1 0-1.77-.67-1.77-1.82 0-1.16.68-1.83 1.77-1.83s1.78.67 1.78 1.83m-1.08 0q0-1.3-.7-1.3t-.69 1.3.7 1.3.69-1.3m-7.14-.05c0 1.17-.65 1.86-1.57 1.86q-.66-.01-1.05-.47s-.1.42-.66.42c-.69 0-.67-.52-.67-.52.4.02.38-.21.38-.43v-2.89c0-.36-.07-.48-.43-.49.02-.1.08-.53.68-.53.82 0 .76.91.76.91v.79q.34-.4 1-.4c.96 0 1.56.65 1.56 1.75m-1.09.08q-.01-1.35-.76-1.35c-.44 0-.74.4-.74 1.1v.36c0 .72.31 1.12.76 1.12q.73 0 .74-1.23m-3.24-.03c0 1.15-.7 1.82-1.78 1.82-1.1 0-1.78-.67-1.78-1.82 0-1.16.68-1.83 1.78-1.83s1.78.67 1.78 1.83m-1.09 0q0-1.3-.7-1.3-.69 0-.68 1.3t.69 1.3q.7 0 .7-1.3m-6-2.72q-.4.11-1.55.1-1.38-.02-1.85-.04c-.52 0-.73.13-.91.66q.45-.13 1.13-.11c.36 0 .42.04.42.3v2.9c0 .28.11.67.72.67.71 0 .84-.52.84-.52-.36 0-.43-.13-.43-.49v-2.56c0-.27.1-.28.47-.28h.26c.55 0 .7-.1.9-.63M7.46 19s-.02.52-.67.52c-.56 0-.64-.4-.64-.4q-.39.45-1.07.45c-.76 0-1.3-.52-1.3-1.3S4.33 17 5.17 17c.39 0 .73.14.93.4v-.2c0-.56-.3-.8-1-.8q-.5 0-1.01.13.15-.33.3-.46.17-.14.94-.14c1.26 0 1.74.43 1.74 1.43v1.2c0 .32.03.44.38.44m-1.33-.75c0-.48-.26-.74-.64-.74-.4 0-.67.28-.67.76 0 .46.28.76.66.76.39 0 .65-.28.65-.78"></path></svg>',
                 url: 'https://img.alicdn.com/imgextra/i2/O1CN01qnQCrN1VkzAWiU4Hs_!!6000000002692-2-tps-33-33.png'
@@ -5253,7 +6124,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 name: 'Telegram',
                 region: '国际',
                 icon: '<svg width="24px" height="24px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1"><stop stop-color="#38AEEB" offset="0%"></stop><stop stop-color="#279AD1" offset="100%"></stop></linearGradient></defs><g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><circle id="Oval" fill="url(#linearGradient-1)" cx="8" cy="8" r="8"></circle><path d="M3.17026167,7.83635602 C5.78750201,6.74265999 7.53273882,6.02162863 8.40597211,5.67326193 C10.8992306,4.67860423 11.2454541,4.53439191 11.5831299,4.52864956 C11.6573986,4.52743168 11.8385417,4.55776042 11.9798438,4.67645833 C12.1211458,4.79515625 12.1635786,4.87206678 12.1755371,4.93908691 C12.1874957,5.00610705 12.1862759,5.21456762 12.1744385,5.3338623 C12.0393279,6.69547283 11.5259342,9.83829771 11.2285121,11.3633248 C11.1026617,12.008621 10.8548582,12.2249854 10.6149558,12.2461596 C10.0935924,12.2921758 9.69769267,11.9156852 9.19272668,11.5981993 C8.40255458,11.1013965 8.13911734,10.9180161 7.3721185,10.4332283 C6.48571864,9.87297217 6.85080034,9.6784879 7.35595703,9.17524981 C7.48815894,9.04355001 9.67825076,7.04590073 9.71077046,6.86250183 C9.7391276,6.70257812 9.7494847,6.68189389 9.67664063,6.60973958 C9.60379655,6.53758527 9.51674192,6.54658941 9.46083149,6.55876051 C9.38158015,6.57601267 8.17521836,7.33962686 5.84174612,8.84960308 C5.48344358,9.08558775 5.15890428,9.20056741 4.86812819,9.19454205 C4.54757089,9.18789957 3.93094724,9.02070014 3.47255094,8.87778221 C2.91030922,8.70248755 2.46345069,8.609808 2.50236203,8.31210343 C2.52262946,8.15704047 2.74526267,7.998458 3.17026167,7.83635602 Z" id="Path-3" fill="#FFFFFF"></path></g></svg>',
-                url: 'https://web.telegram.org/k/assets/img/favicon.ico'
+                url: 'https://web.telegram.org/k/'
             },
             {
                 name: 'X.com',
@@ -5298,6 +6169,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
         // 生成延迟卡片
         function generateLatencyCards() {
             const container = document.getElementById('latency-cards');
+            if (!container) return;
             container.innerHTML = '';
 
             // 按地区排序：国内优先，然后国际
@@ -5313,17 +6185,24 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 const siteName = site.name.toLowerCase().replace(/\s+/g, '-');
                 card.innerHTML = `
                     <div class="latency-card-header">
-                        <div class="latency-card-title">
-                            <div class="latency-card-icon">${site.icon}</div>
-                            <div class="latency-card-name">${site.name}</div>
-                            <span class="latency-card-region latency-card-region-${site.region === '国内' ? 'domestic' : 'international'}">${site.region}</span>
+                        <div class="latency-card-info">
+                            <div class="latency-card-icon-wrapper" data-site="${siteName}">
+                                ${site.icon}
+                            </div>
+                            <div class="latency-card-text">
+                                <span class="latency-card-name">${site.name}</span>
+                                <span class="latency-card-region" data-region="${site.region}">${site.region}</span>
+                            </div>
                         </div>
+                        <div class="latency-status" id="latency-${siteName}">...<span class="unit">ms</span></div>
                     </div>
-                    <div class="latency-card-content">
-                        <div class="latency-bars" id="bars-${siteName}">
-                            ${Array(9).fill().map(() => '<div class="latency-bar loading" style="background-color: rgba(250, 171, 65, 0.5);"></div>').join('')}
-                        </div>
-                        <p class="latency-value" id="latency-${siteName}">--ms</p>
+                    <div class="latency-graph-container">
+                        <div class="graph-grid"></div>
+                        <svg class="latency-ecg" viewBox="0 0 400 60" preserveAspectRatio="none">
+                            <path class="ecg-path-bg" d="M0,30 L400,30"></path>
+                            <path class="ecg-path" id="path-${siteName}" d="M0,30 L400,30"></path>
+                            <circle class="ecg-cursor" id="cursor-${siteName}" r="3" cx="0" cy="30" style="display:none"></circle>
+                        </svg>
                     </div>
                 `;
                 container.appendChild(card);
@@ -5335,7 +6214,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             const start = Date.now();
             try {
                 const response = await fetch(site.url + '?t=' + Date.now(), {
-                    method: 'GET',
+                    method: 'HEAD',
                     cache: 'no-cache',
                     mode: 'no-cors',
                     referrerPolicy: 'no-referrer'
@@ -5360,76 +6239,163 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
         // 更新延迟显示
         function updateLatencyDisplay(siteName, latencies) {
             const valueElement = document.getElementById(`latency-${siteName}`);
-            const barsElement = document.getElementById(`bars-${siteName}`);
+            const pathElement = document.getElementById(`path-${siteName}`);
+            const cursorElement = document.getElementById(`cursor-${siteName}`);
 
-            if (!valueElement || !barsElement) return;
+            if (!valueElement || !pathElement) return;
 
-            // 计算平均延迟：先过滤有效的延迟值（排除-1表示失败的情况、排除第一个测试结果）
-            const validLatencies = latencies.filter((l, index) => l !== -1 && index !== 0);
+            // 计算平均延迟
+            const lastLatency = latencies[latencies.length - 1];
+            const validLatencies = latencies.filter(l => l !== -1);
             let avgLatency = -1;
 
             if (validLatencies.length > 0) {
-                // 如果有有效的数据，去掉最高和最低延迟
-                if (validLatencies.length > 2) {
+                // 如果有足够的数据，去掉最高和最低延迟以获得更稳定的平均值
+                if (validLatencies.length > 5) {
                     const sorted = [...validLatencies].sort((a, b) => a - b);
-                    // 移除最低和最高
-                    const trimmedLatencies = sorted.slice(1, sorted.length - 1);
-                    // 对剩余数据计算平均值
-                    avgLatency = trimmedLatencies.reduce((a, b) => a + b, 0) / trimmedLatencies.length;
-                } else if (validLatencies.length === 2) {
-                    // 如果只有2个有效数据，去掉最高和最低后就没有数据了，使用所有有效数据
-                    avgLatency = validLatencies.reduce((a, b) => a + b, 0) / validLatencies.length;
+                    const trimmed = sorted.slice(1, -1);
+                    avgLatency = trimmed.reduce((a, b) => a + b, 0) / trimmed.length;
                 } else {
-                    // 如果只有1个或更少有效数据，直接使用
-                    avgLatency = validLatencies[0];
+                    avgLatency = validLatencies.reduce((a, b) => a + b, 0) / validLatencies.length;
                 }
             }
 
-            if (avgLatency === -1) {
-                valueElement.textContent = '--ms';
-                valueElement.style.color = 'var(--destructive)';
+            const targetValue = Math.round(avgLatency);
+
+            // 更新文字显示
+            if (validLatencies.length === 0) {
+                if (lastLatency === -1) {
+                    valueElement.innerHTML = 'TIMEOUT';
+                    valueElement.style.color = 'var(--latency-999)';
+                } else {
+                    valueElement.innerHTML = '...<span class="unit">ms</span>';
+                    valueElement.style.color = '#f6821f';
+                }
             } else {
-                valueElement.textContent = `${Math.round(avgLatency)}ms`;
-                valueElement.style.color = getLatencyColor(avgLatency);
+                const siteState = latencyUIState[siteName] || { current: targetValue, timer: null };
+                latencyUIState[siteName] = siteState;
+
+                // 设置颜色
+                const avgColor = getLatencyColor(targetValue);
+                valueElement.style.color = avgColor;
+
+                // 如果数值变化较小，直接显示
+                if (Math.abs(siteState.current - targetValue) < 2) {
+                    siteState.current = targetValue;
+                    valueElement.innerHTML = `${targetValue}<span class="unit">ms</span>`;
+                } else {
+                    // 清除旧的计时器
+                    if (siteState.timer) clearInterval(siteState.timer);
+
+                    // 每 30ms 更新一次数字，实现滚动的动态效果
+                    const step = () => {
+                        if (siteState.current < targetValue) {
+                            siteState.current += Math.ceil((targetValue - siteState.current) / 5);
+                        } else if (siteState.current > targetValue) {
+                            siteState.current -= Math.ceil((siteState.current - targetValue) / 5);
+                        }
+
+                        valueElement.innerHTML = `${siteState.current}<span class="unit">ms</span>`;
+
+                        if (siteState.current === targetValue) {
+                            clearInterval(siteState.timer);
+                            siteState.timer = null;
+                        }
+                    };
+
+                    siteState.timer = setInterval(step, 30);
+                }
             }
 
-            const bars = barsElement.querySelectorAll('.latency-bar');
-            bars.forEach((bar, displayIndex) => {
-                // displayIndex 是显示的索引（0-8），实际测试索引需要加1
-                const actualIndex = displayIndex + 1;
-                const latency = latencies[actualIndex];
-                if (latency !== undefined) {
-                    bar.style.backgroundColor = getLatencyColor(latency);
-                    bar.title = latency === -1 ? '连接失败' : `${latency}ms`;
-                    // 移除loading动画类
-                    bar.classList.remove('loading');
+            // 更新 SVG 路径
+            const width = 400;
+            const height = 60;
+            const padding = 10;
+            const step = width / (latencyTestConfig.count - 1);
+
+            let points = [];
+            latencies.forEach((l, i) => {
+                const x = i * step;
+                let y;
+                if (l === -1) {
+                    y = height - 5;
+                } else {
+                    // 映射 0-500ms 到高度，高延迟在上，低延迟在下？通常ECG是越高表示值越大或者越快？
+                    // demo里是 height - padding - (Math.min(l, 500) / 500 * (height - 2 * padding))
+                    // 这意味着延迟越低，y越大（越靠下）。延迟越高，y越小（越靠上）。
+                    y = height - padding - (Math.min(l, 500) / 800 * (height - 2 * padding));
                 }
+                points.push({ x, y });
             });
+
+            if (points.length > 0) {
+                // 生成平滑曲线路径 (Bezier)
+                let d = `M${points[0].x},${points[0].y}`;
+                for (let i = 0; i < points.length - 1; i++) {
+                    const x_mid = (points[i].x + points[i + 1].x) / 2;
+                    const y_mid = (points[i].y + points[i + 1].y) / 2;
+                    d += ` Q${points[i].x},${points[i].y} ${x_mid},${y_mid}`;
+                }
+                const lastPoint = points[points.length - 1];
+                d += ` L${lastPoint.x},${lastPoint.y}`;
+
+                pathElement.setAttribute('d', d);
+                const avgColor = getLatencyColor(targetValue);
+                pathElement.style.stroke = avgColor;
+
+                // 更新光标位置
+                if (cursorElement) {
+                    cursorElement.style.display = 'block';
+                    cursorElement.setAttribute('cx', lastPoint.x);
+                    cursorElement.setAttribute('cy', lastPoint.y);
+                    cursorElement.style.fill = avgColor;
+                }
+            }
         }
 
         // 开始延迟测试
         async function startLatencyTest() {
+            if (latencyTestStarted) return;
+            latencyTestStarted = true;
+
             generateLatencyCards();
 
-            // 为所有网站并发执行10次测试
-            const testPromises = latencySites.map(async (site) => {
+            // 为每个网站维护最新的N个延迟数据
+            const siteLatencies = {};
+            latencySites.forEach(site => {
                 const siteName = site.name.toLowerCase().replace(/\s+/g, '-');
-                const latencies = [];
+                siteLatencies[siteName] = [];
+            });
 
-                // 10次测试，每个间隔382ms
-                for (let i = 0; i < 10; i++) {
+            // 初始采样测试
+            const initialPromises = latencySites.map(async (site) => {
+                const siteName = site.name.toLowerCase().replace(/\s+/g, '-');
+                for (let i = 0; i < latencyTestConfig.count; i++) {
                     const latency = await testLatency(site);
-                    latencies.push(latency);
-                    updateLatencyDisplay(siteName, latencies);
-                    // 除了最后一次测试外，每次后延迟382ms
-                    if (i < 9) {
-                        await new Promise(resolve => setTimeout(resolve, 382));
+                    siteLatencies[siteName].push(latency);
+                    updateLatencyDisplay(siteName, siteLatencies[siteName]);
+                    if (i < latencyTestConfig.count - 1) {
+                        await new Promise(resolve => setTimeout(resolve, 0));
                     }
                 }
             });
 
-            // 等待所有测试完成
-            await Promise.all(testPromises);
+            await Promise.all(initialPromises);
+
+            // 之后每 3.09 秒测试一次，更新最新的数据 (保持 ECG 曲线流动)
+            setInterval(async () => {
+                const updatePromises = latencySites.map(async (site) => {
+                    const siteName = site.name.toLowerCase().replace(/\s+/g, '-');
+                    const latency = await testLatency(site);
+                    // 添加新数据，保持只有N个
+                    siteLatencies[siteName].push(latency);
+                    if (siteLatencies[siteName].length > latencyTestConfig.count) {
+                        siteLatencies[siteName].shift(); // 移除最旧的
+                    }
+                    updateLatencyDisplay(siteName, siteLatencies[siteName]);
+                });
+                await Promise.all(updatePromises);
+            }, 618 * 3);
         }
 
         // 切换主题
@@ -5594,7 +6560,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             const nodeHostInput = document.getElementById('nodeHost');
             if (hasMultipleHosts) {
                 // 如果存在 HOSTS 数组，用逗号连接显示所有 host
-                nodeHostInput.value = currentConfig.HOSTS.join(',');
+                nodeHostInput.value = currentConfig.HOSTS.join('、');
                 // 添加可点击样式和事件
                 nodeHostInput.classList.add('nodeHost-clickable');
                 nodeHostInput.title = '点击 可编辑多个节点域名';
@@ -5613,6 +6579,20 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             document.getElementById('protocol').value = currentConfig.协议类型 || 'vless';
             //document.getElementById('transport').value = currentConfig.传输协议 || 'ws';
             document.getElementById('skipVerify').checked = currentConfig.跳过证书验证 || false;
+
+            // 检查"完整节点路径"字段是否存在，判断PATH是否可编辑
+            const nodePathInput = document.getElementById('nodePATH');
+            if (currentConfig['完整节点路径'] !== undefined) {
+                // 存在该字段，表示后端支持编辑PATH，移除readonly属性
+                nodePathInput.removeAttribute('readonly');
+                nodePathInput.title = '节点的伪装路径';
+                nodePathInput.onchange = handlePathChange;
+            } else {
+                // 不存在该字段，PATH保持只读状态
+                nodePathInput.setAttribute('readonly', '');
+                nodePathInput.title = '节点的伪装路径 仅可通过 \'PATH\'环境变量 进行修改';
+                nodePathInput.onchange = null;
+            }
 
             // 检查Fingerprint字段是否存在
             const fingerprintGroup = document.getElementById('fingerprintGroup');
@@ -5660,15 +6640,21 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             }
 
             // 检查ECH字段是否存在
-            const enableECHGroup = document.getElementById('enableECHGroup');
+            const echModule = document.getElementById('echModule');
             const enableECHCheckbox = document.getElementById('enableECH');
             if (currentConfig['ECH'] !== undefined) {
-                enableECHGroup.style.display = 'flex';
+                echModule.style.display = 'block';
                 enableECHCheckbox.checked = currentConfig['ECH'] || false;
                 // 根据Fingerprint值初始化ECH选项的禁用状态
                 updateECHOptionState();
+
+                // 填充ECH DNS下拉框
+                populateEchDNSSelect();
+
+                // 填充ECH SNI下拉框
+                populateEchSNISelect();
             } else {
-                enableECHGroup.style.display = 'none';
+                echModule.style.display = 'none';
             }
 
             // 反代落地设置
@@ -5727,6 +6713,9 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
 
             // 填充 SubConfig 下拉框（如果数据已加载，会自动设置选中值）
             populateSubConfigSelect();
+
+            // 检查当前域名是否在 HOSTS 数组中
+            checkHostsMismatch();
         }
 
         // CF 使用情况显示函数
@@ -5936,38 +6925,216 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             updateECHOptionState();
         }
 
-        // 更新ECH选项的状态（禁用/启用）
-        function updateECHOptionState() {
-            const fingerprint = document.getElementById('fingerprint').value;
+        // 处理ECH启用状态变化
+        function handleECHEnableChange() {
             const enableECHCheckbox = document.getElementById('enableECH');
-            const enableECHLabel = document.querySelector('label[for="enableECH"]');
-            const enableECHGroup = document.getElementById('enableECHGroup');
+            const fingerprintSelect = document.getElementById('fingerprint');
 
             // 支持ECH的指纹类型
             const supportECH = ['chrome', 'firefox', 'random'];
 
-            if (enableECHGroup && enableECHCheckbox) {
-                if (supportECH.includes(fingerprint)) {
-                    // 启用ECH选项
-                    enableECHCheckbox.disabled = false;
-                    enableECHGroup.style.opacity = '1';
-                    enableECHGroup.style.pointerEvents = 'auto';
-                    if (enableECHLabel) {
-                        enableECHLabel.style.opacity = '1';
-                        enableECHLabel.style.cursor = 'pointer';
-                    }
-                } else {
-                    // 禁用ECH选项，取消勾选，变成灰色
-                    enableECHCheckbox.disabled = true;
-                    enableECHCheckbox.checked = false;
-                    enableECHGroup.style.opacity = '0.5';
-                    enableECHGroup.style.pointerEvents = 'none';
-                    if (enableECHLabel) {
-                        enableECHLabel.style.opacity = '0.5';
-                        enableECHLabel.style.cursor = 'not-allowed';
-                    }
+            // 如果用户开启ECH，但当前指纹不支持ECH，自动切换到chrome
+            if (enableECHCheckbox && enableECHCheckbox.checked) {
+                const currentFingerprint = fingerprintSelect?.value;
+                if (currentFingerprint && !supportECH.includes(currentFingerprint)) {
+                    fingerprintSelect.value = 'chrome';
+                    // 同时标记详细配置模块为已修改
+                    markModified('config');
                 }
             }
+
+            markModified('ech');
+        }
+
+        // 更新ECH选项的状态（禁用/启用）
+        function updateECHOptionState() {
+            const fingerprint = document.getElementById('fingerprint').value;
+            const enableECHCheckbox = document.getElementById('enableECH');
+
+            // 支持ECH的指纹类型
+            const supportECH = ['chrome', 'firefox', 'random'];
+
+            if (enableECHCheckbox) {
+                // 当指纹不支持ECH时，自动取消勾选
+                if (!supportECH.includes(fingerprint) && enableECHCheckbox.checked) {
+                    enableECHCheckbox.checked = false;
+                    markModified('ech');
+                }
+            }
+        }
+
+        // 填充ECH DNS下拉框
+        function populateEchDNSSelect() {
+            const formGroup = document.getElementById('echDNSGroup');
+            const select = document.getElementById('echDNSSelect');
+            const customInput = document.getElementById('echDNSCustomInput');
+            const hiddenValue = document.getElementById('echDNSValue');
+
+            if (!select || !formGroup) return;
+
+            // 检查ECHConfig.DNS字段是否存在
+            if (currentConfig.ECHConfig?.DNS === undefined) {
+                formGroup.style.display = 'none';
+                return;
+            }
+
+            // 显示form-group和下拉框
+            formGroup.style.display = 'grid';
+            select.style.display = 'block';
+
+            // 如果已有保存的DNS值，设置选中状态
+            const savedDNS = currentConfig.ECHConfig?.DNS || '';
+            if (savedDNS) {
+                // 尝试在下拉框中找到匹配的选项
+                select.value = savedDNS;
+
+                // 如果没有匹配到（值不在列表中），选择"自定义"并显示输入框
+                if (select.value !== savedDNS) {
+                    select.value = 'custom';
+                    customInput.value = savedDNS;
+                    customInput.style.display = 'block';
+                    hiddenValue.value = savedDNS;
+                } else {
+                    // 匹配成功，隐藏自定义输入框
+                    customInput.style.display = 'none';
+                    customInput.value = '';
+                    hiddenValue.value = savedDNS;
+                }
+            } else {
+                // 没有保存值，默认选择"自定义"
+                select.value = 'custom';
+                customInput.style.display = 'block';
+            }
+        }
+
+        // 填充ECH SNI下拉框
+        function populateEchSNISelect() {
+            const formGroup = document.getElementById('echSNIGroup');
+            const select = document.getElementById('echSNISelect');
+            const customInput = document.getElementById('echSNICustomInput');
+            const hiddenValue = document.getElementById('echSNIValue');
+
+            if (!select || !formGroup) return;
+
+            // 检查ECHConfig.SNI字段是否存在
+            if (currentConfig.ECHConfig?.SNI === undefined) {
+                formGroup.style.display = 'none';
+                return;
+            }
+
+            // 显示form-group和下拉框
+            formGroup.style.display = 'grid';
+            select.style.display = 'block';
+
+            // 如果已有保存的SNI值，设置选中状态
+            const savedSNI = currentConfig.ECHConfig?.SNI;
+            if (savedSNI !== undefined) {
+                if (savedSNI === null) {
+                    // 自动获取
+                    select.value = '__AUTO__';
+                    customInput.style.display = 'none';
+                    customInput.value = '';
+                    hiddenValue.value = null;
+                } else {
+                    // 尝试在下拉框中找到匹配的选项
+                    select.value = savedSNI;
+
+                    // 如果没有匹配到（值不在列表中），选择"自定义"并显示输入框
+                    if (select.value !== savedSNI) {
+                        select.value = 'custom';
+                        customInput.value = savedSNI;
+                        customInput.style.display = 'block';
+                        hiddenValue.value = savedSNI;
+                    } else {
+                        // 匹配成功，隐藏自定义输入框
+                        customInput.style.display = 'none';
+                        customInput.value = '';
+                        hiddenValue.value = savedSNI;
+                    }
+                }
+            } else {
+                // 没有保存值，默认选择"自定义"
+                select.value = 'custom';
+                customInput.style.display = 'block';
+            }
+        }
+
+        // ECH DNS select 变化处理
+        function onEchDNSSelectChange() {
+            const select = document.getElementById('echDNSSelect');
+            const customInput = document.getElementById('echDNSCustomInput');
+            const hiddenValue = document.getElementById('echDNSValue');
+
+            if (select.value === 'custom') {
+                customInput.style.display = 'block';
+                hiddenValue.value = customInput.value;
+            } else {
+                customInput.style.display = 'none';
+                customInput.value = '';
+                hiddenValue.value = select.value;
+            }
+
+            // 检查是否选择了国内DNS，若是则自动调整ECH解析域名
+            const selectedOption = select.options[select.selectedIndex];
+            const region = selectedOption.dataset.region;
+
+            if (region === 'domestic') {
+                const echSNISelect = document.getElementById('echSNISelect');
+                // 如果当前选择是 __AUTO__，自动改为 cloudflare-ech.com
+                if (echSNISelect.value === '__AUTO__') {
+                    echSNISelect.value = 'cloudflare-ech.com';
+                    onEchSNISelectChange();
+                }
+            }
+
+            markModified('ech');
+        }
+
+        // ECH DNS 自定义输入框变化处理
+        function onEchDNSCustomInput() {
+            const customInput = document.getElementById('echDNSCustomInput');
+            const hiddenValue = document.getElementById('echDNSValue');
+            hiddenValue.value = customInput.value;
+            markModified('ech');
+        }
+
+        // ECH SNI select 变化处理
+        function onEchSNISelectChange() {
+            const select = document.getElementById('echSNISelect');
+            const customInput = document.getElementById('echSNICustomInput');
+            const hiddenValue = document.getElementById('echSNIValue');
+
+            if (select.value === '__AUTO__') {
+                customInput.style.display = 'none';
+                customInput.value = '';
+                hiddenValue.value = null;
+
+                // 检查当前DNS服务是否为国内DNS
+                const echDNSSelect = document.getElementById('echDNSSelect');
+                const selectedDNSOption = echDNSSelect.options[echDNSSelect.selectedIndex];
+                const dnsRegion = selectedDNSOption.dataset.region;
+
+                if (dnsRegion === 'domestic') {
+                    alert('⚠️ ECH 配置提示\n\n默认使用节点HOST伪装域名 配合 国内 DNS 可能导致 ECH 解析失败。\n\n解决方案（任选其一）：\n① 将 ECH 解析域名改为 cloudflare-ech.com（推荐）\n② 将 ECH DNS 切换为国际服务（如 NextDNS）');
+                    select.value = 'cloudflare-ech.com';
+                }
+            } else if (select.value === 'custom') {
+                customInput.style.display = 'block';
+                hiddenValue.value = customInput.value;
+            } else {
+                customInput.style.display = 'none';
+                customInput.value = '';
+                hiddenValue.value = select.value;
+            }
+            markModified('ech');
+        }
+
+        // ECH SNI 自定义输入框变化处理
+        function onEchSNICustomInput() {
+            const customInput = document.getElementById('echSNICustomInput');
+            const hiddenValue = document.getElementById('echSNIValue');
+            hiddenValue.value = customInput.value;
+            markModified('ech');
         }
 
         // 处理PROXYIP地址
@@ -6106,6 +7273,25 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             document.getElementById('proxyIPSection').style.display = mode === 'auto' ? 'block' : 'none';
             document.getElementById('socks5Section').style.display = mode === 'socks5' ? 'block' : 'none';
             document.getElementById('httpSection').style.display = mode === 'http' ? 'block' : 'none';
+
+            // 更新 "获取更多PROXYIP" 按钮的显示状态
+            const getMoreBtn = document.getElementById('getMoreProxyIPBtn');
+            if (getMoreBtn) {
+                getMoreBtn.style.display = mode === 'auto' ? 'inline-block' : 'none';
+            }
+
+            // 更新 "探索更多SOCKS5" 按钮的显示状态
+            const exploreSocks5Btn = document.getElementById('exploreSocks5Btn');
+            if (exploreSocks5Btn) {
+                exploreSocks5Btn.style.display = mode === 'socks5' ? 'inline-block' : 'none';
+            }
+
+            // 更新 "探索更多HTTP" 按钮的显示状态
+            const exploreHTTPBtn = document.getElementById('exploreHTTPBtn');
+            if (exploreHTTPBtn) {
+                exploreHTTPBtn.style.display = mode === 'http' ? 'inline-block' : 'none';
+            }
+
             markModified('proxy');
         }
 
@@ -6267,6 +7453,40 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             }
         }
 
+        // 规范化PATH字段
+        function normalizePath(path) {
+            // 如果为空，返回原值
+            if (!path) return path;
+
+            // 移除 '#' 及其之后的所有内容（注释）
+            let normalizedPath = path.split('#')[0];
+
+            // 去除首尾空格
+            normalizedPath = normalizedPath.trim();
+
+            // 如果第一个字符不是 '/'，则添加 '/'
+            if (normalizedPath && !normalizedPath.startsWith('/')) {
+                normalizedPath = '/' + normalizedPath;
+            }
+
+            return normalizedPath;
+        }
+
+        // 处理PATH输入完成后的规范化
+        function handlePathChange() {
+            const nodePathInput = document.getElementById('nodePATH');
+            const originalValue = nodePathInput.value;
+            const normalizedValue = normalizePath(originalValue);
+
+            // 如果规范化后的值与原值不同，更新输入框
+            if (normalizedValue !== originalValue) {
+                nodePathInput.value = normalizedValue;
+            }
+
+            // 标记为已修改
+            markModified('config');
+        }
+
         function markModified(section) {
             modifiedSections.add(section);
 
@@ -6290,6 +7510,11 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             const configModified = modifiedSections.has('config');
             document.getElementById('saveConfigBtn').disabled = !configModified;
             document.getElementById('cancelConfigBtn').disabled = !configModified;
+
+            // ECH设置模块
+            const echModified = modifiedSections.has('ech');
+            document.getElementById('saveEchBtn').disabled = !echModified;
+            document.getElementById('cancelEchBtn').disabled = !echModified;
 
             // 反代设置模块
             const proxyModified = modifiedSections.has('proxy');
@@ -6417,7 +7642,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             currentConfig.HOSTS = items;
 
             // 更新输入框显示（用逗号连接）
-            nodeHostInput.value = items.join(',');
+            nodeHostInput.value = items.join('、');
 
             // 关闭模态框
             closeHostsEditModal();
@@ -6508,6 +7733,11 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             //currentConfig.传输协议 = currentConfig.协议类型 === 'trojan' ? 'ws' : document.getElementById('transport').value;
             currentConfig.跳过证书验证 = document.getElementById('skipVerify').checked;
 
+            // 保存PATH（如果"完整节点路径"字段存在，表示后端支持编辑PATH）
+            if (currentConfig['完整节点路径'] !== undefined) {
+                currentConfig.PATH = document.getElementById('nodePATH').value;
+            }
+
             // 保存Fingerprint（如果字段存在）
             if (currentConfig['Fingerprint'] !== undefined) {
                 currentConfig['Fingerprint'] = document.getElementById('fingerprint').value;
@@ -6537,14 +7767,32 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 }
             }
 
-            // 保存ECH（如果字段存在）
-            if (currentConfig['ECH'] !== undefined) {
-                currentConfig['ECH'] = document.getElementById('enableECH').checked;
-            }
-
             await saveConfigToServer('config');
             // 更新网页标题
             document.title = `${currentConfig.优选订阅生成?.SUBNAME || 'edgetunnel'}设置页面 - 管理后台`;
+        }
+
+        async function saveEch() {
+            // 保存ECH（如果字段存在）
+            if (currentConfig['ECH'] !== undefined) {
+                currentConfig['ECH'] = document.getElementById('enableECH').checked;
+
+                // 保存ECHConfig.DNS（如果存在）
+                if (currentConfig.ECHConfig?.DNS !== undefined) {
+                    const dnsValue = document.getElementById('echDNSValue').value;
+                    if (dnsValue) {
+                        currentConfig.ECHConfig.DNS = dnsValue;
+                    }
+                }
+
+                // 保存ECHConfig.SNI（如果存在）
+                if (currentConfig.ECHConfig?.SNI !== undefined) {
+                    const sniValue = document.getElementById('echSNIValue').value;
+                    currentConfig.ECHConfig.SNI = sniValue === '' ? null : sniValue;
+                }
+            }
+
+            await saveConfigToServer('ech');
         }
 
         async function saveProxy() {
@@ -6754,6 +8002,18 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 document.getElementById('protocol').value = currentConfig.协议类型 || 'vless';
                 document.getElementById('skipVerify').checked = currentConfig.跳过证书验证 || false;
 
+                // 处理PATH字段的只读状态
+                const nodePathInput = document.getElementById('nodePATH');
+                if (currentConfig['完整节点路径'] !== undefined) {
+                    nodePathInput.removeAttribute('readonly');
+                    nodePathInput.title = '节点的伪装路径';
+                    nodePathInput.onchange = handlePathChange;
+                } else {
+                    nodePathInput.setAttribute('readonly', '');
+                    nodePathInput.title = '节点的伪装路径 仅可通过 \'PATH\'环境变量 进行修改';
+                    nodePathInput.onchange = null;
+                }
+
                 // 重置随机路径（如果字段存在）
                 if (currentConfig['随机路径'] !== undefined) {
                     document.getElementById('randomPath').checked = currentConfig['随机路径'] || false;
@@ -6773,9 +8033,22 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 // 重置ECH（如果字段存在）
                 if (currentConfig['ECH'] !== undefined) {
                     document.getElementById('enableECH').checked = currentConfig['ECH'] || false;
+
+                    // 重置ECHConfig的下拉框
+                    populateEchDNSSelect();
+                    populateEchSNISelect();
                 }
 
                 updateProtocol();
+            } else if (section === 'ech') {
+                // 重置ECH设置
+                if (currentConfig['ECH'] !== undefined) {
+                    document.getElementById('enableECH').checked = currentConfig['ECH'] || false;
+
+                    // 重置ECHConfig的下拉框
+                    populateEchDNSSelect();
+                    populateEchSNISelect();
+                }
             } else if (section === 'proxy') {
                 const socksEnabled = currentConfig.反代?.SOCKS5?.启用;
                 if (!socksEnabled) {
@@ -7369,6 +8642,173 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 simpleDiv.style.display = 'none';
                 detailDiv.style.display = 'block';
             }
+        }
+
+        // ECH 帮助模态框函数
+        function showECHHelpModal() {
+            document.getElementById('echHelpModal').classList.add('show');
+
+            // 计算并设置内容高度以适应浏览器高度
+            setTimeout(() => {
+                calculateECHContentHeight();
+                // 窗口大小改变时重新计算
+                window.addEventListener('resize', calculateECHContentHeight);
+            }, 0);
+        }
+
+        function calculateECHContentHeight() {
+            const modal = document.querySelector('.ech-help-modal');
+            const tabContent = document.querySelector('.ech-tab-content');
+            const tabs = document.querySelector('.ech-tabs');
+            const closeBtn = document.querySelector('#echHelpModal .modal-close');
+            const bottomBtn = document.querySelector('#echHelpModal .btn-close-modal');
+
+            if (!modal || !tabContent) return;
+
+            // 获取浏览器视口高度
+            const viewportHeight = window.innerHeight;
+
+            // 计算各个元素的高度（带上下文margin/padding）
+            const modalPadding = 20; // 模态框内边距
+            const tabsHeight = tabs ? tabs.offsetHeight + 15 : 50; // 选项卡高度 + margin
+            const closeBtnHeight = 40; // 关闭按钮高度
+            const bottomBtnHeight = bottomBtn ? bottomBtn.offsetHeight + 20 : 60; // 底部按钮高度 + margin
+            const headerHeight = 20; // 其他上边距
+
+            // 计算可用的内容高度
+            // viewportHeight - (顶部padding + 选项卡 + 底部按钮 + 底部padding)
+            const availableHeight = viewportHeight - (modalPadding * 2 + tabsHeight + bottomBtnHeight + headerHeight);
+
+            // 设置最大高度，确保不超出视口
+            tabContent.style.maxHeight = Math.max(200, availableHeight) + 'px';
+        }
+
+        function closeECHHelpModal(event) {
+            if (event && event.target.id !== 'echHelpModal') return;
+            document.getElementById('echHelpModal').classList.remove('show');
+        }
+
+        function switchECHTab(tabIndex) {
+            // 切换选项卡按钮状态
+            const tabs = document.querySelectorAll('.ech-tab');
+            tabs.forEach((tab, index) => {
+                if (index === tabIndex) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            // 切换选项卡内容
+            const panes = document.querySelectorAll('.ech-tab-pane');
+            panes.forEach((pane, index) => {
+                if (index === tabIndex) {
+                    pane.classList.add('active');
+                } else {
+                    pane.classList.remove('active');
+                }
+            });
+
+            // 自动滚动到活跃选项卡
+            const activeTab = tabs[tabIndex];
+            if (activeTab) {
+                const tabsContainer = document.querySelector('.ech-tabs');
+                if (tabsContainer) {
+                    activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            }
+        }
+
+        // ECH 选项卡拖拽功能
+        function initECHTabsDrag() {
+            const tabsContainer = document.querySelector('.ech-tabs');
+            if (!tabsContainer) return;
+
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            let isDragged = false;
+
+            tabsContainer.addEventListener('mousedown', (e) => {
+                // 如果点击的是按钮，不启动拖拽
+                if (e.target.closest('.ech-tab')) {
+                    isDown = true;
+                    isDragged = false;
+                    startX = e.pageX - tabsContainer.offsetLeft;
+                    scrollLeft = tabsContainer.scrollLeft;
+                    tabsContainer.classList.add('dragging');
+                }
+            });
+
+            tabsContainer.addEventListener('mouseleave', () => {
+                isDown = false;
+                tabsContainer.classList.remove('dragging');
+            });
+
+            tabsContainer.addEventListener('mouseup', () => {
+                isDown = false;
+                tabsContainer.classList.remove('dragging');
+            });
+
+            tabsContainer.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+
+                const x = e.pageX - tabsContainer.offsetLeft;
+                const walk = (x - startX) * 1; // 拖拽速度
+
+                if (Math.abs(walk) > 5) {
+                    isDragged = true;
+                }
+
+                tabsContainer.scrollLeft = scrollLeft - walk;
+            });
+
+            // 触摸设备支持
+            tabsContainer.addEventListener('touchstart', (e) => {
+                isDown = true;
+                isDragged = false;
+                startX = e.touches[0].pageX - tabsContainer.offsetLeft;
+                scrollLeft = tabsContainer.scrollLeft;
+            });
+
+            tabsContainer.addEventListener('touchend', () => {
+                isDown = false;
+            });
+
+            tabsContainer.addEventListener('touchmove', (e) => {
+                if (!isDown) return;
+
+                const x = e.touches[0].pageX - tabsContainer.offsetLeft;
+                const walk = (x - startX) * 1;
+
+                if (Math.abs(walk) > 5) {
+                    isDragged = true;
+                }
+
+                tabsContainer.scrollLeft = scrollLeft - walk;
+            });
+
+            // 为选项卡按钮添加点击拦截，防止拖拽时误触发
+            const tabs = document.querySelectorAll('.ech-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    if (isDragged) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        isDragged = false;
+                    }
+                });
+            });
+        }
+
+        // 在模态框显示时初始化拖拽
+        const echHelpModalOriginal = showECHHelpModal;
+        showECHHelpModal = function () {
+            echHelpModalOriginal.call(this);
+            setTimeout(() => {
+                initECHTabsDrag();
+            }, 0);
         }
 
         function normalizeSubAPIURL(url) {
@@ -10101,6 +11541,865 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             document.addEventListener('keydown', closeHandler);
 
             document.body.appendChild(modal);
+        }
+
+        // ==================== 获取更多 PROXYIP 相关函数 ====================
+
+        function showGetMoreProxyIPModal() {
+            document.getElementById('getMoreProxyIPModal').classList.add('show');
+            // 默认选中第一个非自定义选项 (HK) 并隐藏自定义输入
+            const select = document.getElementById('proxyRegionSelect');
+            // 查找 HK 选项并选中
+            for (let i = 0; i < select.options.length; i++) {
+                if (select.options[i].value === 'HK') {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+            // 触发一次变更处理，确保UI状态正确
+            onProxyRegionChange();
+        }
+
+        function closeGetMoreProxyIPModal() {
+            document.getElementById('getMoreProxyIPModal').classList.remove('show');
+        }
+
+        function onProxyRegionChange() {
+            const select = document.getElementById('proxyRegionSelect');
+            const customInput = document.getElementById('customRegionInput');
+
+            if (select.value === 'custom') {
+                // 自定义模式：启用输入
+                customInput.value = '';
+                customInput.disabled = false;
+                customInput.focus();
+            } else {
+                // 预选地区模式：禁用输入，自动填充地区代码
+                customInput.value = select.value;
+                customInput.disabled = true;
+            }
+        }
+
+        function openFOFA() {
+            const select = document.getElementById('proxyRegionSelect');
+            const portSelect = document.getElementById('proxyPortSelect');
+            let region = select.value;
+            let port = portSelect.value;
+
+            if (region === 'custom') {
+                const customInput = document.getElementById('customRegionInput');
+                region = customInput.value.trim().toUpperCase();
+                if (!region || region.length !== 2) {
+                    showToast('请输入有效的两位国家代码', 'error');
+                    return;
+                }
+            }
+
+            // 构建查询语句
+            let query = '';
+            // HK 和 TW 使用 region 字段，其他使用 country 字段
+            let regionQuery = '';
+            if (region === 'HK' || region === 'TW') {
+                regionQuery = `region="${region}"`;
+            } else {
+                regionQuery = `country="${region}"`;
+            }
+            
+            // 根据端口选择构建查询
+            let portQuery = '';
+            if (port === '443') {
+                portQuery = `port="443"`;
+            } else if (port === 'nonstandard') {
+                portQuery = `(port!="80" && port!="8080" && port!="8880" && port!="2052" && port!="2082" && port!="2086" && port!="2095" && port!="443" && port!="2053" && port!="2083" && port!="2087" && port!="2096" && port!="8443")`;
+            }
+            
+            query = `server=="cloudflare" && header="Forbidden" && asn!="13335" && asn!="209242" && ${regionQuery} && ${portQuery}`;
+
+            // Base64 编码
+            const qbase64 = btoa(query);
+
+            // 构建 URL
+            const url = `https://fofa.info/result?qbase64=${encodeURIComponent(qbase64)}`;
+
+            // 打开新窗口
+            window.open(url, '_blank');
+        }
+
+        function open360Quake() {
+            const select = document.getElementById('proxyRegionSelect');
+            const portSelect = document.getElementById('proxyPortSelect');
+            let region = select.value;
+            let port = portSelect.value;
+
+            if (region === 'custom') {
+                const customInput = document.getElementById('customRegionInput');
+                region = customInput.value.trim().toUpperCase();
+                if (!region || region.length !== 2) {
+                    showToast('请输入有效的两位国家代码', 'error');
+                    return;
+                }
+            }
+
+            // 基础查询语句
+            const baseQuery = `(app:"Cloudflare" AND header:"Forbidden" AND asn!=13335 AND asn!=209242 AND service: "http/ssl")`;
+            let regionQuery = '';
+            
+            // HK 和 TW 使用 province 字段，其他使用 country 字段
+            if (region === 'HK') {
+                regionQuery = `province: "HongKong"`;
+            } else if (region === 'TW') {
+                regionQuery = `province: "TaiWan"`;
+            }  else if (region === 'MO') {
+                regionQuery = `province: "Macao"`;
+            } else {
+                regionQuery = `country: "${region}"`;
+            }
+            
+            // 根据端口选择构建查询
+            let portQuery = '';
+            if (port === '443') {
+                portQuery = `port: 443`;
+            } else if (port === 'nonstandard') {
+                portQuery = `NOT (port: 80 OR port: 8080 OR port: 8880 OR port: 2052 OR port: 2082 OR port: 2086 OR port: 2095 OR port: 443 OR port: 2053 OR port: 2083 OR port: 2087 OR port: 2096 OR port: 8443)`;
+            }
+            
+            let query = `${baseQuery} AND ${regionQuery} AND ${portQuery}`;
+
+            // URL 编码
+            const searchVal = encodeURIComponent(query);
+            const timestamp = Date.now();
+
+            // 构建 URL
+            const url = `https://quake.360.net/quake/#/searchResult?searchVal=${searchVal}&selectIndex=quake_service&ignore_cache=false&timeRange=&timeRange=&latest=true&t=${timestamp}`;
+
+            // 打开新窗口
+            window.open(url, '_blank');
+        }
+
+        // ==================== SOCKS5 相关函数 ====================
+        
+        // 存储SOCKS5数据
+        let socks5ListData = [];
+        let socks5CountryMap = {};
+        let socks5VerificationStatus = {}; // 存储验证状态
+        let socks5VerificationTimeouts = {}; // 存储超时计时器
+
+        function showExploreSocks5Modal() {
+            const modal = document.getElementById('exploreSocks5Modal');
+            if (!modal) return;
+
+            // 重置状态
+            socks5ListData = [];
+            socks5CountryMap = {};
+            socks5VerificationStatus = {};
+            socks5VerificationTimeouts = {};
+            
+            modal.classList.add('show');
+            document.getElementById('socks5RegionSelect').innerHTML = '<option value="">加载中...</option>';
+            document.getElementById('socks5ProxySelectGroup').style.display = 'none';
+            document.getElementById('socks5LoadingInfo').style.display = 'none';
+            document.getElementById('socks5ConfirmBtn').disabled = true;
+
+            // 加载SOCKS5列表
+            loadSocks5List();
+        }
+
+        function closeExploreSocks5Modal(event) {
+            event.preventDefault();
+            const modal = document.getElementById('exploreSocks5Modal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+            // 清除所有超时计时器
+            for (let timeout of Object.values(socks5VerificationTimeouts)) {
+                clearTimeout(timeout);
+            }
+        }
+
+        function loadSocks5List() {
+            const url = 'https://raw.githubusercontent.com/EDT-Pages/Proxy-List/main/data/socks5.json';
+            
+            fetchWithAutoMirror(url, 'SOCKS5列表')
+                .then(text => {
+                    const data = JSON.parse(text);
+                    socks5ListData = data;
+                    buildCountryMap();
+                    populateSocks5RegionSelect();
+                })
+                .catch(error => {
+                    console.error('加载SOCKS5列表失败:', error);
+                    showToast('加载SOCKS5列表失败: ' + error.message, 'error');
+                    document.getElementById('socks5RegionSelect').innerHTML = '<option value="">加载失败</option>';
+                });
+        }
+
+        function buildCountryMap() {
+            socks5CountryMap = {};
+            
+            // 统计每个国家的SOCKS5数量
+            socks5ListData.forEach(item => {
+                const country = item.country;
+                if (!socks5CountryMap[country]) {
+                    socks5CountryMap[country] = [];
+                }
+                socks5CountryMap[country].push(item);
+            });
+
+            // 按数量排序（多到少）
+            socks5CountryMap = Object.fromEntries(
+                Object.entries(socks5CountryMap).sort((a, b) => b[1].length - a[1].length)
+            );
+        }
+
+        function populateSocks5RegionSelect() {
+            const select = document.getElementById('socks5RegionSelect');
+            let html = '<option value="">-- 请选择地区 --</option>';
+            
+            for (const [country, proxies] of Object.entries(socks5CountryMap)) {
+                html += `<option value="${country}">${country}(${proxies.length})</option>`;
+            }
+            
+            select.innerHTML = html;
+        }
+
+        function onSocks5RegionChange() {
+            const selectedCountry = document.getElementById('socks5RegionSelect').value;
+            
+            if (!selectedCountry) {
+                document.getElementById('socks5ProxySelectGroup').style.display = 'none';
+                document.getElementById('socks5LoadingInfo').style.display = 'none';
+                document.getElementById('socks5ConfirmBtn').disabled = true;
+                return;
+            }
+
+            const proxies = socks5CountryMap[selectedCountry] || [];
+            
+            // 显示加载信息
+            document.getElementById('socks5LoadingInfo').style.display = 'block';
+            document.getElementById('socks5ProxySelectGroup').style.display = 'block';
+            
+            // 初始化每个代理的验证状态
+            proxies.forEach(proxy => {
+                if (!socks5VerificationStatus[proxy.proxy]) {
+                    socks5VerificationStatus[proxy.proxy] = {
+                        status: 'pending', // pending, success, failed, timeout
+                        responseTime: null
+                    };
+                }
+            });
+
+            // 显示代理列表
+            populateSocks5ProxySelect(selectedCountry);
+            
+            // 开始验证所有代理
+            verifySocks5Proxies(proxies);
+        }
+
+        function populateSocks5ProxySelect(selectedCountry) {
+            const select = document.getElementById('socks5ProxySelect');
+            const proxies = socks5CountryMap[selectedCountry] || [];
+            
+            let html = '<option value="">-- 请选择 --</option>';
+            
+            // 获取当前地区的所有代理，并按状态和延迟排序
+            const sortedProxies = [...proxies].sort((a, b) => {
+                const statusA = socks5VerificationStatus[a.proxy];
+                const statusB = socks5VerificationStatus[b.proxy];
+                
+                // 可用的在前面，且按延迟从低到高
+                if (statusA.status === 'success' && statusB.status === 'success') {
+                    return (statusA.responseTime || 0) - (statusB.responseTime || 0);
+                }
+                if (statusA.status === 'success') return -1;
+                if (statusB.status === 'success') return 1;
+                
+                return 0;
+            });
+            
+            sortedProxies.forEach(proxy => {
+                const status = socks5VerificationStatus[proxy.proxy];
+                let emoji = '⏳';
+                let statusText = '验证中';
+                
+                if (status.status === 'success') {
+                    emoji = '✅';
+                    statusText = `${status.responseTime}ms`;
+                } else if (status.status === 'timeout') {
+                    emoji = '🔴';
+                    statusText = '已超时';
+                } else if (status.status === 'failed') {
+                    emoji = '🔴';
+                    statusText = '不可用';
+                }
+                
+                const label = `${emoji}(${statusText}) ${proxy.city} AS${proxy.asn} ${proxy.asOrganization}`;
+                const disabled = status.status !== 'success';
+                html += `<option value="${proxy.proxy}" ${disabled ? 'disabled' : ''}>${label}</option>`;
+            });
+            
+            select.innerHTML = html;
+        }
+
+        function verifySocks5Proxies(proxies) {
+            // 并发控制：最多4个并发请求
+            const maxConcurrent = 4;
+            let currentIndex = 0;
+            let activeRequests = 0;
+
+            function startNextProxy() {
+                if (currentIndex >= proxies.length || activeRequests >= maxConcurrent) {
+                    return;
+                }
+
+                activeRequests++;
+                const proxy = proxies[currentIndex++];
+                
+                verifySingleSocks5(proxy).finally(() => {
+                    activeRequests--;
+                    startNextProxy();
+                });
+            }
+
+            // 启动初始4个请求
+            for (let i = 0; i < Math.min(maxConcurrent, proxies.length); i++) {
+                startNextProxy();
+            }
+        }
+
+        function verifySingleSocks5(proxy) {
+            return new Promise((resolve) => {
+                const { protocol, proxy: proxyUrl } = proxy;
+                const cleanProxy = proxyUrl.replace(protocol + '://', '');
+                const checkUrl = `./admin/check?${protocol}=${encodeURIComponent(cleanProxy)}&_t=${Date.now()}`;
+                
+                // 设置15秒超时
+                const timeoutId = setTimeout(() => {
+                    socks5VerificationStatus[proxyUrl] = {
+                        status: 'timeout',
+                        responseTime: null
+                    };
+                    updateSocks5Display();
+                    resolve();
+                }, 15000);
+                
+                socks5VerificationTimeouts[proxyUrl] = timeoutId;
+                
+                fetch(checkUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        clearTimeout(timeoutId);
+                        delete socks5VerificationTimeouts[proxyUrl];
+                        
+                        if (data.success) {
+                            socks5VerificationStatus[proxyUrl] = {
+                                status: 'success',
+                                responseTime: data.responseTime
+                            };
+                        } else {
+                            socks5VerificationStatus[proxyUrl] = {
+                                status: 'failed',
+                                responseTime: null
+                            };
+                        }
+                        updateSocks5Display();
+                        resolve();
+                    })
+                    .catch(error => {
+                        clearTimeout(timeoutId);
+                        delete socks5VerificationTimeouts[proxyUrl];
+                        
+                        socks5VerificationStatus[proxyUrl] = {
+                            status: 'failed',
+                            responseTime: null
+                        };
+                        updateSocks5Display();
+                        resolve();
+                    });
+            });
+        }
+
+        function updateSocks5Display() {
+            const selectedCountry = document.getElementById('socks5RegionSelect').value;
+            if (selectedCountry) {
+                populateSocks5ProxySelect(selectedCountry);
+            }
+            
+            // 检查是否所有代理都验证完成
+            const proxies = socks5CountryMap[selectedCountry] || [];
+            const allVerified = proxies.every(p => {
+                const status = socks5VerificationStatus[p.proxy];
+                return status && status.status !== 'pending';
+            });
+            
+            if (allVerified) {
+                document.getElementById('socks5LoadingInfo').style.display = 'none';
+            }
+            
+            // 更新确定按钮状态
+            const select = document.getElementById('socks5ProxySelect');
+            const selectedValue = select.value;
+            const isValidSelected = selectedValue && 
+                socks5VerificationStatus[selectedValue] &&
+                socks5VerificationStatus[selectedValue].status === 'success';
+            document.getElementById('socks5ConfirmBtn').disabled = !isValidSelected;
+        }
+
+        function confirmSelectSocks5() {
+            const select = document.getElementById('socks5ProxySelect');
+            const selectedProxy = select.value;
+            
+            if (!selectedProxy) {
+                showToast('请选择一个有效的SOCKS5代理', 'error');
+                return;
+            }
+            
+            // 填入SOCKS5地址
+            const socks5Input = document.getElementById('socks5Addr');
+            if (socks5Input) {
+                socks5Input.value = selectedProxy;
+                socks5Input.dispatchEvent(new Event('change', { bubbles: true }));
+                markModified('proxy');
+            }
+            
+            // 关闭模态框
+            closeExploreSocks5Modal({ preventDefault: () => {} });
+            
+            // 亮起保存和取消按钮
+            const saveBtn = document.getElementById('saveProxyBtn');
+            const cancelBtn = document.getElementById('cancelProxyBtn');
+            if (saveBtn) saveBtn.disabled = false;
+            if (cancelBtn) cancelBtn.disabled = false;
+        }
+
+        function updateSocks5ConfirmButton() {
+            const select = document.getElementById('socks5ProxySelect');
+            const selectedValue = select.value;
+            const confirmBtn = document.getElementById('socks5ConfirmBtn');
+            
+            // 检查选中的代理是否可用
+            const isValidSelected = selectedValue && 
+                socks5VerificationStatus[selectedValue] &&
+                socks5VerificationStatus[selectedValue].status === 'success';
+            
+            if (confirmBtn) {
+                confirmBtn.disabled = !isValidSelected;
+            }
+        }
+
+        // ==================== HTTP 相关函数 ====================
+        
+        // 存储HTTP数据
+        let httpListData = [];
+        let httpCountryMap = {};
+        let httpVerificationStatus = {}; // 存储验证状态
+        let httpVerificationTimeouts = {}; // 存储超时计时器
+
+        function showExploreHTTPModal() {
+            const modal = document.getElementById('exploreHTTPModal');
+            if (!modal) return;
+
+            // 重置状态
+            httpListData = [];
+            httpCountryMap = {};
+            httpVerificationStatus = {};
+            httpVerificationTimeouts = {};
+            
+            modal.classList.add('show');
+            document.getElementById('httpRegionSelect').innerHTML = '<option value="">加载中...</option>';
+            document.getElementById('httpProxySelectGroup').style.display = 'none';
+            document.getElementById('httpLoadingInfo').style.display = 'none';
+            document.getElementById('httpConfirmBtn').disabled = true;
+
+            // 加载HTTP列表
+            loadHTTPList();
+        }
+
+        function closeExploreHTTPModal(event) {
+            event.preventDefault();
+            const modal = document.getElementById('exploreHTTPModal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+            // 清除所有超时计时器
+            for (let timeout of Object.values(httpVerificationTimeouts)) {
+                clearTimeout(timeout);
+            }
+        }
+
+        function loadHTTPList() {
+            const url = 'https://raw.githubusercontent.com/EDT-Pages/Proxy-List/main/data/http.json';
+            
+            fetchWithAutoMirror(url, 'HTTP列表')
+                .then(text => {
+                    const data = JSON.parse(text);
+                    httpListData = data;
+                    buildHTTPCountryMap();
+                    populateHTTPRegionSelect();
+                })
+                .catch(error => {
+                    console.error('加载HTTP列表失败:', error);
+                    showToast('加载HTTP列表失败: ' + error.message, 'error');
+                    document.getElementById('httpRegionSelect').innerHTML = '<option value="">加载失败</option>';
+                });
+        }
+
+        function buildHTTPCountryMap() {
+            httpCountryMap = {};
+            
+            // 统计每个国家的HTTP数量
+            httpListData.forEach(item => {
+                const country = item.country;
+                if (!httpCountryMap[country]) {
+                    httpCountryMap[country] = [];
+                }
+                httpCountryMap[country].push(item);
+            });
+
+            // 按数量排序（多到少）
+            httpCountryMap = Object.fromEntries(
+                Object.entries(httpCountryMap).sort((a, b) => b[1].length - a[1].length)
+            );
+        }
+
+        function populateHTTPRegionSelect() {
+            const select = document.getElementById('httpRegionSelect');
+            let html = '<option value="">-- 请选择地区 --</option>';
+            
+            for (const [country, proxies] of Object.entries(httpCountryMap)) {
+                html += `<option value="${country}">${country}(${proxies.length})</option>`;
+            }
+            
+            select.innerHTML = html;
+        }
+
+        function onHTTPRegionChange() {
+            const selectedCountry = document.getElementById('httpRegionSelect').value;
+            
+            if (!selectedCountry) {
+                document.getElementById('httpProxySelectGroup').style.display = 'none';
+                document.getElementById('httpLoadingInfo').style.display = 'none';
+                document.getElementById('httpConfirmBtn').disabled = true;
+                return;
+            }
+
+            const proxies = httpCountryMap[selectedCountry] || [];
+            
+            // 显示加载信息
+            document.getElementById('httpLoadingInfo').style.display = 'block';
+            document.getElementById('httpProxySelectGroup').style.display = 'block';
+            
+            // 初始化每个代理的验证状态
+            proxies.forEach(proxy => {
+                if (!httpVerificationStatus[proxy.proxy]) {
+                    httpVerificationStatus[proxy.proxy] = {
+                        status: 'pending', // pending, success, failed, timeout
+                        responseTime: null
+                    };
+                }
+            });
+
+            // 显示代理列表
+            populateHTTPProxySelect(selectedCountry);
+            
+            // 开始验证所有代理
+            verifyHTTPProxies(proxies);
+        }
+
+        function populateHTTPProxySelect(selectedCountry) {
+            const select = document.getElementById('httpProxySelect');
+            const proxies = httpCountryMap[selectedCountry] || [];
+            
+            let html = '<option value="">-- 请选择 --</option>';
+            
+            // 获取当前地区的所有代理，并按状态和延迟排序
+            const sortedProxies = [...proxies].sort((a, b) => {
+                const statusA = httpVerificationStatus[a.proxy];
+                const statusB = httpVerificationStatus[b.proxy];
+                
+                // 可用的在前面，且按延迟从低到高
+                if (statusA.status === 'success' && statusB.status === 'success') {
+                    return (statusA.responseTime || 0) - (statusB.responseTime || 0);
+                }
+                if (statusA.status === 'success') return -1;
+                if (statusB.status === 'success') return 1;
+                
+                return 0;
+            });
+            
+            sortedProxies.forEach(proxy => {
+                const status = httpVerificationStatus[proxy.proxy];
+                let emoji = '⏳';
+                let statusText = '验证中';
+                
+                if (status.status === 'success') {
+                    emoji = '✅';
+                    statusText = `${status.responseTime}ms`;
+                } else if (status.status === 'timeout') {
+                    emoji = '🔴';
+                    statusText = '已超时';
+                } else if (status.status === 'failed') {
+                    emoji = '🔴';
+                    statusText = '不可用';
+                }
+                
+                const label = `${emoji}(${statusText}) ${proxy.city} AS${proxy.asn} ${proxy.asOrganization}`;
+                const disabled = status.status !== 'success';
+                html += `<option value="${proxy.proxy}" ${disabled ? 'disabled' : ''}>${label}</option>`;
+            });
+            
+            select.innerHTML = html;
+        }
+
+        function verifyHTTPProxies(proxies) {
+            // 并发控制：最多4个并发请求
+            const maxConcurrent = 4;
+            let currentIndex = 0;
+            let activeRequests = 0;
+
+            function startNextProxy() {
+                if (currentIndex >= proxies.length || activeRequests >= maxConcurrent) {
+                    return;
+                }
+
+                activeRequests++;
+                const proxy = proxies[currentIndex++];
+                
+                verifySingleHTTP(proxy).finally(() => {
+                    activeRequests--;
+                    startNextProxy();
+                });
+            }
+
+            // 启动初始4个请求
+            for (let i = 0; i < Math.min(maxConcurrent, proxies.length); i++) {
+                startNextProxy();
+            }
+        }
+
+        function verifySingleHTTP(proxy) {
+            return new Promise((resolve) => {
+                const { protocol, proxy: proxyUrl } = proxy;
+                const cleanProxy = proxyUrl.replace(protocol + '://', '');
+                const checkUrl = `./admin/check?${protocol}=${encodeURIComponent(cleanProxy)}&_t=${Date.now()}`;
+                
+                // 设置15秒超时
+                const timeoutId = setTimeout(() => {
+                    httpVerificationStatus[proxyUrl] = {
+                        status: 'timeout',
+                        responseTime: null
+                    };
+                    updateHTTPDisplay();
+                    resolve();
+                }, 15000);
+                
+                httpVerificationTimeouts[proxyUrl] = timeoutId;
+                
+                fetch(checkUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        clearTimeout(timeoutId);
+                        delete httpVerificationTimeouts[proxyUrl];
+                        
+                        if (data.success) {
+                            httpVerificationStatus[proxyUrl] = {
+                                status: 'success',
+                                responseTime: data.responseTime
+                            };
+                        } else {
+                            httpVerificationStatus[proxyUrl] = {
+                                status: 'failed',
+                                responseTime: null
+                            };
+                        }
+                        updateHTTPDisplay();
+                        resolve();
+                    })
+                    .catch(error => {
+                        clearTimeout(timeoutId);
+                        delete httpVerificationTimeouts[proxyUrl];
+                        
+                        httpVerificationStatus[proxyUrl] = {
+                            status: 'failed',
+                            responseTime: null
+                        };
+                        updateHTTPDisplay();
+                        resolve();
+                    });
+            });
+        }
+
+        function updateHTTPDisplay() {
+            const selectedCountry = document.getElementById('httpRegionSelect').value;
+            if (selectedCountry) {
+                populateHTTPProxySelect(selectedCountry);
+            }
+            
+            // 检查是否所有代理都验证完成
+            const proxies = httpCountryMap[selectedCountry] || [];
+            const allVerified = proxies.every(p => {
+                const status = httpVerificationStatus[p.proxy];
+                return status && status.status !== 'pending';
+            });
+            
+            if (allVerified) {
+                document.getElementById('httpLoadingInfo').style.display = 'none';
+            }
+            
+            // 更新确定按钮状态
+            const select = document.getElementById('httpProxySelect');
+            const selectedValue = select.value;
+            const isValidSelected = selectedValue && 
+                httpVerificationStatus[selectedValue] &&
+                httpVerificationStatus[selectedValue].status === 'success';
+            document.getElementById('httpConfirmBtn').disabled = !isValidSelected;
+        }
+
+        function confirmSelectHTTP() {
+            const select = document.getElementById('httpProxySelect');
+            const selectedProxy = select.value;
+            
+            if (!selectedProxy) {
+                showToast('请选择一个有效的HTTP代理', 'error');
+                return;
+            }
+            
+            // 填入HTTP地址
+            const httpInput = document.getElementById('httpAddr');
+            if (httpInput) {
+                httpInput.value = selectedProxy;
+                httpInput.dispatchEvent(new Event('change', { bubbles: true }));
+                markModified('proxy');
+            }
+            
+            // 关闭模态框
+            closeExploreHTTPModal({ preventDefault: () => {} });
+            
+            // 亮起保存和取消按钮
+            const saveBtn = document.getElementById('saveProxyBtn');
+            const cancelBtn = document.getElementById('cancelProxyBtn');
+            if (saveBtn) saveBtn.disabled = false;
+            if (cancelBtn) cancelBtn.disabled = false;
+        }
+
+        function updateHTTPConfirmButton() {
+            const select = document.getElementById('httpProxySelect');
+            const selectedValue = select.value;
+            const confirmBtn = document.getElementById('httpConfirmBtn');
+            
+            // 检查选中的代理是否可用
+            const isValidSelected = selectedValue && 
+                httpVerificationStatus[selectedValue] &&
+                httpVerificationStatus[selectedValue].status === 'success';
+            
+            if (confirmBtn) {
+                confirmBtn.disabled = !isValidSelected;
+            }
+        }
+
+        // ============ HOSTS 检查相关函数 ============
+
+        // 检查当前访问域名是否在 HOSTS 数组中
+        function checkHostsMismatch() {
+            const currentHostname = window.location.hostname;
+            const hosts = currentConfig.HOSTS || [];
+            
+            // 检查当前 hostname 是否存在于 HOSTS 数组中
+            const isHostInArray = hosts.some(host => {
+                // 移除端口号后进行比较
+                const hostWithoutPort = host.split(':')[0];
+                return hostWithoutPort === currentHostname;
+            });
+
+            if (!isHostInArray && hosts.length > 0) {
+                // 检查缓存，是否在 24 小时内已提示过
+                if (shouldShowHostsMismatchNotification()) {
+                    showHostsMismatchNotification(currentHostname, hosts);
+                }
+            }
+        }
+
+        // 检查是否应该显示 HOSTS 不匹配提示
+        function shouldShowHostsMismatchNotification() {
+            const cacheKey = 'hostsMismatchNotificationTime';
+            const cachedTime = localStorage.getItem(cacheKey);
+            
+            if (!cachedTime) {
+                // 没有缓存，应该显示
+                return true;
+            }
+
+            const lastNotificationTime = parseInt(cachedTime, 10);
+            const currentTime = Date.now();
+            const twentyFourHours = 24 * 60 * 60 * 1000; // 24 小时毫秒数
+
+            // 检查是否超过 24 小时
+            return (currentTime - lastNotificationTime) > twentyFourHours;
+        }
+
+        // 显示 HOSTS 不匹配提示
+        function showHostsMismatchNotification(currentHostname, hosts) {
+            // 填充模态框中的内容
+            const currentHostnameEl = document.getElementById('currentHostname');
+            const hostToAddEl = document.getElementById('hostToAdd');
+            const currentHostsEl = document.getElementById('currentHosts');
+            
+            if (currentHostnameEl) {
+                currentHostnameEl.textContent = currentHostname;
+            }
+            if (hostToAddEl) {
+                hostToAddEl.textContent = currentHostname;
+            }
+            
+            // 填充当前 HOSTS 列表 - 用 HTML badge 而不是纯文本
+            if (currentHostsEl) {
+                // 清空并用 HTML 结构重新填充
+                currentHostsEl.innerHTML = '';
+                
+                hosts.forEach((host) => {
+                    const badge = document.createElement('span');
+                    badge.className = 'hosts-badge';
+                    badge.textContent = host;
+                    currentHostsEl.appendChild(badge);
+                });
+            }
+            
+            // 显示模态框
+            const overlay = document.getElementById('hostsMismatchModal');
+            if (overlay) {
+                const modal = overlay.querySelector('.modal');
+                overlay.classList.add('show');
+                console.log('✓ 域名不匹配提示已显示');
+            } else {
+                console.error('✗ 无法找到 hostsMismatchModal 元素');
+            }
+        }
+
+        // 关闭 HOSTS 不匹配提示模态框
+        function closeHostsMismatchModal(event) {
+            // 如果有事件对象且点击的不是 overlay 本身，则返回
+            if (event && event.target && event.target.id !== 'hostsMismatchModal') {
+                return;
+            }
+            
+            const overlay = document.getElementById('hostsMismatchModal');
+            if (overlay) {
+                overlay.classList.remove('show');
+            }
+        }
+
+        // 处理"知道了！24小时内不提示"按钮
+        function dismissHostsMismatchNotification() {
+            const cacheKey = 'hostsMismatchNotificationTime';
+            const currentTime = Date.now();
+            
+            // 将当前时间戳保存到 localStorage
+            localStorage.setItem(cacheKey, currentTime.toString());
+            
+            // 关闭模态框
+            closeHostsMismatchModal({ target: { id: 'hostsMismatchModal' } });
+            
+            // 显示确认提示
+            showToast('24小时内不会再提示', 'info');
         }
 
     </script>

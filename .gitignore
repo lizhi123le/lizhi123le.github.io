@@ -1,5 +1,6 @@
 # VS Code 设置
 .vscode/
+demo/
 
 # 操作系统
 .DS_Store
