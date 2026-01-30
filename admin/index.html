@@ -11860,13 +11860,6 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 return status && status.status !== 'pending';
             });
 
-            let html;
-            if (allVerified) {
-                html = '<option value="">可用性验证完成，请选择...</option>';
-            } else {
-                html = '<option value="">正在验证可用性，请稍候...</option>';
-            }
-
             // 获取当前地区的所有代理，并按状态和延迟排序
             const sortedProxies = [...proxies].sort((a, b) => {
                 const statusA = verificationStatus[a.proxy];
@@ -11882,40 +11875,36 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 return 0;
             });
 
-            sortedProxies.forEach(proxy => {
-                const status = verificationStatus[proxy.proxy];
-                let emoji = '⏳';
-                let statusText = '验证中';
+            // 检查是否有成功的代理
+            const successfulProxies = sortedProxies.filter(proxy => verificationStatus[proxy.proxy]?.status === 'success');
 
-                if (status.status === 'success') {
-                    emoji = '✅';
-                    statusText = `${status.responseTime}ms`;
-                } else if (status.status === 'timeout') {
-                    emoji = '🔴';
-                    statusText = '已超时';
-                } else if (status.status === 'failed') {
-                    emoji = '🔴';
-                    statusText = '不可用';
-                }
-
-                const label = `${emoji}[${statusText}]${proxy.city},AS${proxy.asn},${proxy.asOrganization}`;
-                const disabled = status.status !== 'success';
-                html += `<option value="${proxy.proxy}" ${disabled ? 'disabled' : ''}>${label}</option>`;
-            });
+            let html;
+            if (successfulProxies.length > 0) {
+                // 有成功的代理，直接显示并默认选中第一个
+                html = '';
+                successfulProxies.forEach((proxy, index) => {
+                    const status = verificationStatus[proxy.proxy];
+                    const label = `✅[${status.responseTime}ms]${proxy.city},AS${proxy.asn},${proxy.asOrganization}`;
+                    html += `<option value="${proxy.proxy}" ${index === 0 ? 'selected' : ''}>${label}</option>`;
+                });
+            } else if (allVerified) {
+                // 验证完成但没有成功的代理
+                html = '<option value="">很抱歉，当前地区无可用代理，请切换其他地区。</option>';
+            } else {
+                // 验证中
+                html = '<option value="">正在验证可用性，请稍候...</option>';
+            }
 
             select.innerHTML = html;
 
-            // 恢复用户的选择（如果该选项仍然存在且有效）
-            if (currentValue && currentValue !== '') {
-                const optionExists = Array.from(select.options).some(option => option.value === currentValue);
-                if (optionExists) {
-                    select.value = currentValue;
-                }
+            // 如果有成功的代理且之前没有选中值，选中第一个
+            if (successfulProxies.length > 0 && !select.value) {
+                select.value = successfulProxies[0].proxy;
             }
         }
 
         // 通用代理验证函数
-        function verifyProxies(proxies, verifySingleFunction) {
+        function verifyProxies(proxies, verifySingleFunction, onProgress) {
             // 并发控制：最多8个并发请求
             const maxConcurrent = 8;
             let currentIndex = 0;
@@ -11931,6 +11920,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
 
                 verifySingleFunction(proxy).finally(() => {
                     activeRequests--;
+                    if (onProgress) onProgress();
                     startNextProxy();
                 });
             }
@@ -12080,7 +12070,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             populateProxySelect(selectedCountry, config.proxySelectId, window[config.countryMap], window[config.verificationStatus]);
 
             // 开始验证所有代理
-            verifyProxies(proxies, config.verifySingleFunction);
+            verifyProxies(proxies, config.verifySingleFunction, () => updateProxyDisplay(type));
         }
 
         function updateProxyDisplay(type) {
