@@ -11913,7 +11913,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 html = '<option value="">很抱歉，当前地区无可用代理，请切换其他地区。</option>';
             } else {
                 // 验证中，显示代理列表
-                html = '';
+                html = '<option value="">正在验证代理可用性，请稍候...</option>';
                 sortedProxies.forEach(proxy => {
                     html += generateProxyOption(proxy, false);
                 });
