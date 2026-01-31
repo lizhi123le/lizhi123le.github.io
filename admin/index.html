@@ -684,9 +684,9 @@
                 /* 改为上下排列方式（竖直方向） */
                 flex-direction: column;
                 /* 最大高度：浏览器可视区高度 - 100px（为顶部导航栏和按钮留出空间） */
-                max-height: calc(100vh - 200px);
+                max-height: calc(100vh - 100px);
                 /* 设置实际高度为最大高度，充分利用屏幕空间 */
-                height: calc(100vh - 200px);
+                height: calc(100vh - 100px);
             }
 
             /* 地图区域样式 - 放在上半部分 */
@@ -695,8 +695,10 @@
                 flex: 1;
                 /* 高度自动计算 */
                 height: auto;
-                /* 最小高度180px，防止地图太小 */
-                min-height: 180px;
+                /* 最小高度120px，缩小地图以保护下面的按钮显示空间 */
+                min-height: 120px;
+                /* 最大高度限制，确保下面的下拉框和按钮不会被压挤 */
+                max-height: calc(100vh - 280px);
                 /* 宽度铺满整个宽度 */
                 width: 100%;
             }
@@ -705,6 +707,8 @@
             .modal-content-side {
                 /* flex: 0 0 auto 表示不伸缩，只占用内容所需高度 */
                 flex: 0 0 auto;
+                /* 设置最小高度，确保下拉框和按钮完整显示 */
+                min-height: 180px;
                 /* 取消最大高度限制，让内容自适应 */
                 max-height: none;
                 /* 内边距 */
@@ -718,10 +722,10 @@
 
         /* 
         调整指南：
-        1. 减小地图高度？改 min-height 值（如改为180px让地图更紧凑）
-        2. 增加地图高度？改 min-height 值（如改为250px给地图更多空间）
-        3. 整个弹窗太高？改 calc(100vh - 100px) 中的100，改成150让弹窗更小
-        4. 整个弹窗太矮？改 calc(100vh - 100px) 中的100，改成50让弹窗更大
+        1. 下拉框/按钮显示不完整？增加 .modal-content-side 的 min-height（如改为200px）
+        2. 下拉框/按钮显示完整，但想给地图更多空间？减小 .modal-content-side 的 min-height（如改为150px）
+        3. 地图太小？增加 .modal-map-side 的 min-height（如改为150px）或减小 max-height 的280值（如改为250）
+        4. 地图太大压挤按钮？减小 .modal-map-side 的 min-height（如改为100px）或增加 max-height 的280值（如改为300）
         */
 
         html.dark-mode .modal-content-side {
