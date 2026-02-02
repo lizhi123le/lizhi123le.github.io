@@ -2717,6 +2717,45 @@
             color: #1f2937 !important;
         }
 
+        #subAPISelect {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #fff;
+            color: #1f2937;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #subAPISelect:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        #subAPISelect:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        html.dark-mode #subAPISelect {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            border-color: #4b5563;
+        }
+
+        html.dark-mode #subAPISelect:hover {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+        }
+
+        html.dark-mode #subAPISelect:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+        }
+
         /* 节点链接输入包装器 */
         .link-input-wrapper {
             display: flex;
@@ -5917,7 +5956,13 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             <button type="button" class="modal-close" onclick="closeSubAPIModal()">×</button>
             <h2 class="subapi-modal-title">⚙️ 订阅转换后端</h2>
             <div class="form-group subapi-form-group">
-                <label>订阅转换后端地址</label>
+                <label>选择后端服务</label>
+                <select id="subAPISelect" onchange="handleSubAPISelectChange()">
+                    <option value="">-- 加载中，请稍候 --</option>
+                </select>
+            </div>
+            <div class="form-group subapi-form-group" id="customSubAPIInputGroup" style="display: none;">
+                <label>自定义后端地址</label>
                 <input type="text" id="testSubAPIInput" placeholder="输入订阅转换后端地址">
             </div>
             <div id="subAPIStatus" class="subapi-status"></div>
@@ -9407,12 +9452,14 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
 
         function openSubAPIModal() {
             const currentValue = document.getElementById('subAPI').value;
-            document.getElementById('testSubAPIInput').value = currentValue;
             document.getElementById('subAPIStatus').style.display = 'none';
             document.getElementById('subAPIStatus').textContent = '';
             document.getElementById('subAPIConfirmBtn').disabled = true;
             document.getElementById('subAPIConfirmBtn').style.opacity = '0.5';
             document.getElementById('subAPIModal').classList.add('show');
+            
+            // 加载 SUBAPI 列表
+            loadSubAPIList(currentValue);
         }
 
         function closeSubAPIModal(event) {
@@ -9420,6 +9467,85 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             document.getElementById('subAPIModal').classList.remove('show');
             document.getElementById('testSubAPIInput').value = '';
             document.getElementById('subAPIStatus').style.display = 'none';
+        }
+
+        async function loadSubAPIList(currentValue) {
+            const selectEl = document.getElementById('subAPISelect');
+            selectEl.innerHTML = '<option value="">-- 加载中，请稍候 --</option>';
+            
+            try {
+                const jsonText = await fetchWithAutoMirror(
+                    'https://raw.githubusercontent.com/cmliu/cmliu/main/SUBAPI.json',
+                    'SUBAPI 列表'
+                );
+                
+                const apiList = JSON.parse(jsonText);
+                
+                // 清空选项
+                selectEl.innerHTML = '';
+                
+                // 添加 API 列表的选项
+                apiList.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.value;
+                    option.textContent = item.label;
+                    selectEl.appendChild(option);
+                });
+                
+                // 添加自定义选项
+                const customOption = document.createElement('option');
+                customOption.value = 'custom';
+                customOption.textContent = '🔧 自定义';
+                selectEl.appendChild(customOption);
+                
+                // 尝试匹配当前值（大小写不敏感比较）
+                if (currentValue && currentValue.trim()) {
+                    const currentValueLower = currentValue.trim().toLowerCase();
+                    const matchedOption = Array.from(selectEl.options).find(
+                        opt => opt.value.toLowerCase() === currentValueLower
+                    );
+                    if (matchedOption) {
+                        // 找到了匹配的选项
+                        selectEl.value = matchedOption.value;
+                        document.getElementById('customSubAPIInputGroup').style.display = 'none';
+                        document.getElementById('testSubAPIInput').value = '';
+                    } else {
+                        // 没有找到匹配的选项，说明是自定义的
+                        selectEl.value = 'custom';
+                        document.getElementById('testSubAPIInput').value = currentValue.trim();
+                        document.getElementById('customSubAPIInputGroup').style.display = 'block';
+                    }
+                } else {
+                    // 没有当前值，显示第一个选项
+                    selectEl.value = '';
+                    document.getElementById('customSubAPIInputGroup').style.display = 'none';
+                    document.getElementById('testSubAPIInput').value = '';
+                }
+            } catch (error) {
+                console.error('加载 SUBAPI 列表失败:', error);
+                selectEl.innerHTML = '<option value="custom">🔧 自定义</option>';
+                selectEl.value = 'custom';
+                document.getElementById('customSubAPIInputGroup').style.display = 'block';
+                if (currentValue && currentValue.trim()) {
+                    document.getElementById('testSubAPIInput').value = currentValue.trim();
+                } else {
+                    document.getElementById('testSubAPIInput').value = '';
+                }
+            }
+        }
+
+        function handleSubAPISelectChange() {
+            const selectEl = document.getElementById('subAPISelect');
+            const customInputGroup = document.getElementById('customSubAPIInputGroup');
+            const testInput = document.getElementById('testSubAPIInput');
+            
+            if (selectEl.value === 'custom') {
+                customInputGroup.style.display = 'block';
+                testInput.focus();
+            } else {
+                customInputGroup.style.display = 'none';
+                testInput.value = selectEl.value;
+            }
         }
 
         // ProxyIP 帮助模态框函数
@@ -9636,7 +9762,18 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
         }
 
         async function testSubAPI() {
-            const input = document.getElementById('testSubAPIInput').value.trim();
+            let input;
+            const selectEl = document.getElementById('subAPISelect');
+            
+            if (selectEl.value === 'custom' || !selectEl.value) {
+                // 如果是自定义或未选择，从输入框获取
+                input = document.getElementById('testSubAPIInput').value.trim();
+            } else {
+                // 否则从下拉框获取
+                input = selectEl.value.trim();
+                document.getElementById('testSubAPIInput').value = input;
+            }
+            
             if (!input) {
                 showStatus('请输入地址', 'error');
                 return;
