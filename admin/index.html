@@ -2682,7 +2682,32 @@
         .subapi-buttons {
             display: flex;
             gap: 10px;
+            justify-content: space-between;
             margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .subapi-buttons {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .btn-test-api {
+                grid-column: 1 / -1 !important;
+                grid-row: 1 !important;
+            }
+
+            .btn-confirm-api {
+                grid-column: 1 !important;
+                grid-row: 2 !important;
+            }
+
+            .btn-cancel-api {
+                grid-column: 2 !important;
+                grid-row: 2 !important;
+            }
         }
 
         /* 输入字段特殊样式 */
