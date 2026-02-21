@@ -13243,7 +13243,21 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
         }
 
         // 通用代理验证函数
+        // Fisher-Yates 打乱算法 - 随机打乱数组顺序
+        function shuffleArray(array) {
+            const shuffled = [...array]; // 创建副本，不修改原数组
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                // 交换元素
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
         function verifyProxies(proxies, verifySingleFunction, onProgress, signal) {
+            // 打乱代理列表的顺序，避免多个用户同时测试时都从头开始
+            const shuffledProxies = shuffleArray(proxies);
+            
             // 并发控制：最多8个并发请求
             const maxConcurrent = 8;
             let currentIndex = 0;
@@ -13251,12 +13265,12 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
 
             function startNextProxy() {
                 if (signal && signal.aborted) return;
-                if (currentIndex >= proxies.length || activeRequests >= maxConcurrent) {
+                if (currentIndex >= shuffledProxies.length || activeRequests >= maxConcurrent) {
                     return;
                 }
 
                 activeRequests++;
-                const proxy = proxies[currentIndex++];
+                const proxy = shuffledProxies[currentIndex++];
 
                 verifySingleFunction(proxy, signal).finally(() => {
                     activeRequests--;
@@ -13265,8 +13279,8 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 });
             }
 
-            // 启动初始4个请求
-            for (let i = 0; i < Math.min(maxConcurrent, proxies.length); i++) {
+            // 启动初始8个请求
+            for (let i = 0; i < Math.min(maxConcurrent, shuffledProxies.length); i++) {
                 startNextProxy();
             }
         }
