@@ -4558,6 +4558,67 @@
             display: block;
         }
 
+        #transportGrpcModal {
+            z-index: 2100000000;
+        }
+
+        #transportGrpcModal .modal {
+            max-width: 500px;
+            z-index: 2100000001;
+        }
+
+        .grpc-modal-path {
+            margin: 0 0 16px 0;
+            padding: 12px;
+            border-radius: 8px;
+            background: #fff5f5;
+            border: 1px solid #ffcdd2;
+            text-align: left;
+            font-size: 13px;
+            font-family: Consolas, Monaco, 'Courier New', monospace;
+            line-height: 1.7;
+            color: #b71c1c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        html.dark-mode .grpc-modal-path {
+            background: #4a2424;
+            border-color: #7f1d1d;
+            color: #ffb4ae;
+        }
+
+        .grpc-modal-path-icon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            fill: currentColor;
+        }
+
+        .grpc-modal-confirm-btn {
+            flex: 1;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);
+        }
+
+        .grpc-modal-confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(22, 163, 74, 0.45);
+            background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+        }
+
+        .grpc-modal-confirm-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
+        }
+
+        html.dark-mode .grpc-modal-confirm-btn {
+            background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+        }
+
         .tooltip-header {
             font-weight: bold;
             margin-bottom: 10px;
@@ -5704,6 +5765,23 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                         </select>
                     </div>
 
+                    <div class="form-group" id="transportGroup" style="display: none;">
+                        <label>传输协议</label>
+                        <select id="transport" title="传输协议" onchange="handleTransportChange()">
+                            <option value="ws">WebSocket 稳！</option>
+                            <option value="xhttp">XHTTP 大量消耗请求数！</option>
+                            <option value="grpc">gRPC 花里胡笑！</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="grpcModeGroup" style="display: none;">
+                        <label for="grpcMode">gRPC模式</label>
+                        <select id="grpcMode" title="gRPC模式" onchange="markModified('config')">
+                            <option value="gun">gun 普通模式</option>
+                            <option value="multi">multi 并发模式</option>
+                        </select>
+                    </div>
+
                     <div class="form-group" id="fingerprintGroup">
                         <label for="fingerprint">指纹伪装</label>
                         <select id="fingerprint" title="浏览器指纹"
@@ -5721,15 +5799,6 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                         </select>
                     </div>
 
-                    <!--- 节点配置 
-                <div class="form-group">
-                    <label>传输协议</label>
-                    <select id="transport" onchange="markModified('config')">
-                        <option value="ws">WebSocket</option>
-                        <option value="xhttp">XHTTP</option>
-                    </select>
-                </div>
-                --->
                     <div class="checkbox-row">
                         <div class="form-group" id="skipVerifyGroup" style="display: none;">
                             <div class="input-wrapper">
@@ -5820,13 +5889,13 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                         </div>
                     </div>
 
-                    <div class="form-group" id="echDNSGroup" style="display: none; align-items: start;">
-                        <label for="echDNSSelect" style="padding-top: 10px;">ECH DNS服务</label>
+                    <div class="form-group" id="echDNSGroup" title="用于获取 EchConfig 的DNS服务"
+                        style="display: none; align-items: start;">
+                        <label for="echDNSSelect" style="padding-top: 10px;">EchConfig DNS服务</label>
                         <div class="input-wrapper" style="flex-direction: column; align-items: stretch;">
-                            <select id="echDNSSelect" title="ECH DNS服务" style="display: none;"
-                                onchange="onEchDNSSelectChange()">
+                            <select id="echDNSSelect" style="display: none;" onchange="onEchDNSSelectChange()">
                                 <option value="udp://208.67.220.220:443" data-region="international">
-                                    udp://208.67.220.220:443（OpenDNS）小白推荐选这个！！！</option>
+                                    udp://208.67.220.220:443（OpenDNS）</option>
                                 <option value="udp://149.112.112.112:9953" data-region="international">
                                     udp://149.112.112.112:9953（Quad9）</option>
                                 <option value="udp://45.90.28.0:5353" data-region="international">
@@ -5842,7 +5911,8 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                                 <option value="https://doh.cmliussss.com/CMLiussss" data-region="international">
                                     https://doh.cmliussss.com/CMLiussss（Google DoH：CM镜像）</option>
                                 <option value="https://dns.alidns.com/dns-query" data-region="domestic">
-                                    https://dns.alidns.com/dns-query（阿里 DoH：国内DNS需搭配设置ECH解析域名，是否可用需自行验证）小白推荐选这个！！！</option>
+                                    https://dns.alidns.com/dns-query（阿里 DoH：国内DNS需搭配设置ECH解析域名，是否可用需自行验证）小白推荐选这个！！！
+                                </option>
                                 <option value="https://sm2.doh.pub/dns-query" data-region="domestic">
                                     https://sm2.doh.pub/dns-query（腾讯国密 DoH：国内DNS需搭配设置ECH解析域名，是否可用需自行验证）</option>
                                 <option value="https://doh.360.cn/dns-query" data-region="domestic">
@@ -5858,13 +5928,15 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                         </div>
                     </div>
 
-                    <div class="form-group" id="echSNIGroup" style="display: none; align-items: start;">
-                        <label for="echSNISelect" style="padding-top: 10px;">ECH 解析域名</label>
+                    <div class="form-group" id="echSNIGroup"
+                        title="用于解析 EchConfig 的域名，并非ECH伪装域名！CF ECH伪装域名均为 cloudflare-ech.com ！！！"
+                        style="display: none; align-items: start;">
+                        <label for="echSNISelect" style="padding-top: 10px;">EchConfig 解析域名</label>
                         <div class="input-wrapper" style="flex-direction: column; align-items: stretch;">
-                            <select id="echSNISelect" title="ECH 解析域名" style="display: none;"
-                                onchange="onEchSNISelectChange()">
-                                <option value="__AUTO__">自动获取（使用节点伪装域名）</option>
-                                <option value="cloudflare-ech.com">cloudflare-ech.com（Cloudflare ECH域名）小白推荐选这个！！！</option>
+                            <select id="echSNISelect" style="display: none;" onchange="onEchSNISelectChange()">
+                                <option value="__AUTO__">自动获取（使用节点的伪装域名解析 EchConfig）</option>
+                                <option value="cloudflare-ech.com">cloudflare-ech.com（Cloudflare ECH域名）小白推荐选这个！！！
+                                </option>
                                 <option value="crypto.cloudflare.com">crypto.cloudflare.com（Cloudflare密码学服务）</option>
                                 <option value="encryptedsni.com">encryptedsni.com（Cloudflare加密SNI）</option>
                                 <option value="icook.hk">icook.hk（愛料理 HK）</option>
@@ -6882,7 +6954,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                             <li style="margin-bottom: 12px; color: var(--text-secondary);">打开节点的 <strong>「⚙️
                                     详细配置信息」</strong></li>
                             <li style="margin-bottom: 12px; color: var(--text-secondary);">在 <strong>HOST</strong>
-                                中手动填写一个 <strong>已被墙的域名</strong>，例如： <code
+                                中手动填写一个 <strong>你当前项目的已被墙的域名</strong>，例如： <code
                                     style="background: #e9ecef; padding: 2px 4px; border-radius: 3px;">*.workers.dev</code>
                             </li>
                             <li style="margin-bottom: 12px; color: var(--text-secondary);">保存配置后 <strong>重新更新订阅</strong>
@@ -7192,6 +7264,40 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                         取消
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- gRPC 功能提示弹窗 -->
+    <div class="modal-overlay" id="transportGrpcModal" onclick="closeTransportGrpcModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <button type="button" class="modal-close" onclick="hideTransportGrpcTooltip()">×</button>
+            <div style="text-align: center; padding: 20px 0;">
+                <h2 style="color: #f44336; margin: 0 0 16px 0; font-size: 22px; font-weight: 700;">⚠️ gRPC 功能提示</h2>
+                <p style="margin: 0 0 12px 0; font-size: 14px; line-height: 1.6; text-align: left;">
+                    当前你选择了 <strong>XHTTP</strong> 或 <strong>gRPC</strong> 传输协议。
+                </p>
+                <p style="margin: 0 0 12px 0; font-size: 14px; line-height: 1.6; text-align: left; color: #f44336;">
+                    请前往 <a href="https://dash.cloudflare.com/" target="_blank" rel="noopener noreferrer">Cloudflare
+                        面板</a> 为当前域名开启
+                    <strong>gRPC</strong>，否则节点可能无法连接。
+                </p>
+                <div class="grpc-modal-path">
+                    <svg class="grpc-modal-path-icon" role="presentation" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <path
+                            d="M8 1.363A5.083 5.083 0 002.922 6.44c0 3.5 4.448 9.25 4.638 9.48h.785c.195-.25 4.732-6 4.732-9.485A5.083 5.083 0 008 1.363zm-.043 13.42c-1.08-1.478-4.035-5.75-4.035-8.343a4.078 4.078 0 118.155 0c0 2.588-3.017 6.867-4.12 8.343z">
+                        </path>
+                        <path
+                            d="M7.98 4.25a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5zm0 3.5A1.25 1.25 0 119.23 6.5a1.25 1.25 0 01-1.25 1.268V7.75z">
+                        </path>
+                    </svg>
+                    <span>网络 (Network) &gt; gRPC &gt; 开启 ✅</span>
+                </div>
+            </div>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <button type="button" class="btn grpc-modal-confirm-btn" onclick="hideTransportGrpcTooltip()">我已开启
+                    gRPC</button>
             </div>
         </div>
     </div>
@@ -7734,7 +7840,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             document.getElementById('nodeUUID').value = currentConfig.UUID || '';
             document.getElementById('nodePATH').value = currentConfig.PATH || '';
             document.getElementById('protocol').value = currentConfig.协议类型 || 'vless';
-            //document.getElementById('transport').value = currentConfig.传输协议 || 'ws';
+            syncTransportSettingsFromConfig();
 
             // 检查跳过证书验证字段是否存在
             const skipVerifyGroup = document.getElementById('skipVerifyGroup');
@@ -8078,6 +8184,84 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 }
                 return temp;
             }
+        }
+
+        function updateGrpcModeVisibility() {
+            const transportSelect = document.getElementById('transport');
+            const grpcModeGroup = document.getElementById('grpcModeGroup');
+            if (!transportSelect || !grpcModeGroup) return;
+
+            const hasGrpcModeField = currentConfig && currentConfig['gRPC模式'] !== undefined;
+            grpcModeGroup.style.display = hasGrpcModeField && transportSelect.value === 'grpc' ? '' : 'none';
+        }
+
+        function showTransportGrpcTooltip() {
+            const modal = document.getElementById('transportGrpcModal');
+            if (!modal) return;
+            modal.classList.add('show');
+        }
+
+        function hideTransportGrpcTooltip() {
+            const modal = document.getElementById('transportGrpcModal');
+            if (!modal) return;
+            modal.classList.remove('show');
+        }
+
+        function closeTransportGrpcModal(event) {
+            if (event && event.target && event.target.id !== 'transportGrpcModal') {
+                return;
+            }
+            hideTransportGrpcTooltip();
+        }
+
+        function updateTransportGrpcTooltipVisibility(showWhenSupportedTransport = false) {
+            const transportSelect = document.getElementById('transport');
+            if (!transportSelect) return;
+
+            const needsGrpcNotice = transportSelect.value === 'xhttp' || transportSelect.value === 'grpc';
+            if (needsGrpcNotice && showWhenSupportedTransport) {
+                showTransportGrpcTooltip();
+                return;
+            }
+
+            hideTransportGrpcTooltip();
+        }
+
+        function handleTransportChange() {
+            updateGrpcModeVisibility();
+            updateTransportGrpcTooltipVisibility(true);
+            markModified('config');
+        }
+
+        function syncTransportSettingsFromConfig() {
+            const transportGroup = document.getElementById('transportGroup');
+            const transportSelect = document.getElementById('transport');
+            const grpcModeGroup = document.getElementById('grpcModeGroup');
+            const grpcModeSelect = document.getElementById('grpcMode');
+            if (!transportGroup || !transportSelect || !grpcModeGroup || !grpcModeSelect) return;
+
+            const hasGrpcModeField = currentConfig && currentConfig['gRPC模式'] !== undefined;
+            if (!hasGrpcModeField) {
+                transportGroup.style.display = 'none';
+                grpcModeGroup.style.display = 'none';
+                hideTransportGrpcTooltip();
+                return;
+            }
+
+            transportGroup.style.display = '';
+
+            transportSelect.value = currentConfig['传输协议'] || 'ws';
+            if (!transportSelect.value) {
+                transportSelect.value = 'ws';
+            }
+
+            grpcModeSelect.value = currentConfig['gRPC模式'] || 'gun';
+            if (!grpcModeSelect.value) {
+                grpcModeSelect.value = 'gun';
+            }
+
+            updateGrpcModeVisibility();
+            updateTransportGrpcTooltipVisibility(false);
         }
 
         function updateProtocol() {
@@ -8942,7 +9126,10 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
         async function saveConfig() {
             currentConfig.优选订阅生成.SUBNAME = document.getElementById('subName').value;
             currentConfig.协议类型 = document.getElementById('protocol').value;
-            //currentConfig.传输协议 = currentConfig.协议类型 === 'trojan' ? 'ws' : document.getElementById('transport').value;
+            if (currentConfig['gRPC模式'] !== undefined) {
+                currentConfig['传输协议'] = document.getElementById('transport').value;
+                currentConfig['gRPC模式'] = document.getElementById('grpcMode').value || 'gun';
+            }
             currentConfig.跳过证书验证 = document.getElementById('skipVerify').checked;
 
             // 保存PATH（如果"完整节点路径"字段存在，表示后端支持编辑PATH）
@@ -9212,6 +9399,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 document.getElementById('nodeUUID').value = currentConfig.UUID || '';
                 document.getElementById('nodePATH').value = currentConfig.PATH || '';
                 document.getElementById('protocol').value = currentConfig.协议类型 || 'vless';
+                syncTransportSettingsFromConfig();
                 document.getElementById('skipVerify').checked = currentConfig.跳过证书验证 || false;
 
                 // 处理PATH字段的只读状态
@@ -10640,6 +10828,59 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             const statusEl = document.getElementById('telegramStatus');
             const confirmBtn = document.getElementById('telegramConfirmBtn');
             const testBtn = event.target;
+            const telegramApiBases = [
+                'https://api.telegram.org',
+                'https://api.tg.090227.xyz'
+            ];
+
+            async function requestTelegram(endpoint, params = null, preferredBase = null) {
+                const requestOrder = preferredBase
+                    ? [preferredBase, ...telegramApiBases.filter(base => base !== preferredBase)]
+                    : telegramApiBases;
+                const errors = [];
+
+                for (let i = 0; i < requestOrder.length; i++) {
+                    const base = requestOrder[i];
+                    const queryString = params ? `?${params.toString()}` : '';
+                    const requestUrl = `${base}/bot${token}/${endpoint}${queryString}`;
+
+                    try {
+                        const response = await fetch(requestUrl);
+                        let data = null;
+
+                        try {
+                            data = await response.json();
+                        } catch (jsonError) {
+                            if (response.ok) {
+                                throw new Error('接口返回了无效的JSON数据');
+                            }
+                        }
+
+                        if (!response.ok) {
+                            // 401/400 等业务错误通常会携带 JSON，属于“接口可达”，不走备用接口。
+                            if (data && typeof data === 'object' && data.ok === false) {
+                                return { data, base };
+                            }
+                            throw new Error(`HTTP ${response.status}`);
+                        }
+
+                        if (!data || typeof data !== 'object') {
+                            throw new Error('接口返回数据格式异常');
+                        }
+
+                        return { data, base };
+                    } catch (error) {
+                        const host = new URL(base).hostname;
+                        errors.push(`${host}: ${error.message}`);
+
+                        if (i < requestOrder.length - 1) {
+                            console.warn(`[TelegramBot] ${host} 请求失败，切换备用接口`, error);
+                        }
+                    }
+                }
+
+                throw new Error(`官方API与备用API均请求失败（${errors.join('；')}）`);
+            }
 
             if (!token || !chatID) {
                 statusEl.textContent = '❌ 请填写Bot Token和Chat ID';
@@ -10659,17 +10900,8 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 statusEl.style.color = '#fff';
 
                 // 第一步：验证 Bot Token 的有效性
-                const getUrlParams = new URLSearchParams({
-                    access_token: token
-                });
-                const getMeUrl = `https://api.telegram.org/bot${token}/getMe`;
-
-                const getMeResponse = await fetch(getMeUrl);
-                if (!getMeResponse.ok) {
-                    throw new Error('Bot Token 无效，无法获取机器人信息');
-                }
-
-                const getMeData = await getMeResponse.json();
+                const getMeResult = await requestTelegram('getMe');
+                const getMeData = getMeResult.data;
                 if (!getMeData.ok) {
                     throw new Error('Bot Token 无效: ' + (getMeData.description || '未知错误'));
                 }
@@ -10679,17 +10911,13 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                     chat_id: chatID,
                     text: '✅ Telegram 通知配置已验证成功！'
                 });
-                const sendUrl = `https://api.telegram.org/bot${token}/sendMessage?${sendUrlParams}`;
-
-                const sendResponse = await fetch(sendUrl);
-                if (!sendResponse.ok) {
-                    throw new Error('发送消息失败，请检查Chat ID是否正确');
-                }
-
-                const sendData = await sendResponse.json();
+                const sendResult = await requestTelegram('sendMessage', sendUrlParams, getMeResult.base);
+                const sendData = sendResult.data;
                 if (!sendData.ok) {
                     throw new Error('Chat ID 无效: ' + (sendData.description || '未知错误'));
                 }
+
+                console.log(`[TelegramBot] 验证成功，当前接口: ${sendResult.base}`);
 
                 // 验证成功
                 statusEl.style.background = 'linear-gradient(135deg, #10b981 0, #059669 100%)';
@@ -11154,6 +11382,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                     document.getElementById('nodeUUID').value = currentConfig.UUID || '';
                     document.getElementById('nodePATH').value = currentConfig.PATH || '';
                     document.getElementById('protocol').value = currentConfig.协议类型 || 'vless';
+                    syncTransportSettingsFromConfig();
                     document.getElementById('skipVerify').checked = currentConfig.跳过证书验证 || false;
                     updateProtocol();
                 } else if (section === 'proxy') {
