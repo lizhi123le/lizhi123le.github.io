@@ -1089,7 +1089,7 @@
             }
 
             .uuid-snippet-buttons {
-                grid-template-columns: minmax(0, 1fr) 96px;
+                grid-template-columns: 1fr;
             }
         }
 
@@ -10826,7 +10826,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                     tempTextarea.remove();
                     if (!copied) throw new Error('copy failed');
                 }
-                showToast('专属代码已复制', 'success');
+                showToast('Snippet.js 代码已复制', 'success');
             } catch (error) {
                 showToast('复制失败，请手动复制代码', 'error');
             }
