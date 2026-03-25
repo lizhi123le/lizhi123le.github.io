@@ -10346,6 +10346,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
         let uuidSnippetDisplayProgressValue = 0;
         let uuidSnippetDisplayProgressTarget = 0;
         let uuidSnippetRawCode = '';
+        let uuidSnippetLastSocketsVariant = '';
 
         const UUID_SNIPPET_REVEAL_CHARSET = '01<>/\\\\{}[]=+-_*#@$%&ABCDEFGHJKLMNPQRSTUVWXYZ';
         const UUID_SNIPPET_STATUS_TEXT = {
@@ -10841,6 +10842,69 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             return sourceCode.replace(linePattern, `$1${userID}$3${password}$5`);
         }
 
+        function encodeSnippetCharAsUnicodeEscape(char) {
+            return `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`;
+        }
+
+        function buildRandomCloudflareSocketsLiteralVariant() {
+            const literal = 'cloudflare:sockets';
+            const forcedIndex = Math.floor(Math.random() * literal.length);
+            let escapedChars = 0;
+            let value = '';
+
+            for (let i = 0; i < literal.length; i++) {
+                const currentChar = literal[i];
+                const shouldEscape = i === forcedIndex || Math.random() < 0.5;
+                if (shouldEscape) {
+                    value += encodeSnippetCharAsUnicodeEscape(currentChar);
+                    escapedChars += 1;
+                } else {
+                    value += currentChar;
+                }
+            }
+
+            return { value, escapedChars };
+        }
+
+        function randomizeCloudflareSocketsSpecifiers(sourceCode) {
+            const pattern = /(['"])cloudflare:sockets\1/g;
+            const matches = sourceCode.match(pattern);
+            if (!matches || !matches.length) {
+                return {
+                    code: sourceCode,
+                    occurrences: 0,
+                    escapedChars: 0
+                };
+            }
+
+            let variantSignature = '';
+            let escapedChars = 0;
+            let randomizedCode = sourceCode;
+
+            for (let attempt = 0; attempt < 8; attempt++) {
+                const signatureParts = [];
+                escapedChars = 0;
+                randomizedCode = sourceCode.replace(pattern, (fullMatch, quote) => {
+                    const variant = buildRandomCloudflareSocketsLiteralVariant();
+                    signatureParts.push(variant.value);
+                    escapedChars += variant.escapedChars;
+                    return `${quote}${variant.value}${quote}`;
+                });
+
+                variantSignature = signatureParts.join('||');
+                if (variantSignature !== uuidSnippetLastSocketsVariant) {
+                    break;
+                }
+            }
+
+            uuidSnippetLastSocketsVariant = variantSignature;
+            return {
+                code: randomizedCode,
+                occurrences: matches.length,
+                escapedChars
+            };
+        }
+
         function buildSnippetDictionaryMap(dictionaryData) {
             const allRaw = Array.isArray(dictionaryData?.ALL) ? dictionaryData.ALL : [];
             const edtRaw = Array.isArray(dictionaryData?.EDT) ? dictionaryData.EDT : [];
@@ -10910,7 +10974,19 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                 const dictionaryData = JSON.parse(rawDictionaryText);
                 const dictionaryMap = buildSnippetDictionaryMap(dictionaryData);
                 updateUUIDSnippetProcessingStage(86, 'mesh', '字符晶格正在重映射', `字典矩阵已生成 ${dictionaryMap.size} 组替换通道`);
-                const finalScript = applySnippetDictionary(replacedScript, dictionaryMap);
+                const dictionaryAppliedScript = applySnippetDictionary(replacedScript, dictionaryMap);
+                const socketsVariantResult = randomizeCloudflareSocketsSpecifiers(dictionaryAppliedScript);
+                const finalScript = socketsVariantResult.code;
+                if (socketsVariantResult.occurrences > 0) {
+                    updateUUIDSnippetProcessingStage(
+                        94,
+                        'mesh',
+                        'cloudflare:sockets 已完成随机扰动',
+                        `共处理 ${socketsVariantResult.occurrences} 处标识，写入 ${socketsVariantResult.escapedChars} 个 Unicode 转义`
+                    );
+                } else {
+                    updateUUIDSnippetProcessingStage(94, 'mesh', '未发现 cloudflare:sockets 标识', '跳过 Unicode 扰动步骤，直接进入最终揭晓');
+                }
 
                 finishUUIDSnippetPresentation(finalScript, animationToken);
                 showToast('Snippets.js专属代码已生成', 'success');
