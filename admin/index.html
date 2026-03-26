@@ -10986,6 +10986,38 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             return result;
         }
 
+        function randomizeSnippetIndentationTabs(sourceCode) {
+            let totalTabs = 0;
+            let removedTabs = 0;
+            let keptTabs = 0;
+            let affectedLines = 0;
+
+            const code = sourceCode.replace(/^\t+/gm, leadingTabs => {
+                affectedLines += 1;
+                let randomizedIndentation = '';
+
+                for (const tabChar of leadingTabs) {
+                    totalTabs += 1;
+                    if (Math.random() < 0.5) {
+                        removedTabs += 1;
+                    } else {
+                        keptTabs += 1;
+                        randomizedIndentation += tabChar;
+                    }
+                }
+
+                return randomizedIndentation;
+            });
+
+            return {
+                code,
+                totalTabs,
+                removedTabs,
+                keptTabs,
+                affectedLines
+            };
+        }
+
         async function generateUUIDSnippetCode() {
             if (uuidSnippetLoading) {
                 return;
@@ -11052,7 +11084,19 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                     updateUUIDSnippetProcessingStage(94, 'mesh', '未发现目标标识', '跳过字符串扰动步骤，直接进入最终揭晓');
                 }
 
-                finishUUIDSnippetPresentation(finalScript, animationToken);
+                const indentationRandomizedResult = randomizeSnippetIndentationTabs(finalScript);
+                if (indentationRandomizedResult.totalTabs > 0) {
+                    updateUUIDSnippetProcessingStage(
+                        97,
+                        'mesh',
+                        '源码缩进已完成随机排版',
+                        `影响 ${indentationRandomizedResult.affectedLines} 行 / 保留 ${indentationRandomizedResult.keptTabs} 个 tab / 删除 ${indentationRandomizedResult.removedTabs} 个 tab`
+                    );
+                } else {
+                    updateUUIDSnippetProcessingStage(97, 'mesh', '未发现可扰动缩进', '源码中没有行首 tab，跳过随机排版步骤');
+                }
+
+                finishUUIDSnippetPresentation(indentationRandomizedResult.code, animationToken);
                 showToast('Snippets.js专属代码已生成', 'success');
             } catch (error) {
                 setUUIDSnippetCopyButtonEnabled(false);
