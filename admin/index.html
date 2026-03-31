@@ -6622,9 +6622,13 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                     </div>
 
                     <div class="form-group" id="grpcUserAgentGroup" style="display: none;">
-                        <label for="grpcUserAgent">gRPC UA</label>
+                        <label for="grpcUserAgent"
+                            title="用于客户端发起 gRPC 请求时的 User-Agent。&#10;Clash/Mihomo 内核使用默认 UA 时，可能被 Cloudflare 误判为 DDoS 异常流量并拦截。&#10;若客户端为 Clash/Mihomo，请务必设置此项。">gRPC
+                            UA</label>
                         <div class="input-wrapper grpc-ua-wrapper">
-                            <input type="text" id="grpcUserAgent" title="gRPC User-Agent" onchange="markModified('config')">
+                            <input type="text" id="grpcUserAgent"
+                                title="用于客户端发起 gRPC 请求时的 User-Agent。&#10;Clash/Mihomo 内核使用默认 UA 时，可能被 Cloudflare 误判为 DDoS 异常流量并拦截。&#10;若客户端为 Clash/Mihomo，请务必设置此项。"
+                                onchange="markModified('config')">
                             <button type="button" class="grpc-ua-action" onclick="fillCurrentGrpcUA()">获取当前UA</button>
                         </div>
                     </div>
