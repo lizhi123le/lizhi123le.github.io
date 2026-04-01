@@ -6614,7 +6614,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
 
                     <div class="form-group" id="ssTLSGroup" style="display: none;">
                         <label for="ssTLS">TLS</label>
-                        <select id="ssTLS" title="TLS" onchange="markModified('config')">
+                        <select id="ssTLS" title="TLS" onchange="updateProtocol(); markModified('config')">
                             <option value="true">启用</option>
                             <option value="false">关闭（注意：Pages部署的节点在关闭TLS后无法使用）</option>
                         </select>
@@ -9301,6 +9301,41 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             ssTLSSelect.value = 'false';
         }
 
+        function updateSpecifiedPortLabelsByProtocol(protocol) {
+            const specifiedPortSelect = document.getElementById('specifiedPort');
+            if (!specifiedPortSelect) return;
+            const ssTLSSelect = document.getElementById('ssTLS');
+
+            const defaultLabels = {
+                '-1': '随机端口',
+                '443': '443',
+                '2053': '2053',
+                '2083': '2083',
+                '2087': '2087',
+                '2096': '2096',
+                '8443': '8443'
+            };
+
+            const shadowsocksLabels = {
+                '-1': '随机端口',
+                '443': '80',
+                '2053': '2052',
+                '2083': '2082',
+                '2087': '2086',
+                '2096': '2095',
+                '8443': '8080'
+            };
+
+            const useShadowsocksNoTLSLabels = protocol === 'ss' && ssTLSSelect && ssTLSSelect.value === 'false';
+            const labelMap = useShadowsocksNoTLSLabels ? shadowsocksLabels : defaultLabels;
+            Array.from(specifiedPortSelect.options).forEach((option) => {
+                const nextLabel = labelMap[option.value];
+                if (nextLabel !== undefined) {
+                    option.textContent = nextLabel;
+                }
+            });
+        }
+
         function updateProtocol() {
             const protocolSelect = document.getElementById('protocol');
             const ssMethodGroup = document.getElementById('ssMethodGroup');
@@ -9313,6 +9348,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             ssTLSGroup.style.display = showSSFields ? '' : 'none';
 
             const protocol = protocolSelect.value;
+            updateSpecifiedPortLabelsByProtocol(protocol);
             const transport = document.getElementById('transport');
             if (transport) {
                 const shouldLockTransport = protocol === 'ss';
