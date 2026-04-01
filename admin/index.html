@@ -6604,15 +6604,15 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                         </select>
                     </div>
 
-                    <div class="form-group" id="ssMethodGroup" style="display: none;">
+                    <div class="form-group" id="ssMethodGroup" style="display: none;" title="Shadowsocks 的加密方式，推荐使用 aes-128-gcm 以获得更好的性能和兼容性。">
                         <label for="ssMethod">加密方式</label>
                         <select id="ssMethod" title="加密方式" onchange="markModified('config')">
-                            <option value="aes-128-gcm">aes-128-gcm</option>
-                            <option value="aes-256-gcm">aes-256-gcm</option>
+                            <option value="aes-128-gcm">aes-128-gcm（CPU消耗少速度快）</option>
+                            <option value="aes-256-gcm">aes-256-gcm（在性能不佳的老设备上，加解密速度会变慢）</option>
                         </select>
                     </div>
 
-                    <div class="form-group" id="ssTLSGroup" style="display: none;">
+                    <div class="form-group" id="ssTLSGroup" style="display: none;" title="关闭TLS后，节点数据将以 HTTP明文 形式传输 aes-128/256-gcm 加密数据。所以即使关闭TLS，数据仍然是加密的。">
                         <label for="ssTLS">TLS</label>
                         <select id="ssTLS" title="TLS" onchange="updateProtocol(); markModified('config')">
                             <option value="true">启用</option>
