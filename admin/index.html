@@ -1734,7 +1734,7 @@
             font-weight: 600;
             letter-spacing: 0.2px;
             color: #4b5563;
-            cursor: default;
+            cursor: pointer;
         }
 
         .social-link.social-version:hover,
@@ -1747,6 +1747,11 @@
 
         .social-link.social-version:hover::before {
             opacity: 0;
+        }
+
+        .social-link.social-version:focus-visible {
+            outline: 2px solid rgba(250, 171, 65, 0.65);
+            outline-offset: 2px;
         }
 
         .social-link.social-version.is-latest,
@@ -1768,6 +1773,136 @@
         .social-link.social-version.is-preview:active {
             border-color: rgba(147, 51, 234, 0.7);
             box-shadow: 0 0 0 1px rgba(147, 51, 234, 0.2), 0 2px 8px rgba(147, 51, 234, 0.18);
+        }
+
+        .version-info-modal {
+            max-width: 520px;
+            text-align: left;
+        }
+
+        .version-info-title {
+            margin: 0 0 14px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .version-info-summary {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(148, 163, 184, 0.08) 0%, rgba(100, 116, 139, 0.06) 100%);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            color: #374151;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .version-info-summary.state-latest {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.08) 100%);
+            border-color: rgba(16, 185, 129, 0.34);
+        }
+
+        .version-info-summary.state-outdated {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(217, 119, 6, 0.08) 100%);
+            border-color: rgba(245, 158, 11, 0.34);
+        }
+
+        .version-info-summary.state-preview {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.12) 0%, rgba(126, 34, 206, 0.08) 100%);
+            border-color: rgba(147, 51, 234, 0.34);
+        }
+
+        .version-info-summary strong {
+            color: #111827;
+            font-weight: 700;
+        }
+
+        .version-info-summary p {
+            margin: 0;
+        }
+
+        .version-info-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .version-state-tip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.35;
+            border: 1px solid transparent;
+        }
+
+        .version-state-tip.is-latest {
+            color: #065f46;
+            background: rgba(16, 185, 129, 0.16);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        .version-state-tip.is-outdated {
+            color: #92400e;
+            background: rgba(245, 158, 11, 0.16);
+            border-color: rgba(245, 158, 11, 0.4);
+        }
+
+        .version-state-tip.is-preview {
+            color: #6b21a8;
+            background: rgba(147, 51, 234, 0.16);
+            border-color: rgba(147, 51, 234, 0.4);
+        }
+
+        .version-info-actions {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .version-info-actions .btn {
+            width: 100%;
+        }
+
+        .btn-version-copy {
+            background: linear-gradient(135deg, #10b981 0, #059669 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-version-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(16, 185, 129, 0.42);
+        }
+
+        .btn-version-copy:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-version-download {
+            background: linear-gradient(135deg, #3b82f6 0, #2563eb 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35);
+        }
+
+        .btn-version-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(59, 130, 246, 0.42);
+        }
+
+        .btn-version-download:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
         }
 
         /* 复选框样式 */
@@ -1963,6 +2098,19 @@
                 min-width: 104px;
                 padding: 0 8px;
                 font-size: 11px;
+            }
+
+            .version-info-modal {
+                padding: 22px 16px;
+            }
+
+            .version-info-title {
+                font-size: 20px;
+            }
+
+            .version-info-summary {
+                font-size: 14px;
+                padding: 12px;
             }
 
             .page-wrapper {
@@ -2300,6 +2448,57 @@
         html.dark-mode .social-link.social-version.is-preview:active {
             border-color: rgba(196, 181, 253, 0.85);
             box-shadow: 0 0 0 1px rgba(196, 181, 253, 0.26), 0 2px 8px rgba(147, 51, 234, 0.26);
+        }
+
+        html.dark-mode .social-link.social-version:focus-visible {
+            outline-color: rgba(251, 191, 36, 0.7);
+        }
+
+        html.dark-mode .version-info-title {
+            color: #f3f4f6;
+        }
+
+        html.dark-mode .version-info-summary {
+            color: #d1d5db;
+            border-color: rgba(100, 116, 139, 0.34);
+            background: linear-gradient(135deg, rgba(100, 116, 139, 0.2) 0%, rgba(71, 85, 105, 0.15) 100%);
+        }
+
+        html.dark-mode .version-info-summary.state-latest {
+            border-color: rgba(52, 211, 153, 0.5);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.24) 0%, rgba(5, 150, 105, 0.18) 100%);
+        }
+
+        html.dark-mode .version-info-summary.state-outdated {
+            border-color: rgba(251, 191, 36, 0.5);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.24) 0%, rgba(217, 119, 6, 0.18) 100%);
+        }
+
+        html.dark-mode .version-info-summary.state-preview {
+            border-color: rgba(196, 181, 253, 0.56);
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.24) 0%, rgba(126, 34, 206, 0.18) 100%);
+        }
+
+        html.dark-mode .version-info-summary strong {
+            color: #f9fafb;
+        }
+
+        html.dark-mode .version-state-tip.is-latest {
+            color: #bbf7d0;
+            background: rgba(16, 185, 129, 0.24);
+            border-color: rgba(52, 211, 153, 0.52);
+        }
+
+        html.dark-mode .version-state-tip.is-outdated {
+            color: #fde68a;
+            background: rgba(245, 158, 11, 0.24);
+            border-color: rgba(251, 191, 36, 0.52);
+        }
+
+        html.dark-mode .version-state-tip.is-preview {
+            color: #e9d5ff;
+            background: rgba(147, 51, 234, 0.24);
+            border-color: rgba(196, 181, 253, 0.52);
         }
 
         html.dark-mode .btn-secondary {
@@ -7417,7 +7616,8 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                             d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12a12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472c-.18 1.898-.962 6.502-1.36 8.627c-.168.9-.499 1.201-.82 1.23c-.696.065-1.225-.46-1.9-.902c-1.056-.693-1.653-1.124-2.678-1.8c-1.185-.78-.417-1.21.258-1.91c.177-.184 3.247-2.977 3.307-3.23c.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345c-.48.33-.913.49-1.302.48c-.428-.008-1.252-.241-1.865-.44c-.752-.245-1.349-.374-1.297-.789c.027-.216.325-.437.893-.663c3.498-1.524 5.83-2.529 6.998-3.014c3.332-1.386 4.025-1.627 4.476-1.635z" />
                     </svg>
                 </a>
-                <div class="social-link social-version" id="versionBadge" title="当前版本" hidden style="display: none;">
+                <div class="social-link social-version" id="versionBadge" title="当前版本" role="button" tabindex="0"
+                    onclick="openVersionInfoModal()" onkeydown="onVersionBadgeKeydown(event)" hidden style="display: none;">
                     <span id="versionValue"></span>
                 </div>
                 <!-- 返回顶部按钮 -->
@@ -7437,6 +7637,23 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             <button type="button" class="modal-close" onclick="closeQRCode()">×</button>
             <div id="qrcodeContainer" class="qrcode-container"></div>
             <button type="button" class="btn btn-primary btn-close-modal" onclick="closeQRCode()">关闭</button>
+        </div>
+    </div>
+
+    <!-- 版本信息气泡 -->
+    <div class="modal-overlay" id="versionInfoModal" onclick="closeVersionInfoModal(event)">
+        <div class="modal version-info-modal" onclick="event.stopPropagation()">
+            <button type="button" class="modal-close" onclick="closeVersionInfoModal()">×</button>
+            <h2 class="version-info-title">🚀 关于 edgetunnel</h2>
+            <div class="version-info-summary state-outdated" id="versionInfoSummary">
+                <p id="latestVersionInfoText" class="version-info-line"><strong>最新版本:</strong> <span id="latestVersionInfoValue">v0</span></p>
+                <p id="currentVersionInfoText" class="version-info-line"><strong>当前版本:</strong> <span id="currentVersionInfoValue">v0</span> <span id="currentVersionStateText" class="version-state-tip is-outdated">需要更新</span></p>
+            </div>
+            <div class="version-info-actions">
+                <button type="button" class="btn btn-version-copy" onclick="copyLatestWorkerSourceToClipboard()">📋 复制最新Worker.js源码 到剪贴板</button>
+                <button type="button" class="btn btn-version-download" onclick="openLatestPagesZipDownload()">📦 下载最新Pages.zip源码 上传部署</button>
+                <button type="button" class="btn btn-secondary" onclick="closeVersionInfoModal()">取消</button>
+            </div>
         </div>
     </div>
 
@@ -8588,8 +8805,10 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
         const LOW_PERF_STORAGE_KEY = 'adminLowPerformanceMode';
         let performanceRecheckScheduled = false;
         const WORKER_VERSION_SOURCE_URL = 'https://raw.githubusercontent.com/cmliu/edgetunnel/main/_worker.js';
+        const PAGES_ZIP_DOWNLOAD_URL = 'https://github.com/cmliu/edgetunnel/archive/refs/heads/main.zip';
         let cachedWorkerVersionRawText = '';
         let cachedLatestOnlineVersion = 0;
+        let cachedCurrentVersionNumber = 0;
 
         function parseForcedLowPerformanceMode() {
             try {
@@ -9206,12 +9425,16 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             const digitsOnly = rawText.replace(/\D/g, '');
             const text = digitsOnly || rawText;
             if (text) {
-                versionValue.textContent = "v" + text;
+                versionValue.textContent = "v2.1." + text;
+                cachedCurrentVersionNumber = parseVersionNumber(text);
+                versionBadge.dataset.health = '';
                 versionBadge.hidden = false;
                 versionBadge.style.display = 'flex';
                 versionBadge.title = `当前版本: ${versionValue.textContent}`;
             } else {
                 versionValue.textContent = '';
+                cachedCurrentVersionNumber = 0;
+                versionBadge.dataset.health = '';
                 versionBadge.hidden = true;
                 versionBadge.style.display = 'none';
                 versionBadge.title = '当前版本';
@@ -9225,22 +9448,68 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             return Number.isFinite(parsed) ? parsed : 0;
         }
 
+        function getVersionHealthMeta(healthKey) {
+            if (healthKey === 'latest') {
+                return {
+                    titleSuffix: '最新版本',
+                    summaryClass: 'state-latest',
+                    tipClass: 'is-latest',
+                    tipText: '最新版本'
+                };
+            }
+            if (healthKey === 'preview') {
+                return {
+                    titleSuffix: '测试版',
+                    summaryClass: 'state-preview',
+                    tipClass: 'is-preview',
+                    tipText: '测试版'
+                };
+            }
+            return {
+                titleSuffix: '需要更新',
+                summaryClass: 'state-outdated',
+                tipClass: 'is-outdated',
+                tipText: '需要更新'
+            };
+        }
+
+        function applyVersionInfoHealthState(healthKey) {
+            const summaryEl = document.getElementById('versionInfoSummary');
+            const stateTextEl = document.getElementById('currentVersionStateText');
+            if (!summaryEl || !stateTextEl) return;
+
+            const meta = getVersionHealthMeta(healthKey);
+            summaryEl.classList.remove('state-latest', 'state-outdated', 'state-preview');
+            stateTextEl.classList.remove('is-latest', 'is-outdated', 'is-preview');
+            summaryEl.classList.add(meta.summaryClass);
+            stateTextEl.classList.add(meta.tipClass);
+            stateTextEl.textContent = meta.tipText;
+        }
+
         function setVersionBadgeHealthState(diff) {
             const versionBadge = document.getElementById('versionBadge');
             const versionValue = document.getElementById('versionValue');
             if (!versionBadge) return;
 
-            versionBadge.classList.remove('is-latest', 'is-outdated', 'is-preview');
+            let healthKey = 'outdated';
             if (diff === 0) {
+                healthKey = 'latest';
+            } else if (diff > 0) {
+                healthKey = 'preview';
+            }
+            const meta = getVersionHealthMeta(healthKey);
+
+            versionBadge.classList.remove('is-latest', 'is-outdated', 'is-preview');
+            if (healthKey === 'latest') {
                 versionBadge.classList.add('is-latest');
-                versionBadge.title = `当前版本: ${versionValue?.textContent || ''} 最新版本`;
-            } else if (diff < 0) {
+            } else if (healthKey === 'outdated') {
                 versionBadge.classList.add('is-outdated');
-                versionBadge.title = `当前版本: ${versionValue?.textContent || ''} 需要更新`;
             } else {
                 versionBadge.classList.add('is-preview');
-                versionBadge.title = `当前版本: ${versionValue?.textContent || ''} 测试版`;
             }
+            versionBadge.dataset.health = healthKey;
+            versionBadge.title = `当前版本: ${versionValue?.textContent || ''} ${meta.titleSuffix}`;
+            applyVersionInfoHealthState(healthKey);
         }
 
         async function fetchLatestOnlineVersionNumber() {
@@ -9316,6 +9585,89 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             } catch (error) {
                 console.warn('[Version] 获取版本号失败:', error);
                 updateVersionBadge('');
+            }
+        }
+
+        function onVersionBadgeKeydown(event) {
+            if (!event) return;
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openVersionInfoModal();
+            }
+        }
+
+        function openVersionInfoModal() {
+            const versionBadge = document.getElementById('versionBadge');
+            const versionValue = document.getElementById('versionValue');
+            const modal = document.getElementById('versionInfoModal');
+            const latestVersionValueEl = document.getElementById('latestVersionInfoValue');
+            const currentVersionValueEl = document.getElementById('currentVersionInfoValue');
+            if (!versionBadge || !versionValue || !modal || !latestVersionValueEl || !currentVersionValueEl) return;
+            if (versionBadge.hidden || versionBadge.style.display === 'none') return;
+
+            const currentVersion = cachedCurrentVersionNumber || parseVersionNumber(String(versionValue.textContent || '').replace(/^v2\.1\./, ''));
+            const latestVersion = cachedLatestOnlineVersion || 0;
+            latestVersionValueEl.textContent = `v2.1.${latestVersion}`;
+            currentVersionValueEl.textContent = `v2.1.${currentVersion || 0}`;
+
+            let healthKey = versionBadge.dataset.health || '';
+            if (!healthKey) {
+                if (versionBadge.classList.contains('is-latest')) {
+                    healthKey = 'latest';
+                } else if (versionBadge.classList.contains('is-preview')) {
+                    healthKey = 'preview';
+                } else {
+                    healthKey = 'outdated';
+                }
+            }
+            applyVersionInfoHealthState(healthKey);
+            modal.classList.add('show');
+        }
+
+        function closeVersionInfoModal(event) {
+            if (event && event.target.id !== 'versionInfoModal') return;
+            const modal = document.getElementById('versionInfoModal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+        }
+
+        async function copyLatestWorkerSourceToClipboard() {
+            const source = String(cachedWorkerVersionRawText || '');
+            if (!source) {
+                showToast('暂无可复制的最新 Worker.js 源码', 'error');
+                return;
+            }
+
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(source);
+                } else {
+                    const tempTextarea = document.createElement('textarea');
+                    tempTextarea.value = source;
+                    tempTextarea.style.position = 'fixed';
+                    tempTextarea.style.opacity = '0';
+                    tempTextarea.style.left = '-9999px';
+                    tempTextarea.style.top = '0';
+                    document.body.appendChild(tempTextarea);
+                    tempTextarea.focus();
+                    tempTextarea.select();
+                    const success = document.execCommand('copy');
+                    document.body.removeChild(tempTextarea);
+                    if (!success) throw new Error('execCommand copy failed');
+                }
+
+                showToast('✅ 已复制最新 Worker.js 源码到剪贴板', 'success');
+            } catch (error) {
+                console.error('[Version] 复制最新 Worker.js 源码失败:', error);
+                showToast('复制失败，请手动复制源码', 'error');
+            }
+        }
+
+        function openLatestPagesZipDownload() {
+            const popup = window.open(PAGES_ZIP_DOWNLOAD_URL, '_blank', 'noopener,noreferrer');
+            if (!popup) {
+                showToast('浏览器拦截了新窗口，请允许弹窗后再试', 'warning');
             }
         }
 
