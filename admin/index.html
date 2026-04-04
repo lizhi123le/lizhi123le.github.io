@@ -16055,8 +16055,20 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             }
 
             if (value.includes(':')) {
-                const firstSegment = value.split(':')[0] || '****';
-                return `${firstSegment}:****:****:****:****:****:****:****`;
+                const hasBrackets = value.startsWith('[') && value.endsWith(']');
+                const pureValue = hasBrackets ? value.slice(1, -1) : value;
+                const [baseIp, zoneSuffix = ''] = pureValue.split('%');
+                const firstColonIndex = baseIp.indexOf(':');
+                if (firstColonIndex === -1) {
+                    return value;
+                }
+
+                const firstSegment = baseIp.slice(0, firstColonIndex);
+                const remain = baseIp.slice(firstColonIndex + 1);
+                const maskedRemain = remain.replace(/[^:]/g, '*');
+                const maskedBase = `${firstSegment}:${maskedRemain}`;
+                const maskedWithZone = zoneSuffix ? `${maskedBase}%${zoneSuffix}` : maskedBase;
+                return hasBrackets ? `[${maskedWithZone}]` : maskedWithZone;
             }
 
             return value.length <= 2 ? '*'.repeat(Math.max(2, value.length)) : `${value.slice(0, 2)}${'*'.repeat(value.length - 2)}`;
