@@ -4462,6 +4462,13 @@
             line-height: 1.7;
         }
 
+        .proxyip-doc-link {
+            color: #2563eb;
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
         .proxyip-route-badge {
             flex: 0 0 auto;
             padding: 5px 9px;
@@ -4622,29 +4629,6 @@
             }
         }
 
-        .toggle-switch {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .toggle-switch input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .toggle-switch label {
-            cursor: pointer;
-            margin: 0;
-            font-weight: 600;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
         html.dark-mode .code-block {
             background: #2a2a2a;
             color: #ffd699;
@@ -4693,6 +4677,10 @@
         html.dark-mode .proxyip-route-node.target {
             background: #052e16;
             border-color: #15803d;
+        }
+
+        html.dark-mode .proxyip-doc-link {
+            color: #93c5fd;
         }
 
         html.dark-mode .proxyip-seen-by {
@@ -9300,8 +9288,8 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
         <div class="modal proxyip-help-modal" onclick="event.stopPropagation()">
             <button type="button" class="modal-close" onclick="closeProxyIPHelpModal()">×</button>
 
-            <!-- 简易模式 -->
-            <div id="proxyIPHelpSimple" style="display: none;">
+            <!-- 小白说明 -->
+            <div id="proxyIPHelpSimple" style="display: block;">
                 <div class="api-docs">
                     <h2 class="section-title">🤔 为什么需要反代模式？PROXYIP又是什么？</h2>
 
@@ -9310,7 +9298,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                             <div class="proxyip-route-head">
                                 <div>
                                     <div class="proxyip-route-title">场景一：访问非 Cloudflare CDN 站点</div>
-                                    <div class="proxyip-route-desc">例如油管、谷歌。Worker 可以直接访问，不需要先找 PROXYIP。</div>
+                                    <div class="proxyip-route-desc">例如：油管、谷歌。Worker 可以直接访问，不需要先找 PROXYIP。</div>
                                 </div>
                                 <div class="proxyip-route-badge">实际落地IP 由 优选域名/IP 决定</div>
                             </div>
@@ -9378,7 +9366,12 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                             <div class="proxyip-route-head">
                                 <div>
                                     <div class="proxyip-route-title">场景二：访问 Cloudflare CDN 站点</div>
-                                    <div class="proxyip-route-desc">例如推特、ChatGPT。Worker 不能直接访问 Cloudflare 自己，所以需要跳板。</div>
+                                    <div class="proxyip-route-desc">
+                                        例如：推特、ChatGPT。根据 <a
+                                            href="https://developers.cloudflare.com/workers/runtime-apis/tcp-sockets/"
+                                            target="_blank" rel="noopener" class="proxyip-doc-link">TCP Sockets
+                                            官方文档</a>，Worker 不能直接访问 Cloudflare 自己，所以需要跳板。
+                                    </div>
                                 </div>
                                 <div class="proxyip-route-badge">实际落地IP 由 PROXYIP/代理 决定</div>
                             </div>
@@ -9465,87 +9458,6 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- 详细模式 -->
-            <div id="proxyIPHelpDetail" style="display: block;">
-                <div class="api-docs">
-                    <h2 class="section-title">🤔 为什么需要反代模式？PROXYIP又是什么？</h2>
-                    <h3 style="color: var(--text-primary); margin: 24px 0 16px;">❓ 为什么需要反代模式？</h3>
-                    <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
-                        根据 Cloudflare Workers 的 <a
-                            href="https://developers.cloudflare.com/workers/runtime-apis/tcp-sockets/" target="_blank"
-                            rel="noopener" style="color: var(--primary-color); text-decoration: none;">TCP Sockets
-                            官方文档</a> 说明，存在以下技术限制：
-                    </p>
-                    <div class="code-block">
-                        ⚠️ Outbound TCP sockets to <a href="https://www.cloudflare.com/ips/" target="_blank"
-                            rel="noopener" style="color: inherit; text-decoration: underline;">Cloudflare IP ranges
-                            ↗</a> are temporarily blocked, but will be re-enabled shortly.
-                    </div>
-
-                    <p style="margin: 16px 0; line-height: 1.8; color: var(--text-secondary);">
-                        这意味着 Cloudflare Workers 无法直接连接到 Cloudflare 自有的 IP 地址段。为了解决这个限制，需要借助第三方云服务商的服务器作为「跳板」：
-                    </p>
-
-                    <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
-                        而我们的 <b>edgetunnel</b> 是部署在 Cloudflare Workers 上的代理服务。根据 Cloudflare Workers 的限制政策，Workers
-                        节点无法直接连接到
-                        Cloudflare 自有的 IP 地址段。这意味着：
-                    </p>
-                    <ul style="margin: 12px 0 16px; padding-left: 20px; line-height: 1.8;">
-                        <li style="margin-bottom: 8px; color: var(--text-secondary);">✅ 可以正常访问非 Cloudflare CDN 的站点</li>
-                        <li style="color: var(--text-secondary);">❌ 无法直接访问由 Cloudflare CDN 托管的网站</li>
-                    </ul>
-                    <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
-                        因此需要反代模式来解决这个问题。反代模式通过第三方服务器作为「中介」，帮助 Workers 绕过这一限制。
-                    </p>
-
-                    <div
-                        style="background: var(--bg-secondary); padding: 20px; border-radius: var(--border-radius-sm); margin: 20px 0;">
-                        <div
-                            style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 16px;">
-                            <div
-                                style="background: #e3f2fd; padding: 12px; border-radius: 8px; text-align: center; flex: 1; min-width: 120px;">
-                                <div style="font-weight: 600; color: #1976d2;">Cloudflare Workers</div>
-                                <div style="font-size: 0.9rem; color: var(--text-secondary);">发起请求</div>
-                            </div>
-                            <div style="color: var(--primary-color); font-size: 1.5rem;">→</div>
-                            <div
-                                style="background: #f3e5f5; padding: 12px; border-radius: 8px; text-align: center; flex: 1; min-width: 120px;">
-                                <div style="font-weight: 600; color: #7b1fa2;">PROXYIP/其他代理 服务器</div>
-                                <div style="font-size: 0.9rem; color: var(--text-secondary);">第三方代理</div>
-                            </div>
-                            <div style="color: var(--primary-color); font-size: 1.5rem;">→</div>
-                            <div
-                                style="background: #e8f5e8; padding: 12px; border-radius: 8px; text-align: center; flex: 1; min-width: 120px;">
-                                <div style="font-weight: 600; color: #388e3c;">Cloudflare 服务</div>
-                                <div style="font-size: 0.9rem; color: var(--text-secondary);">目标服务</div>
-                            </div>
-                        </div>
-                        <p style="text-align: center; color: var(--text-secondary); font-size: 0.95rem; margin: 0;">
-                            通过第三方服务器反向代理 Cloudflare 的 443 端口，实现 Workers 对 Cloudflare 服务的访问
-                        </p>
-                    </div>
-
-                    <h3 style="color: var(--text-primary); margin: 24px 0 16px;">💡 实际应用效果</h3>
-                    <p style="margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary);">
-                        因此，你访问网络时的 IP 归属地取决于访问的目标网站类型：
-                    </p>
-                    <ul style="margin: 12px 0; padding-left: 20px; line-height: 1.8;">
-                        <li style="margin-bottom: 12px; color: var(--text-secondary);">👤 访问<strong>非 Cloudflare CDN
-                                站点</strong>时（如<b>油管、谷歌</b>等），你的 IP 归属地由「优选 IP」决定</li>
-                        <li style="color: var(--text-secondary);">🌐 访问<strong>由 Cloudflare CDN
-                                托管的网站</strong>时（如<b>推特、ChatGPT</b>等），你的 IP
-                            归属地由「ProxyIP/其他代理」决定</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- 切换按钮 -->
-            <div class="toggle-switch">
-                <input type="checkbox" id="proxyIPSimpleMode" onchange="toggleProxyIPHelpMode()">
-                <label for="proxyIPSimpleMode">我是小白，我看不懂</label>
             </div>
 
             <button type="button" class="btn btn-primary btn-close-modal" onclick="closeProxyIPHelpModal()"
@@ -16030,6 +15942,8 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
 
         // ProxyIP 帮助模态框函数
         function showProxyIPHelpModal() {
+            const simpleDiv = document.getElementById('proxyIPHelpSimple');
+            if (simpleDiv) simpleDiv.style.display = 'block';
             document.getElementById('proxyIPHelpModal').classList.add('show');
         }
 
@@ -16230,22 +16144,6 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
             } catch (error) {
                 console.error('保存路径模板失败:', error);
                 showToast('保存路径模板失败: ' + error.message, 'error');
-            }
-        }
-
-        function toggleProxyIPHelpMode() {
-            const checkbox = document.getElementById('proxyIPSimpleMode');
-            const simpleDiv = document.getElementById('proxyIPHelpSimple');
-            const detailDiv = document.getElementById('proxyIPHelpDetail');
-
-            if (checkbox.checked) {
-                // 显示简易模式
-                simpleDiv.style.display = 'block';
-                detailDiv.style.display = 'none';
-            } else {
-                // 显示详细模式
-                simpleDiv.style.display = 'none';
-                detailDiv.style.display = 'block';
             }
         }
 
